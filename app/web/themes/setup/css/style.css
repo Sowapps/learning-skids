@@ -1,7 +1,7 @@
 /** Common bootstrap modification **/
 
 body {
-/* 	padding-bottom: 40px; Cause issue, page height is too high */
+	/* 	padding-bottom: 40px; Cause issue, page height is too high */
 	padding-top: 60px;
 }
 
@@ -42,6 +42,7 @@ section {
 .left {
 	float: left;
 }
+
 .right {
 	float: right;
 }
@@ -49,47 +50,53 @@ section {
 /** Report Messages **/
 
 .report {
-	clear:	both;
-    margin:	10px 0px;
-    padding:	15px 10px 15px 10px;
-/*     padding:	15px 10px 15px 50px; */
-    border:	1px solid;
-    background-repeat:	no-repeat;
-    background-position:	10px center;
-    
-    position: relative;
-    display: table;
+	clear: both;
+	margin: 10px 0px;
+	padding: 15px 10px 15px 10px;
+	/*     padding:	15px 10px 15px 50px; */
+	border: 1px solid;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	
+	position: relative;
+	display: table;
 }
+
 .report .fa {
 	float: left;
 	font-size: 30px;
 	margin-right: 10px;
 }
+
 .report .report-text {
-	width:	100%;
-	min-height:	32px;
-	display:	table-cell;
-	vertical-align:	middle;
+	width: 100%;
+	min-height: 32px;
+	display: table-cell;
+	vertical-align: middle;
 }
+
 .report a {
-    font-weight:	bold;
-    text-decoration:	underline;
-    color:	inherit;
+	font-weight: bold;
+	text-decoration: underline;
+	color: inherit;
 }
 
 .info {
-    color: #00529B;
-    background-color: #BDE5F8;
+	color: #00529B;
+	background-color: #BDE5F8;
 }
+
 .success {
-    color: #4F8A10;
-    background-color: #DFF2BF;
+	color: #4F8A10;
+	background-color: #DFF2BF;
 }
+
 .warning {
-    color: #9F6000;
-    background-color: #FEEFB3;
+	color: #9F6000;
+	background-color: #FEEFB3;
 }
+
 .error {
-    color: #D8000C;
-    background-color: #FFBABA;
+	color: #D8000C;
+	background-color: #FFBABA;
 }

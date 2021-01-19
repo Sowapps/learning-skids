@@ -1,0 +1,4 @@
+fields:
+    pupil_id: ref(person)
+    skill_id: ref(learning-skill)
+    value: string[nullable]

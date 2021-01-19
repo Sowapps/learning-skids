@@ -17,9 +17,9 @@ $rendering->useLayout('page_skeleton');
 ?>
 
 <div class="card border border-warning">
-	<div class="card-header text-white bg-warning">Error</div>
+	<div class="card-header text-white bg-warning">Erreur</div>
 	<div class="card-body">
-		<p>An error occurred, preventing the application to continue normally.</p>
+		<p>Une erreur est survenue, empechant l'application de continuer normalement</p>
 		<?php
 		$this->display('reports-bootstrap3');
 		?>

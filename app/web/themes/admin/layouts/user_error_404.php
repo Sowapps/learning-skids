@@ -29,10 +29,10 @@ $rendering->useLayout('page_skeleton');
 <div class="row justify-content-center mt-md-4">
 	<div class="col-lg-6">
 		<div class="text-center mt-4">
-			<img class="mb-4 img-error" src="<?php echo $this->getThemeURL(); ?>libs/sb-admin/img/error-404-monochrome.svg" alt="Not found"/>
+			<img class="mb-4 img-error" src="<?php echo $this->getThemeURL(); ?>libs/sb-admin/img/error-404-monochrome.svg" alt="Non trouvé"/>
 			<p class="lead"><?php echo $exception; ?></p>
-			<a href="<?php echo u('home'); ?>">
-				<i class="fas fa-arrow-left mr-1"></i> Back to home
+			<a href="<?php echo getHomeUrl(); ?>">
+				<i class="fas fa-arrow-left mr-1"></i> Retourner à l'accueil
 			</a>
 		</div>
 	</div>

@@ -1,7 +1,7 @@
 <?php
 
 if( $Type === 'error' ) {
-	$Type	= 'danger';
+	$Type = 'danger';
 }
 ?>
 <div class="alert alert-<?php echo $Type; ?> alert-dismissable">

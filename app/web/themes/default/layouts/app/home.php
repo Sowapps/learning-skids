@@ -1,4 +1,5 @@
 <?php
+
 use Orpheus\Rendering\HTMLRendering;
 
 HTMLRendering::useLayout('page_skeleton');
@@ -56,25 +57,25 @@ $this->display('reports-bootstrap3');
 <p>We are developing a PHP forum library for our framework, you will be able to create and integrate a forum in your App !</p>
 			</div>
 		</div>
-<!--
-badge
-label label-warning
--->
+		<!--
+		badge
+		label label-warning
+		-->
 	</div>
 	<div class="col-xs-4">
-
-<section id="demotest">
-	<form method="POST">
-	<fieldset>
-		<legend>Try to create you own DemoTest object</legend>
-		<div class="form-group">
-			<label for="inputValue">Create it from a new value</label>
-			<input class="form-control" type="text" name="data[name]" placeholder="Type new value, longer than 3 characters" id="inputValue">
-		</div>
-		<span class="help-block">Submit a new value to see this working test in action.</span>
-		<button id="submitDemoTest" type="submit" class="btn btn-primary">Insert it !</button>
-	</fieldset>
-	</form>
-</section>
+		
+		<section id="demotest">
+			<form method="POST">
+				<fieldset>
+					<legend>Try to create you own AppTest object</legend>
+					<div class="form-group">
+						<label for="inputValue">Create it from a new value</label>
+						<input class="form-control" type="text" name="data[name]" placeholder="Type new value, longer than 3 characters" id="inputValue">
+					</div>
+					<span class="help-block">Submit a new value to see this working test in action.</span>
+					<button id="submitAppTest" type="submit" class="btn btn-primary">Insert it !</button>
+				</fieldset>
+			</form>
+		</section>
 	</div>
 </div>
