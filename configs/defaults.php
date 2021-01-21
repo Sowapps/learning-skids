@@ -12,18 +12,19 @@ defifn('ENTITY_CLASS_CHECK',	false);
 
 
 // Routes
-defifn('ROUTE_HOME',			'home');
-define('ROUTE_LOGIN',			'login');
-define('ROUTE_LOGOUT',			'logout');
-define('ROUTE_FILE_DOWNLOAD',	'file_download');
-define('ROUTE_DOWNLOAD_LATEST',		'download_latest');
-define('ROUTE_DOWNLOAD_RELEASES',	'download_releases');
+define('ROUTE_HOME', 'home');
+define('ROUTE_LOGIN', 'login');
+define('ROUTE_LOGOUT', 'logout');
+define('ROUTE_FILE_DOWNLOAD', 'file_download');
+define('ROUTE_DOWNLOAD_LATEST', 'download_latest');
+define('ROUTE_DOWNLOAD_RELEASES', 'download_releases');
 
-define('ROUTE_ADM_DEMO',		'admin_demo');
-define('ROUTE_ADM_HOME',		ROUTE_ADM_DEMO);
-define('ROUTE_ADM_USERS',		'adm_users');
-define('ROUTE_ADM_USER',		'adm_user');
-define('ROUTE_ADM_MYSETTINGS',	'adm_mysettings');
+define('ROUTE_USER_HOME', 'user_home');
+
+define('ROUTE_ADM_HOME', 'admin_home');
+define('ROUTE_ADM_USER_LIST', 'adm_user_list');
+define('ROUTE_ADM_USER', 'adm_user');
+define('ROUTE_ADM_MYSETTINGS', 'adm_mysettings');
 
 define('ROUTE_DEV_HOME', 'dev_home');
 define('ROUTE_DEV_CONFIG', 'dev_config');
@@ -35,8 +36,8 @@ define('ROUTE_DEV_LOG_VIEW', 'dev_log_view');
 define('ROUTE_DEV_APPTRANSLATE', 'dev_app_translate');
 
 // Route's defaults
-defifn('DEFAULT_ROUTE', ROUTE_HOME);
-defifn('DEFAULTMEMBERROUTE', ROUTE_ADM_DEMO);
-defifn('DEFAULTHOST', 'yourdomain.com');
-defifn('DEFAULTPATH', '');
+defifn('DEFAULT_ROUTE', ROUTE_LOGIN);
+defifn('USER_DEFAULT_ROUTE', ROUTE_USER_HOME);
+defifn('DEFAULT_HOST', 'yourdomain.com');
+defifn('DEFAULT_PATH', '');
 

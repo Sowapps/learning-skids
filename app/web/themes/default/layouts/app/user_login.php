@@ -1,6 +1,6 @@
 <?php
 
-use Demo\User;
+use App\Entity\User;
 use Orpheus\Form\FormToken;
 use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
@@ -13,24 +13,19 @@ use Orpheus\Rendering\HTMLRendering;
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *
- * @var FormToken $FORM_TOKEN
+ * @var FormToken $formToken
  */
 
-global $USER;
 $this->useLayout('page_skeleton');
-
-if( User::isLogged() ) {
-	echo "<p>Welcome {$USER->fullname} </p>";
-}
 
 ?>
 <div class="container mt-5">
 	<div class="row">
 		
 		<div class="col-6">
-			<form method="POST" role="form"><?php echo $FORM_TOKEN; ?>
+			<form method="POST" role="form"><?php echo $formToken; ?>
 				<fieldset>
-					<legend>Sign in</legend>
+					<legend>Connexion</legend>
 					<?php
 					$this->display('reports');
 					?>
@@ -48,7 +43,7 @@ if( User::isLogged() ) {
 		</div>
 		
 		<div class="col-6">
-			<form method="POST" role="form"><?php echo $FORM_TOKEN; ?>
+			<form method="POST" role="form"><?php echo $formToken; ?>
 				<fieldset>
 					<legend>Register</legend>
 					<?php

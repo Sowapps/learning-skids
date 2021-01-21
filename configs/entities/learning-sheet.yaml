@@ -1,0 +1,8 @@
+fields:
+    # Header
+    create_date: datetime=now()
+    create_ip: ip=clientIP()
+    create_user_id: ref=userID()
+
+    name: string(2, 50)
+    owner_id: ref(user)

@@ -1,77 +1,81 @@
 <?php
+
+use App\Entity\User;
+use Orpheus\InputController\HTTPController\HTTPController;
+use Orpheus\InputController\HTTPController\HTTPRequest;
+use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 
-/* @var HTMLRendering $this */
-/* @var HTTPController $Controller */
-?><!DOCTYPE html>
-<html lang="<?php echo LANGBASE; ?>">
+/**
+ * @var string $CONTROLLER_OUTPUT
+ * @var HTMLRendering $rendering
+ * @var HTTPController $Controller
+ * @var HTTPRequest $Request
+ * @var HTTPRoute $Route
+ * @var User $user
+ * @var string $Content
+ */
+
+global $APP_LANG;
+
+$libExtension = DEV_VERSION ? '' : '.min';
+
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $APP_LANG; ?>">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo !empty($PageTitle) ? $PageTitle : t('app_name'); ?></title>
 	<meta name="Description" content=""/>
 	<meta name="Author" content="<?php echo AUTHORNAME; ?>"/>
-	<meta name="application-name" content="<?php _t('app_name'); ?>" />
-	<meta name="msapplication-starturl" content="<?php echo DEFAULTLINK; ?>" />
-	<meta name="Keywords" content="carnet"/>
+	<meta name="application-name" content="<?php _t('app_name'); ?>"/>
+	<meta name="msapplication-starturl" content="<?php echo DEFAULTLINK; ?>"/>
 	<meta name="Robots" content="Index, Follow"/>
 	<meta name="revisit-after" content="16 days"/>
-	<link rel="icon" type="image/png" href="<?php echo STATIC_URL.'images/icon.png'; ?>" />
-<?php
-foreach($this->listMetaProperties() as $property => $content) {
-	echo '
-	<meta property="'.$property.'" content="'.$content.'"/>';
-}
-?>
-
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" type="text/css" media="screen" />
-	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css" type="text/css" media="screen"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2-bootstrap.min.css" type="text/css" media="screen"/>
 	<?php
-	foreach( $this->listCssUrls(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+	foreach( $rendering->listMetaProperties() as $property => $content ) {
+		echo '
+	<meta property="' . $property . '" content="' . $content . '"/>';
+	}
+	?>
+	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap<?php echo $libExtension; ?>.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all<?php echo $libExtension; ?>.css" media="screen"/>
+	<?php
+	foreach( $rendering->listCSSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
 		echo '
 	<link rel="stylesheet" href="' . $url . '" type="text/css" media="screen" />';
 	}
 	?>
 	
-	<link rel="stylesheet" href="<?php echo WEB_ROOT; ?>static/style/base.css" type="text/css" media="screen"/>
-	<link rel="stylesheet" href="<?php echo HTMLRendering::getCssUrl(); ?>style.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="<?php echo $rendering->getThemeURL(); ?>libs/sb-admin/css/styles.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="<?php echo STATIC_ASSETS_URL; ?>/style/base.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="<?php echo $rendering->getCSSURL(); ?>style.css" type="text/css" media="screen"/>
 	<?php
-	foreach( $this->listCssUrls() as $url ) {
+	foreach( $rendering->listCSSURLs() as $url ) {
 		echo '
 	<link rel="stylesheet" type="text/css" href="' . $url . '" media="screen" />';
 	}
 	?>
 	
 	<!-- External JS libraries -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery<?php echo $libExtension; ?>.js"></script>
 </head>
-<?php
-/*
-<body class="<?php echo $Module; ?>">
-*/
-?>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="<?php echo WEB_ROOT; ?>"><?php _t('app_name'); ?></a>
-		</div>
-		<div class="collapse navbar-collapse">
+		<a class="navbar-brand" href="<?php echo SITEROOT; ?>">
+			<?php echo t('app_name'); ?>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MenuTop" aria-controls="MenuTop" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="MenuTop">
 			<?php
-			// User::isLogged() ? $this->showMenu('topmenu_member') : $this->showMenu('topmenu');
-			$this->showMenu(AbstractUser::isLogged() ? 'adminmenu' : 'topmenu');
+			$rendering->showMenu(User::isLogged() ? 'adminmenu' : 'topmenu');
 			if( !empty($TOPBAR_CONTENTS) ) {
 				echo $TOPBAR_CONTENTS;
 			}
@@ -79,41 +83,42 @@ foreach($this->listMetaProperties() as $property => $content) {
 		
 		</div>
 	</div>
-</div>
+</nav>
 
-<div class="container">
+<main role="main">
+	<div class="container mt-5 mb-3">
+		<?php
+		echo $Content;
+		// If report was not be reported
+		$this->display('reports');
+		?>
+	</div>
+</main>
 
-<?php echo $Content; ?>
+<footer class="container">
+	<p>© <?php echo t('app_name'); ?> <?php echo date('Y'); ?></p>
+</footer>
 
-</div>
-	<!-- JS libraries -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<!-- 	<script type="text/javascript" src="//shared.sowapps.com/select2/select2-3.5.2/select2.min.js"></script> -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2_locale_fr.min.js"></script>
-	
-	<!-- Our JS scripts -->
-	<script type="text/javascript" src="/js/orpheus.js"></script>
-	<script type="text/javascript" src="/js/script.js"></script>
+<!-- JS libraries -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui<?php echo $libExtension; ?>.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper<?php echo $libExtension; ?>.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap<?php echo $libExtension; ?>.js"></script>
 <?php
-foreach( $this->listJsUrls(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
 	echo '
 	<script type="text/javascript" src="' . $url . '"></script>';
 }
-if( !DEV_VERSION && HOST === 'orpheus-framework.com' ) {
-	// Replace by your own & remove HOST condition
-	?>
-	
-	
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-54516318-1', 'auto'); ga('send', 'pageview');
-</script>
+?>
+
+<!-- Our JS scripts -->
+<script src="<?php echo $rendering->getThemeURL(); ?>libs/sb-admin/js/scripts.js"></script>
+<script src="<?php echo JS_URL; ?>orpheus.js"></script>
+<script src="<?php echo JS_URL; ?>orpheus-confirmdialog.js"></script>
+
 <?php
+foreach( $rendering->listJSURLs() as $url ) {
+	echo '
+	<script type="text/javascript" src="' . $url . '"></script>';
 }
 ?>
 

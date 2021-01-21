@@ -1,18 +1,4 @@
 
-body {
-	margin-top:	0;
-	padding-top:	50px;
-}
-
-/* FIX content height with not enough content */
-html, body,
-#wrapper, #page-wrapper {
-	height:	100%;	
-}
-#page-wrapper {
-	overflow-y: scroll;
-}
-
 /* Select2 */
 
 /* Fix Select2 in modal with BS */
@@ -27,15 +13,16 @@ html, body,
 
 /* Table sorter 2.0 */
 th .fa {
-	line-height:	inherit;
-	float:	right;
+	line-height: inherit;
+	float: right;
 }
 
 table.table input {
-	width:	100%;
+	width: 100%;
 }
-table.table input[type="radio"], table.table input[type="checkbox"] {
-	width:	auto;
+
+table.table input[type='radio'], table.table input[type='checkbox'] {
+	width: auto;
 }
 
 .tablesorter-header:not(.sorter-false) {
@@ -44,79 +31,62 @@ table.table input[type="radio"], table.table input[type="checkbox"] {
 
 /* Bootstrap customization */
 
-/* Fix bootstrap transform incompatibility */
-.navbar-fixed-top, .navbar-fixed-bottom {
-	-webkit-transform: initial;
-	-o-transform: initial;
-	transform: initial;
-}
-
 /* Fit the parent title panel for accordion */
 .panel-title > a {
-	display:	inherit;
+	display: inherit;
 }
+
 .panel-title > a:hover {
-	text-decoration:	none;
+	text-decoration: none;
 }
 
 /* Let the padding to the right items of the top navbar */
 .navbar-nav.navbar-right:last-child {
-	margin-right:	0;
+	margin-right: 0;
 }
 
 .modal-center {
-	position:	absolute;
-	top:	50%;
-	margin:	0;
-/* 	left: 50%; */
+	position: absolute;
+	top: 50%;
+	margin: 0;
 }
+
 .modal-compact .modal-footer {
 	border-top: 0;
 	margin-top: 0;
 }
 
 .close {
-	position:	relative;
-	z-index:	1;
+	position: relative;
+	z-index: 1;
 }
 
 /* Font Awesome customization */
 a.fa, .link.fa {
-	text-decoration:	none;
-	color:	#000000;
+	text-decoration: none;
+	color: #000000;
 }
+
 button.fa, input[type=button].fa {
 	padding: 0;
 	border: 0;
 	background: none;
 }
-/*
-.button > .fr.fa {
-	line-height: inherit;
-}
-.button.normal > .fa {
-	font-size: 14px;
-}
-.fa {
-	cursor: default;
-}
-*/
 
 .input-group-addon.addonbtn {
-	padding:	3px;
+	padding: 3px;
 }
+
 .input-group-addon.addonbtn .btn {
-	padding:	2px 7px;
+	padding: 2px 7px;
 }
 
 /* Radio Panel */
 .radiopanel {
 	border-radius: 3px;
-/*	 margin: 5px 0; */
 	padding: 10px;
-/*	 margin: 5px 0; */
-/*	 padding: 10px 5px; */
 }
+
 .radiopanel.active {
 	background-color: #F3F3F3;
 }
@@ -126,9 +96,10 @@ button.fa, input[type=button].fa {
 	display: block;
 	cursor: pointer;
 }
+
 .logo.enterprise.mini {
-	max-width:	200px;
-	max-height:	34px;
+	max-width: 200px;
+	max-height: 34px;
 }
 
 /* Fatal error style */
@@ -137,96 +108,46 @@ body > .panel-danger {
 }
 
 /* Form Control */
-input[type="date"]::-webkit-calendar-picker-indicator {
-/* 	display:	inline-block; */
-/* 	float:		right; */
-/* 	margin-top:	2%; */
+input[type='date']::-webkit-calendar-picker-indicator {
 	/* Not compatile with little input & Bootstrap */
-	-webkit-appearance:	none;
+	-webkit-appearance: none;
 }
-input[type="date"]::-webkit-inner-spin-button {
+
+input[type='date']::-webkit-inner-spin-button {
 	/* display: none; <- Crashes Chrome on hover */
-	-webkit-appearance:	none;
-	margin:	0;
+	-webkit-appearance: none;
+	margin: 0;
 }
-/*
-input[type="date"]::-webkit-calendar-picker-indicator {
-	-webkit-padding-start: 1px;
-}
-input::-webkit-datetime-edit {
-	-webkit-flex: 1;
-	-webkit-user-modify: read-only !important;
-	display: inline-block;
-	min-width: 0;
-	overflow: hidden;
-}
-input::-webkit-datetime-edit-fields-wrapper {
-	-webkit-user-modify: read-only !important;
-	display: inline-block;
-	padding: 1px 0;
-	white-space: pre;
-}
-*/
 
 /* Upload overlay */
 .overlay_wrapper {
 	position: relative;
 }
+
 .overlay {
-	width:	100%;
-	height:	100%;
+	width: 100%;
+	height: 100%;
 	position: absolute;
-	top:	0;
-	left:	0;
-	opacity:	0;
+	top: 0;
+	left: 0;
+	opacity: 0;
 	cursor: pointer;
 }
 
-/* FIX SB Admin */
-/*
-See sb-admin.css
-@media(min-width:768px) {
-    .side-nav {
-        position: fixed;
-        top: 51px;
-        left: 225px;
-        width: 225px;
-        margin-left: -225px;
-        border: none;
-        border-radius: 0;
-        overflow-y: auto;
-        bottom: 0;
-        overflow-x: hidden;
-        padding-bottom: 40px;
-    }
-
-    .side-nav>li>a {
-        width: 225px;
-    }
-
-    .side-nav li > a:hover,
-    .side-nav li > a:focus,
-    .side-nav li.active > a {
-        outline: none;
-        background-color: #000 !important;
-    }
-}
-*/
-
-.side-nav>li>ul {
-    padding: 0;
+.side-nav > li > ul {
+	padding: 0;
 }
 
-.side-nav>li>ul>li>a {
-    display: block;
-    padding: 10px 15px 10px 38px;
-    text-decoration: none;
-    color: #999;
+.side-nav > li > ul > li > a {
+	display: block;
+	padding: 10px 15px 10px 38px;
+	text-decoration: none;
+	color: #999;
 }
 
 .side-nav > li > ul > li > a:hover,
 .side-nav > li > ul > li.active > a {
-    color: #fff;
+	color: #fff;
 }
 
 /* Add feature to SB Admin */
@@ -245,12 +166,13 @@ See sb-admin.css
 	margin-left: -200px;
 	z-index: 1100;
 }
+
 #SystemNotificationContainer {
 	padding: 8px 6px 6px 6px;
 	background: #FFF;
 	border: 1px solid #DDD;
-	border-bottom-left-radius:	4px;
-	border-bottom-right-radius:	4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
 }
 
 .system_notification {
@@ -258,6 +180,7 @@ See sb-admin.css
 	margin-bottom: 0;
 	font-size: 0.85em;
 }
+
 .system_notification + .system_notification {
 	margin-top: 10px;
 }

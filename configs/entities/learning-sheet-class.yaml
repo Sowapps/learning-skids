@@ -1,0 +1,3 @@
+fields:
+    class_id: ref(class)
+    learning_sheet_id: ref(learning-sheet)

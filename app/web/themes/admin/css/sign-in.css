@@ -1,0 +1,23 @@
+
+body {
+	padding-top: 0;
+	background: url('../img/bg-toy-train.jpg') no-repeat center;
+	background-size: cover;
+}
+
+.sign-in-panel {
+	position: absolute;
+	width: 100%;
+}
+
+.sign-in-panel:not(.show) {
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.sign-in-panel.show {
+	opacity: 1;
+	z-index: 1;
+	transition: opacity 1s .5s;
+}
+

@@ -1,0 +1,3 @@
+fields:
+    class_id: ref(class)
+    pupil_id: ref(person)

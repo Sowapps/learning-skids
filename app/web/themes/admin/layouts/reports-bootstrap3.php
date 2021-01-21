@@ -12,11 +12,11 @@ foreach( getReports($reportStream) as $type => $typeReports ) {
 			$rType = 'warning';
 		}
 		echo '
-<div class="alert alert-'.$rType.' '.$report['domain'].' alert-dismissable">
+<div class="alert alert-' . $rType . ' ' . $report['domain'] . ' alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	'.$report['report'].'
+	' . $report['report'] . '
 </div>';
 	}
 }
 
-$reportStream	= null;
+$reportStream = null;

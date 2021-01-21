@@ -1,0 +1,12 @@
+fields:
+    # Header
+    create_date: datetime=now()
+    create_ip: ip=clientIP()
+    create_user_id: ref=userID()
+
+    firstname: string(3, 30)
+    lastname: string(3, 50)
+    role: enum(Person::getAllRoles)[nullable]
+
+indexes:
+    - UNIQUE(firstname, lastname)
