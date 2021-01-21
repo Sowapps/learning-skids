@@ -1,11 +1,22 @@
 <?php
+/**
+ * @author Florent HAZARD <f.hazard@sowapps.com>
+ *
+ * @var HTMLRendering $rendering
+ * @var HTTPController $Controller
+ * @var HTTPRequest $Request
+ * @var HTTPRoute $Route
+ * @var string $CONTROLLER_OUTPUT
+ * @var string $Content
+ */
 
-use CourtagePro\Entity\User;
+use App\Entity\User;
+use Orpheus\Controller\Admin\AbstractAdminController;
+use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 use Orpheus\Rendering\Menu\MenuItem;
-use Sowapps\Controller\Admin\AbstractAdminController;
 
 /**
  * @var HTMLRendering $rendering

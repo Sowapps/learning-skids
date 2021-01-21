@@ -3,7 +3,6 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  */
 
-
 function renderReadonlyInputHtml($label, $value) {
 	$id = 'Input' . generateUniqueId();
 	?>

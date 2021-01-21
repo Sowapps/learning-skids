@@ -19,6 +19,8 @@ define('ROUTE_FILE_DOWNLOAD', 'file_download');
 define('ROUTE_DOWNLOAD_LATEST', 'download_latest');
 define('ROUTE_DOWNLOAD_RELEASES', 'download_releases');
 
+define('ROUTE_USER_HOME', 'user_home');
+
 define('ROUTE_ADM_HOME', 'admin_home');
 define('ROUTE_ADM_USER_LIST', 'adm_user_list');
 define('ROUTE_ADM_USER', 'adm_user');
@@ -35,7 +37,7 @@ define('ROUTE_DEV_APPTRANSLATE', 'dev_app_translate');
 
 // Route's defaults
 defifn('DEFAULT_ROUTE', ROUTE_LOGIN);
-defifn('DEFAULTMEMBERROUTE', ROUTE_ADM_HOME);
-defifn('DEFAULTHOST', 'yourdomain.com');
-defifn('DEFAULTPATH', '');
+defifn('USER_DEFAULT_ROUTE', ROUTE_USER_HOME);
+defifn('DEFAULT_HOST', 'yourdomain.com');
+defifn('DEFAULT_PATH', '');
 

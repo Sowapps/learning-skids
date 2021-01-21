@@ -43,7 +43,7 @@ abstract class AbstractHttpController extends HTTPController {
 	 */
 	public function preRun($request) {
 		$this->currentUser = User::getLoggedUser();
-		HTMLRendering::getCurrent()->setTheme('admin');
+		HTMLRendering::setDefaultTheme('admin');
 	}
 	
 	/**

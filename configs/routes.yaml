@@ -29,25 +29,29 @@
 http:
     home:
         path: "/"
-        redirect: "user_login"
+        redirect: "login"
 
-    user_login:
+    login:
         path: "/user/sign-in.html"
         controller: App\Controller\Security\LoginController
-        restrictTo:
-            role: visitor
 
     logout:
         path: "/logout.html"
         controller: App\Controller\Security\LogoutController
         restrictTo:
-          role: member
-        
+            role: member
+
+    user_home:
+        path: "/dashboard.html"
+        controller: App\Controller\User\UserHomeController
+        restrictTo:
+            role: member
+
     adm_mysettings:
         path: "/admin/my_settings.html"
         controller: "App\\Controller\\Admin\\AdminMySettingsController"
         restrictTo:
-          role: member
+            role: member
 
     adm_user_list:
         path: "/admin/users.html"

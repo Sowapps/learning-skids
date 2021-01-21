@@ -5,7 +5,6 @@ namespace App\Controller\Security;
 use App\Controller\AbstractHttpController;
 use App\Entity\User;
 use Orpheus\Exception\UserException;
-use Orpheus\Form\FormToken;
 use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
@@ -21,12 +20,15 @@ class LoginController extends AbstractHttpController {
 	 * @see HTTPController::run()
 	 */
 	public function run($request) {
+		if( User::isLogged() ) {
+			return new RedirectHTTPResponse(u(getHomeRoute()));
+		}
+		
 		/* @var User $user */
-		$formToken = new FormToken();
 		$projectUserInvitation = null;
 		
 		try {
-			$request->hasData() && $formToken->validateForm($request);
+			$this->validateFormToken($request);
 			if( $request->hasParameter('ac') && is_id($userID = $request->getParameter('u')) ) {
 				$user = User::load($userID);
 				if( !$user || $user->activation_code != $request->getParameter('ac') ) {
@@ -57,9 +59,7 @@ class LoginController extends AbstractHttpController {
 			endReportStream();
 		}
 		
-		return $this->renderHTML('security/login', [
-			'formToken' => $formToken,
-		]);
+		return $this->renderHTML('security/login');
 	}
 	
 	

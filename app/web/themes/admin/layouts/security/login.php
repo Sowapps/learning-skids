@@ -8,8 +8,10 @@
  * @var HTTPRoute $Route
  * @var string $CONTROLLER_OUTPUT
  * @var string $Content
+ * @var FormToken $formToken
  */
 
+use Orpheus\Form\FormToken;
 use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
@@ -37,13 +39,18 @@ $rendering->addThemeJsFile('sign-in.js');
 								</div>
 								<div class="card-body">
 									<form method="post">
+										<?php
+										echo $formToken;
+										$rendering->display('reports-bootstrap3');
+										?>
+										
 										<div class="form-group">
 											<label class="small mb-1" for="InputLoginEmail">Email</label>
 											<input name="login[email]" class="form-control py-4" id="InputLoginEmail" type="email" placeholder="Entrez votre adresse email">
 										</div>
 										<div class="form-group">
 											<label class="small mb-1" for="InputLoginPassword">Mot de passe</label>
-											<input name="login[email]" class="form-control py-4" id="InputLoginPassword" type="password" placeholder="Entrez votre mot de passe">
+											<input name="login[password]" class="form-control py-4" id="InputLoginPassword" type="password" placeholder="Entrez votre mot de passe">
 										</div>
 										<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
 											<?php
