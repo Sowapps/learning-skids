@@ -3,6 +3,7 @@
 namespace App\Controller\Security;
 
 use App\Controller\AbstractHttpController;
+use App\Entity\Person;
 use App\Entity\User;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\HTTPController\HTTPController;
@@ -11,6 +12,10 @@ use Orpheus\InputController\HTTPController\HTTPResponse;
 use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
 
 class LoginController extends AbstractHttpController {
+	
+	const PANEL_LOGIN = 'login';
+	const PANEL_REGISTER = 'register';
+	const PANEL_RECOVERY = 'recovery';
 	
 	protected string $scope = self::SCOPE_PUBLIC;
 	
@@ -25,32 +30,36 @@ class LoginController extends AbstractHttpController {
 		}
 		
 		/* @var User $user */
-		$projectUserInvitation = null;
+		$panel = self::PANEL_LOGIN;
 		
 		try {
-			$this->validateFormToken($request);
 			if( $request->hasParameter('ac') && is_id($userID = $request->getParameter('u')) ) {
 				$user = User::load($userID);
-				if( !$user || $user->activation_code != $request->getParameter('ac') ) {
+				if( !$user || $user->activation_code !== $request->getParameter('ac') ) {
 					User::throwException('invalidActivationCode');
 				}
 				$user->activate();
 				$user->login();
 				
-				return new RedirectHTTPResponse($projectUserInvitation ? $projectUserInvitation->getLink() : u(DEFAULT_ROUTE_USER));
+				return new RedirectHTTPResponse(u(getHomeRoute()));
 				
-			} elseif( $request->hasData('submitLogin') && $data = $request->getData('login') ) {
-				User::userLogin($data, 'email');
+			} elseif( $request->hasData('submitLogin') && $loginInput = $request->getData('login') ) {
+				$this->validateFormToken($request);
+				User::userLogin($loginInput);
 				
 				return new RedirectHTTPResponse(u(getHomeRoute()));
 				
-			} elseif( $request->hasData('submitRegister') && ($data = $request->getData('user')) ) {
+			} elseif( $request->hasData('submitRegister') && ($userInput = $request->getData('user')) ) {
 				startReportStream('register');
-				$data['published'] = 0;
-				$data['activation_code'] = generatePassword(30);
-				$user = User::createAndGet($data, ['fullname', 'email', 'password', 'published', 'activation_code']);
-				//				sendUserRegistrationEmail($user, $projectUserInvitation);
+				$panel = self::PANEL_REGISTER;
+				$this->validateFormToken($request);
+				
+				$user = User::make($userInput, Person::ROLE_TEACHER);
+				sendAdminRegistrationEmail($user);
+				sendUserActivationEmail($user);
 				unset($user);
+				$panel = self::PANEL_LOGIN;
+				endReportStream();
 				reportSuccess(User::text('successRegister'));
 				
 			}
@@ -59,7 +68,9 @@ class LoginController extends AbstractHttpController {
 			endReportStream();
 		}
 		
-		return $this->renderHTML('security/login');
+		return $this->renderHTML('security/login', [
+			'panel' => $panel,
+		]);
 	}
 	
 	

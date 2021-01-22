@@ -23,12 +23,14 @@ use Orpheus\SQLAdapter\SQLAdapter;
  * @property string $activity_ip
  * @property int $accesslevel
  * @property string $recovery_code
+ * @property string $activation_code
+ * @property DateTime $activation_date
  * @property string $email
  * @property int $person_id
  */
 class User extends AbstractUser implements FixtureInterface {
 	
-	protected $person;
+	protected ?Person $person = null;
 	
 	public function getLabel() {
 		return $this->fullname;
@@ -81,6 +83,21 @@ class User extends AbstractUser implements FixtureInterface {
 			'where'  => 'email LIKE ' . static::fv($email),
 			'output' => SQLAdapter::OBJECT,
 		]);
+	}
+	
+	public static function make(array $input, string $role) {
+		User::testUserInput($input, ['email', 'password'], null, $errors, true);
+		if( $errors ) {
+			User::throwException('errorCreateChecking');
+		}
+		$input['role'] = $role;
+		$person = Person::createAndGet($input, ['firstname', 'lastname', 'role']);
+		$input['activation_code'] = generateRandomString(30);
+		$input['published'] = false;
+		$input['person_id'] = $person->id();
+		$input['fullname'] = $person->getLabel();
+		
+		return User::createAndGet($input, ['email', 'password', 'fullname', 'person_id', 'activation_code', 'published']);
 	}
 	
 	public static function checkUserInput($uInputData, $fields = null, $ref = null, &$errCount = 0, $ignoreRequired = false) {

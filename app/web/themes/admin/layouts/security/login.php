@@ -9,6 +9,8 @@
  * @var string $CONTROLLER_OUTPUT
  * @var string $Content
  * @var FormToken $formToken
+ *
+ * @var string $panel
  */
 
 use Orpheus\Form\FormToken;
@@ -30,7 +32,7 @@ $rendering->addThemeJsFile('sign-in.js');
 					<div class="col-lg-7">
 						<div class="position-relative">
 							
-							<div id="PanelLogin" class="card shadow-lg border-0 rounded-lg mt-5 sign-in-panel show">
+							<div id="PanelLogin" class="card shadow-lg border-0 rounded-lg mt-5 sign-in-panel <?php echo $panel === 'login' ? 'show' : ''; ?>">
 								<div class="card-header">
 									<h3 class="text-left font-weight-light my-4">
 										Connexion
@@ -69,7 +71,7 @@ $rendering->addThemeJsFile('sign-in.js');
 								</div>
 							</div>
 							
-							<div id="PanelRegister" class="card shadow-lg border-0 rounded-lg mt-5 sign-in-panel">
+							<div id="PanelRegister" class="card shadow-lg border-0 rounded-lg mt-5 sign-in-panel<?php echo $panel === 'register' ? 'show' : ''; ?>">
 								<div class="card-header">
 									<h3 class="text-left font-weight-light my-4">
 										Inscription comme professeur des écoles
@@ -77,40 +79,46 @@ $rendering->addThemeJsFile('sign-in.js');
 									</h3>
 								</div>
 								<div class="card-body">
-									<form>
+									<form method="post">
+										<?php
+										echo $formToken;
+										$rendering->display('reports-bootstrap3', ['reportStream' => 'register']);
+										?>
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="inputFirstName">First Name</label>
-													<input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter first name"/>
+													<label class="small mb-1" for="InputFirstName">Votre prénom</label>
+													<input name="user[firstname]" class="form-control py-4" id="InputFirstName" type="text"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="inputLastName">Last Name</label>
-													<input class="form-control py-4" id="inputLastName" type="text" placeholder="Enter last name"/>
+													<label class="small mb-1" for="InputLastName">Votre nom</label>
+													<input name="user[lastname]" class="form-control py-4" id="InputLastName" type="text"/>
 												</div>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="small mb-1" for="InputLoginEmail">Email</label>
-											<input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address"/>
+											<input name="user[email]" class="form-control py-4" id="InputLoginEmail" type="email"/>
 										</div>
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="InputLoginPassword">Password</label>
-													<input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password"/>
+													<label class="small mb-1" for="InputLoginPassword">Mot de passe</label>
+													<input name="user[password]" class="form-control py-4" id="InputPassword" type="password"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
-													<input class="form-control py-4" id="inputConfirmPassword" type="password" placeholder="Confirm password"/>
+													<label class="small mb-1" for="InputConfirmPassword">Confirmez votre mot de passe</label>
+													<input name="user[password_conf]" class="form-control py-4" id="InputConfirmPassword" type="password"/>
 												</div>
 											</div>
 										</div>
-										<div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" href="#Register">Create Account</a></div>
+										<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+											<button class="btn btn-primary" name="submitRegister"><?php _t('register'); ?></button>
+										</div>
 									</form>
 								</div>
 								<div class="card-footer text-center">
