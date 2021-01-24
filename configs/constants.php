@@ -47,6 +47,13 @@ defifn('SITENAME', 'Your App Name');// See also translation app_name
 defifn('ADMINEMAIL', ADMIN_EMAIL);
 defifn('DEVEMAIL', DEV_EMAIL);
 
+// Object output asArray
+define('OUTPUT_MODEL_USAGE', 'usage');
+
+// Domains
+define('DOMAIN_CLASS', 'class');
+define('DOMAIN_PERSON', 'person');
+
 // Users
 define('USER_SALT', 'Y*Ck5D=H');
 defifn('DEFAULT_TIMEZONE', 'Europe/Paris');

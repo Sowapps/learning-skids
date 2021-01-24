@@ -35,9 +35,15 @@ class Person extends PermanentEntity {
 		return $this->firstname . ' ' . $this->lastname;
 	}
 	
-	public function queryClasses() {
-		return SchoolClass::get()
-			->where('teacher_id', $this);
+	public function queryClasses($enabled = null) {
+		$query = SchoolClass::get()
+			->where('teacher_id', $this)
+			->orderby('year DESC');
+		if( $enabled !== null ) {
+			$query->where('enabled', $enabled);
+		}
+		
+		return $query;
 	}
 	
 	public static function getAllRoles() {

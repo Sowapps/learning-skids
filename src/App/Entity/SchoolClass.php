@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
+use Orpheus\SQLRequest\SQLSelectRequest;
 
 /**
  * Class SchoolClass
@@ -34,6 +35,29 @@ class SchoolClass extends PermanentEntity {
 	protected static $fields = null;
 	protected static $validator = null;
 	protected static $domain = null;
+	
+	public function addPupil(Person $person): void {
+		$exists = $this->queryPupils()
+			->where('pupil_id', $person)
+			->exists();
+		if( $exists ) {
+			self::throwException('pupilPersonAlreadyAssigned');
+		}
+		ClassPupil::create([
+			'class_id' => $this->id(),
+			'pupil_id' => $person->id(),
+		]);
+	}
+	
+	public function queryPupils(): SQLSelectRequest {
+		return ClassPupil::get()
+			->where('class_id', $this)
+			->orderby('id ASC');
+	}
+	
+	public function getLabel() {
+		return $this->name;
+	}
 	
 	public function getTeacher(): Person {
 		return Person::load($this->teacher_id, false);

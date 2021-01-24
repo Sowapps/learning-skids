@@ -32,8 +32,16 @@ class User extends AbstractUser implements FixtureInterface {
 	
 	protected ?Person $person = null;
 	
-	public function getLabel() {
-		return $this->fullname;
+	/**
+	 * @return SchoolClass|null
+	 */
+	public function getLastActiveClass() {
+		return $this->getPerson()
+			->queryClasses(true)
+			->orderby('id DESC')
+			->number(1)
+			->asObject()
+			->run();
 	}
 	
 	/**
@@ -47,6 +55,14 @@ class User extends AbstractUser implements FixtureInterface {
 		}
 		
 		return $this->person;
+	}
+	
+	public function canClassManage(SchoolClass $class) {
+		return $this->canDo('class_manage') || $class->getTeacher()->equals($this->getPerson());
+	}
+	
+	public function getLabel() {
+		return $this->fullname;
 	}
 	
 	/**

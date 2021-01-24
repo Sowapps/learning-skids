@@ -48,6 +48,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap<?php echo $libExtension; ?>.css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all<?php echo $libExtension; ?>.css" media="screen"/>
 	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4<?php echo $libExtension; ?>.css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2<?php echo $libExtension; ?>.css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo $rendering->getCssUrl(); ?>select2-bootstrap.css" media="screen"/>
 	<?php
@@ -79,9 +80,11 @@ echo $Content;
 ?>
 
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap<?php echo $libExtension; ?>.js"></script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales<?php echo $libExtension; ?>.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4<?php echo $libExtension; ?>.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full<?php echo $libExtension; ?>.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/fr.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.5/js/jquery.tablesorter.js"></script>
 
@@ -94,6 +97,7 @@ foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
 
 <script type="text/javascript" src="<?php echo VENDOR_URL; ?>/sb-admin/sb-admin-6.0.2/js/scripts.js"></script>
 <script src="<?php echo JS_URL; ?>/orpheus/orpheus.js"></script>
+<script src="<?php echo JS_URL; ?>/orpheus/orpheus-confirmdialog.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>orpheus.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>script.js"></script>
 

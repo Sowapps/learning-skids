@@ -1,7 +1,10 @@
 <?php
-/* @var string $reportStream */
+/*
+ * @var string $reportStream
+ * @var string $stream Alias of $reportStream
+ */
 if( !isset($reportStream) ) {
-	$reportStream = 'global';
+	$reportStream = isset($stream) ? $stream : 'global';
 }
 
 foreach( getReports($reportStream) as $type => $typeReports ) {

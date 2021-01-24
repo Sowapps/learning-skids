@@ -29,7 +29,9 @@ FixtureRepository::register('App\Entity\User');
 
 User::setUserClass();
 
-// Hooks
+function asJsonAttribute(PermanentEntity $object, $model = OUTPUT_MODEL_USAGE) {
+	echo htmlFormATtr($object->asArray($model));
+}
 
 function getModuleAccess($module = null) {
 	if( $module === null ) {
@@ -84,7 +86,6 @@ BODY
 	
 	return $email->send($user->email);
 }
-
 
 function includeHTMLAdminFeatures() {
 	require_once ORPHEUSPATH . 'src/admin-form.php';

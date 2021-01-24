@@ -4,9 +4,9 @@ fields:
     create_ip: ip=clientIP()
     create_user_id: ref=userID()
 
-    name: string(2, 10)
-    level: enum(Class::getAllLevels)[nullable]
+    name: string(2, 50)
+    level: enum(App\Entity\SchoolClass::getAllLevels)[nullable]
     year: integer(2020, 3000)
     teacher_id: ref(person)
-    openDate: datetime
+    openDate: date
     enabled: boolean=true

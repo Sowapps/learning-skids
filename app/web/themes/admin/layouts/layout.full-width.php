@@ -47,12 +47,12 @@ $this->showMenu($Controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar')
 						</h1>
 						<?php
 					}
-					if( !empty($Breadcrumb) ) {
+					if( !empty($breadcrumb) ) {
 						?>
 						<ol class="breadcrumb mb-4">
 							<?php
-							$bcLast = count($Breadcrumb) - 1;
-							foreach( $Breadcrumb as $index => $page ) {
+							$bcLast = count($breadcrumb) - 1;
+							foreach( $breadcrumb as $index => $page ) {
 								if( $index >= $bcLast || empty($page->link) ) {
 									?>
 									<li class="breadcrumb-item active">

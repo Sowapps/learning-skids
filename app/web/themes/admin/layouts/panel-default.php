@@ -1,14 +1,14 @@
 <?php
 
+use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
-use Sowapps\Controller\Admin\AdminController;
 
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var AdminController $Controller
+ * @var AbstractAdminController $Controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *
@@ -41,6 +41,10 @@ if( !isset($bodyClass) ) {
 
 if( !isset($body) ) {
 	$body = $Content;
+}
+
+if( !isset($footerClass) ) {
+	$footerClass = 'text-right';
 }
 
 ?>
@@ -92,12 +96,21 @@ if( !isset($body) ) {
 	}
 	?>
 	<div class="card-body <?php echo $bodyClass; ?>">
-		<?php echo $body; ?>
+		<?php
+		if( !empty($bodyTitle) ) {
+			?>
+			<div class="mb-3 text-grey text-uppercase">
+				<b><?php echo $bodyTitle; ?></b>
+			</div>
+			<?php
+		}
+		echo $body;
+		?>
 	</div>
 	<?php
 	if( $footer ) {
 		?>
-		<div class="card-footer text-right">
+		<div class="card-footer <?php echo $footerClass; ?>">
 			<?php echo $footer; ?>
 		</div>
 		<?php
