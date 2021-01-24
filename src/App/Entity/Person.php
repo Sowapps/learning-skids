@@ -16,6 +16,9 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property DateTime $create_date
  * @property string $create_ip
  * @property DateTime $login_date
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $role
  */
 class Person extends PermanentEntity {
 	
@@ -27,6 +30,21 @@ class Person extends PermanentEntity {
 	protected static $fields = null;
 	protected static $validator = null;
 	protected static $domain = null;
+	
+	public function getLabel() {
+		return $this->firstname . ' ' . $this->lastname;
+	}
+	
+	public function queryClasses($enabled = null) {
+		$query = SchoolClass::get()
+			->where('teacher_id', $this)
+			->orderby('year DESC');
+		if( $enabled !== null ) {
+			$query->where('enabled', $enabled);
+		}
+		
+		return $query;
+	}
 	
 	public static function getAllRoles() {
 		return [self::ROLE_PUPIL, self::ROLE_TEACHER];

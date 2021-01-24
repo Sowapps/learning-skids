@@ -10,6 +10,7 @@
             <path value="file://$PROJECT_DIR$/app/web/static/images" />
             <path value="file://$PROJECT_DIR$/app/web/static/style" />
             <path value="file://$PROJECT_DIR$/app/web" />
+            <path value="file://$PROJECT_DIR$/app/web/themes/admin/js" />
           </resourceRoots>
         </entryData>
       </entry>

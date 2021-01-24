@@ -36,8 +36,8 @@ define('ROUTE_DEV_LOG_VIEW', 'dev_log_view');
 define('ROUTE_DEV_APPTRANSLATE', 'dev_app_translate');
 
 // Route's defaults
-defifn('DEFAULT_ROUTE', ROUTE_LOGIN);
-defifn('USER_DEFAULT_ROUTE', ROUTE_USER_HOME);
-defifn('DEFAULT_HOST', 'yourdomain.com');
-defifn('DEFAULT_PATH', '');
+define('DEFAULT_ROUTE', ROUTE_LOGIN);
+define('USER_DEFAULT_ROUTE', ROUTE_USER_HOME);
+define('DEFAULT_HOST', 'yourdomain.com');
+define('DEFAULT_PATH', '');
 

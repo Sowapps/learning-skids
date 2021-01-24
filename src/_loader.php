@@ -29,35 +29,63 @@ FixtureRepository::register('App\Entity\User');
 
 User::setUserClass();
 
-// Hooks
+function asJsonAttribute(PermanentEntity $object, $model = OUTPUT_MODEL_USAGE) {
+	echo htmlFormATtr($object->asArray($model));
+}
 
 function getModuleAccess($module = null) {
 	if( $module === null ) {
 		$module = &$GLOBALS['Module'];
 	}
 	global $ACCESS;
+	
 	return !empty($ACCESS) && isset($ACCESS->$module) ? $ACCESS->$module : -2;
 }
 
 /**
  * @param User $user
+ * @return bool
  */
-function sendAdminRegistrationEmail($user) {
-	$SITENAME = t('app_name');
-	$SITEURL = DEFAULTLINK;
-	$e = new Email('Orpheus - Registration of ' . $user->fullname);
-	$e->setText(<<<BODY
-Hi master !
+function sendAdminRegistrationEmail(User $user) {
+	$appName = t('app_name');
+	$appUrl = u(DEFAULT_ROUTE);
+	$email = new Email($appName . ' - Inscription du professeur ' . $user->getLabel());
+	$email->setHTMLBody(nl2br(<<<BODY
+Yo !
 
-A new dude just registered on <a href="{$SITEURL}">{$SITENAME}</a>, he is named {$user} ({$user->name}) with email {$user->email}.
+Un nouveau professeur s'est inscrit sur <a href="{$appUrl}">{$appName}</a>, il s'appelle {$user} avec l'adresse email {$user->email}.
 
-Your humble servant, {$SITENAME}.
+Votre humble serviteur, {$appName}.
 BODY
-	);
+	));
 	
-	return $e->send(ADMINEMAIL);
+	return $email->send(ADMIN_EMAIL);
 }
 
+/**
+ * @param User $user
+ * @return bool
+ */
+function sendUserActivationEmail(User $user) {
+	$appName = t('app_name');
+	$appUrl = u(DEFAULT_ROUTE);
+	$email = new Email($appName . ' - Activation de votre compte');
+	$activationLink = u('login') . sprintf('?u=%s&ac=%s', $user->id(), $user->activation_code);
+	$email->setHTMLBody(nl2br(<<<BODY
+Bonjour,
+
+Bienvenue sur {$appName}, notre site a été conçu pour vous accompagner dans l'évaluation de vos élèves de maternel.
+Votre compte a bien été enregistré mais il n'est pas encore activé.
+Une fois que votre compte sera activé, vous serez connecté et vous pourrez créer et gérer votre classe.
+
+<a href="{$activationLink}">Cliquez ici pour activer votre compte !</a>
+
+<a href="{$appUrl}">{$appName}</a>
+BODY
+	));
+	
+	return $email->send($user->email);
+}
 
 function includeHTMLAdminFeatures() {
 	require_once ORPHEUSPATH . 'src/admin-form.php';

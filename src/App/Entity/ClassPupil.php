@@ -31,8 +31,22 @@ class ClassPupil extends PermanentEntity {
 		return SchoolClass::load($this->class_id, false);
 	}
 	
-	public function getPupil(): Person {
+	public function getPerson(): Person {
 		return Person::load($this->pupil_id, false);
+	}
+	
+	public function asArray($model = self::OUTPUT_MODEL_ALL) {
+		if( $model === OUTPUT_MODEL_USAGE ) {
+			$data = parent::asArray(self::OUTPUT_MODEL_MINIMALS);
+			$person = $this->getPerson();
+			$data['firstname'] = $person->firstname;
+			$data['lastname'] = $person->lastname;
+			$data['label'] = $person->getLabel();
+			
+			return $data;
+		}
+		
+		return parent::asArray($model);
 	}
 	
 }

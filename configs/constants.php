@@ -40,13 +40,22 @@ defifn('JS_URL', STATIC_ASSETS_URL . '/js');
 
 // Contact
 
+defifn('ADMIN_EMAIL', 'f.hazard@sowapps.com');
+defifn('DEV_EMAIL', ADMIN_EMAIL);
 defifn('AUTHORNAME', 'Your name');
 defifn('SITENAME', 'Your App Name');// See also translation app_name
-defifn('ADMINEMAIL', 'contact@yourdomain.com');
-defifn('DEVEMAIL', 'contact@devdomain.com');
+defifn('ADMINEMAIL', ADMIN_EMAIL);
+defifn('DEVEMAIL', DEV_EMAIL);
+
+// Object output asArray
+define('OUTPUT_MODEL_USAGE', 'usage');
+
+// Domains
+define('DOMAIN_CLASS', 'class');
+define('DOMAIN_PERSON', 'person');
 
 // Users
-//define('USER_SALT',			'');
+define('USER_SALT', 'Y*Ck5D=H');
 defifn('DEFAULT_TIMEZONE', 'Europe/Paris');
 defifn('DATE_SQL_DATETIME', 'Y-m-d H:i:s');
 defifn('DATE_SQL_DATE', 'Y-m-d');

@@ -10,6 +10,7 @@ use Exception;
 use Orpheus\Form\FormToken;
 use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
+use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
 use Orpheus\InputController\OutputResponse;
 use Orpheus\Rendering\HTMLRendering;
 
@@ -20,9 +21,41 @@ abstract class AbstractHttpController extends HTTPController {
 	const SCOPE_ADMIN = 'admin';
 	const SCOPE_SYSTEM = 'system';
 	
+	const SESSION_SUCCESS = 'SUCCESS';
+	
 	protected string $scope;
 	protected ?User $currentUser;
 	protected ?FormToken $formToken = null;
+	
+	public function redirectToSelf() {
+		return new RedirectHTTPResponse($this->getCurrentUrl());
+	}
+	
+	public function getCurrentUrl() {
+		return $this->getRoute()->formatURL((array) $this->getRequest()->getPathValues());
+	}
+	
+	public function storeSuccess(string $key, string $message, array $params = [], ?string $domain = null) {
+		if( !isset($_SESSION[self::SESSION_SUCCESS][$key]) ) {
+			$_SESSION[self::SESSION_SUCCESS][$key] = [];
+		}
+		$_SESSION[self::SESSION_SUCCESS][$key][] = t($message, $domain, $params);
+	}
+	
+	public function consumeSuccess(string $key, ?string $stream = null) {
+		if( isset($_SESSION[self::SESSION_SUCCESS][$key]) ) {
+			if( $stream ) {
+				startReportStream($stream);
+			}
+			foreach( $_SESSION[self::SESSION_SUCCESS][$key] as $report ) {
+				reportSuccess($report);
+			}
+			if( $stream ) {
+				endReportStream();
+			}
+		}
+		unset($_SESSION[self::SESSION_SUCCESS][$key]);
+	}
 	
 	public function prepare($request) {
 		$this->formToken = new FormToken();

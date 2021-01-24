@@ -278,19 +278,22 @@ Cookie.prototype.toString = function chienToString() {
 
 if( $ ) {
 	
-	function flatData(data, prefix, target) {
+	function flatData(data, pattern, target, childSuffix) {
 		if( !target ) {
 			target = {};
+		}
+		if( !childSuffix ) {
+			childSuffix = '[%s]';
 		}
 		for( var key in data ) {
 			if( !data.hasOwnProperty(key) ) {
 				continue;
 			}
-			var newKey = prefix === undefined ? key : prefix + key;
+			var newKey = pattern === undefined ? key : pattern.replace('%s', key);
 			
 			var value = data[key];
-			if( typeof value === "object" ) {
-				flatData(value, newKey + '_', target);
+			if( typeof value === 'object' ) {
+				flatData(value, newKey + childSuffix, target);
 			} else {
 				target[newKey] = value;
 			}
@@ -300,36 +303,61 @@ if( $ ) {
 	
 	/**
 	 * Fill all children of the current element with this data using the key and prefix to set the value
+	 *
+	 * @param prefix
+	 * @param data
 	 */
 	$.fn.fill = function (prefix, data) {
 		$(this).each(function () {
 			var container = $(this);
-			$.each(flatData(data, prefix), function (key, value) {
+			$.each(flatData(data, prefix + '_%s', null, '_%s'), function (key, value) {
 				container.find("." + key).each(function () {
-					var element = $(this);
-					if( element.is('img') || element.is('iframe') ) {
-						element.attr("src", value);
-					} else if( element.is("a") ) {
-						element.attr("href", value);
-					} else if( element.is(":checkbox") ) {
-						if( element.val().toLowerCase() !== 'on' ) {
-							// Not default browser value
-							element.prop('checked', element.val() === value);
-						} else {
-							// + to convert to int, !! to convert to boolean
-							element.prop('checked', !!+value);
-						}
-					} else if( element.is(":input") ) {
-						// Fix issue in some dynamic forms
-						// input was filled but the change event not called
-						element.val(value).change();
-					} else {
-						element.text(value);
-					}
+					$(this).assignValue(value);
 				});
 			});
 		});
 	};
+	
+	/**
+	 * Fill input using name pattern
+	 *
+	 * @param data
+	 * @param pattern
+	 */
+	$.fn.fillByName = function (data, pattern = null) {
+		$(this).each(function () {
+			var container = $(this);
+			$.each(flatData(data, pattern), function (key, value) {
+				container.find(':input[name="' + key + '"]').each(function () {
+					$(this).assignValue(value);
+				});
+			});
+		});
+	};
+	
+	$.fn.assignValue = function (value) {
+		var $element = $(this);
+		if( $element.is('img') || $element.is('iframe') ) {
+			$element.attr('src', value);
+		} else if( $element.is('a') ) {
+			$element.attr('href', value);
+		} else if( $element.is(':checkbox') ) {
+			if( $element.val().toLowerCase() !== 'on' ) {
+				// Not default browser value
+				$element.prop('checked', $element.val() === value);
+			} else {
+				// + to convert to int, !! to convert to boolean
+				$element.prop('checked', !!+value);
+			}
+		} else if( $element.is(':input') ) {
+			// Fix issue in some dynamic forms
+			// input was filled but the change event not called
+			$element.val(value).change();
+		} else {
+			$element.text(value);
+		}
+	}
+	
 	$.fn.contextualize = function (env) {
 		$(this).each(function (key, value) {
 			(function (container, env) {

@@ -6,7 +6,7 @@ fields:
 
     firstname: string(3, 30)
     lastname: string(3, 50)
-    role: enum(Person::getAllRoles)[nullable]
+    role: enum(App\Entity\Person::getAllRoles)[nullable]
 
 indexes:
     - UNIQUE(firstname, lastname)

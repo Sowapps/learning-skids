@@ -26,6 +26,9 @@
 #    home2: "/path/with/all/methods->HomeController"
 #    home3: "POST(/path/for/POST/method)->HomeController"
 
+require-packages:
+    -   name: "orpheus/orpheus-entitydescriptor"
+
 http:
     home:
         path: "/"
@@ -42,32 +45,56 @@ http:
             role: member
 
     user_home:
-        path: "/dashboard.html"
+        path: "/professeur/dashboard.html"
         controller: App\Controller\User\UserHomeController
+        restrictTo:
+            role: member
+
+    user_class_list:
+        path: "/professeur/mes-classes.html"
+        controller: App\Controller\User\UserClassListController
+        restrictTo:
+            role: member
+
+    user_class_new:
+        path: "/professeur/classe/nouvelle.html"
+        controller: App\Controller\User\UserClassCreateController
+        restrictTo:
+            role: member
+
+    user_class_edit:
+        path: "/professeur/classe/{id:classId}/gestion.html"
+        controller: App\Controller\User\UserClassEditController
+        restrictTo:
+            role: member
+
+    user_class_pupil_edit:
+        path: "/professeur/classe/{id:classId}/élève/{id:pupilId}/gestion.html"
+        controller: App\Controller\User\UserClassPupilEditController
         restrictTo:
             role: member
 
     adm_mysettings:
         path: "/admin/my_settings.html"
-        controller: "App\\Controller\\Admin\\AdminMySettingsController"
+        controller: App\Controller\Admin\AdminMySettingsController
         restrictTo:
             role: member
 
     adm_user_list:
         path: "/admin/users.html"
-        controller: "App\\Controller\\Admin\\AdminUserListController"
+        controller: App\Controller\Admin\AdminUserListController
         restrictTo:
             role: administrator
 
     adm_user:
         path: "/admin/user/{id:userID}.html"
-        controller: "App\\Controller\\Admin\\AdminUserEditController"
+        controller: App\Controller\Admin\AdminUserEditController
         restrictTo:
           role: administrator
         
     file_download:
         path: "/download/{id:fileID}"
-        controller: "App\\Controller\\FileDownloadController"
+        controller: App\Controller\FileDownloadController
     
     
     # Dev Area
