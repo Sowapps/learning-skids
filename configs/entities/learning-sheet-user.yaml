@@ -1,0 +1,4 @@
+fields:
+    learning_sheet_id: ref(learning-sheet)
+    user_id: ref(user)
+    role: enum(App\Entity\LearningSheetUser::getAllRoles)
