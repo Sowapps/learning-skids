@@ -1,0 +1,4 @@
+
+.custom-file-label::after {
+	content: 'Parcourir';
+}

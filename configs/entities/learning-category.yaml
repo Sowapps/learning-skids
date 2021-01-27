@@ -5,4 +5,5 @@ fields:
     create_user_id: ref=userID()
 
     name: string(2, 50)
+    key: string(2, 50)
     learning_sheet_id: ref(learning-sheet)

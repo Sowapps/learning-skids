@@ -6,3 +6,4 @@ fields:
 
     name: string(2, 50)
     owner_id: ref(user)
+    level: enum(App\Entity\SchoolClass::getAllLevels)[nullable]

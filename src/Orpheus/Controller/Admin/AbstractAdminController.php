@@ -10,6 +10,7 @@ use Orpheus\Rendering\HTMLRendering;
 
 abstract class AbstractAdminController extends AbstractHttpController {
 	
+	const OPTION_PAGE_TITLE = 'pageTitle';
 	const OPTION_CONTENT_TITLE = 'contentTitle';
 	const OPTION_CONTENT_LEGEND = 'contentLegend';
 	
@@ -102,6 +103,15 @@ abstract class AbstractAdminController extends AbstractHttpController {
 	 */
 	public function setContentTitle($title) {
 		$this->setOption(self::OPTION_CONTENT_TITLE, $title);
+	}
+	
+	/**
+	 * Set page title
+	 *
+	 * @param string|null $title
+	 */
+	public function setPageTitle(?string $title) {
+		$this->setOption(self::OPTION_PAGE_TITLE, t('app_label', 'global', $title, t('app_name')));
 	}
 	
 }

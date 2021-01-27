@@ -49,9 +49,11 @@ defifn('DEVEMAIL', DEV_EMAIL);
 
 // Object output asArray
 define('OUTPUT_MODEL_USAGE', 'usage');
+define('OUTPUT_MODEL_EDITION', 'edition');
 
 // Domains
 define('DOMAIN_CLASS', 'class');
+define('DOMAIN_LEARNING_SKILL', 'learning-skill');
 define('DOMAIN_PERSON', 'person');
 
 // Users
