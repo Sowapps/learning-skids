@@ -1,20 +1,17 @@
 <?php
-
-use App\Entity\User;
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
-use Orpheus\Rendering\HTMLRendering;
-
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
  * @var HTTPController $Controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
- * @var User $user
  * @var string $Content
  */
+
+use Orpheus\InputController\HTTPController\HTTPController;
+use Orpheus\InputController\HTTPController\HTTPRequest;
+use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\Rendering\HTMLRendering;
 
 global $APP_LANG;
 
@@ -52,7 +49,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	
 	<link rel="stylesheet" href="<?php echo $rendering->getThemeURL(); ?>libs/sb-admin/css/styles.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="<?php echo STATIC_ASSETS_URL; ?>/style/base.css" type="text/css" media="screen"/>
-	<link rel="stylesheet" href="<?php echo $rendering->getCSSURL(); ?>style.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="<?php echo $rendering->getCssUrl(); ?>style.css" type="text/css" media="screen"/>
 	<?php
 	foreach( $rendering->listCSSURLs() as $url ) {
 		echo '

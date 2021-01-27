@@ -6,6 +6,7 @@
 namespace App\Controller\User;
 
 use App\Entity\ClassPupil;
+use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\SchoolClass;
 use App\Entity\User;
@@ -38,13 +39,16 @@ class UserClassEditController extends AbstractUserController {
 		try {
 			if( $request->hasData('submitUpdate') ) {
 				$classInput = $request->getData('class');
-				$class->update($classInput, ['name', 'year', 'level', 'openDate']);
+				if( !empty($classInput['name']) && !empty($classInput['level']) && !empty($classInput['learning_sheet_id']) && $classInput['learning_sheet_id'] === 'new' ) {
+					$classInput['learning_sheet_id'] = LearningSheet::make($classInput['name'], $classInput['level']);
+				}
+				$class->update($classInput, ['name', 'year', 'level', 'openDate', 'learning_sheet_id']);
 				
 				$this->storeSuccess('classEdit', 'successClassEdit', ['name' => $class->getLabel()], DOMAIN_CLASS);
 				
 				return new RedirectHTTPResponse(u('user_class_edit', ['classId' => $class->id()]));
 				
-			} elseif( $request->hasData('submitAddMultiple') ) {
+			} elseif( $request->hasData('submitAddMultiplePupils') ) {
 				startReportStream('pupilList');
 				$pupilListInput = $request->getData('pupil');
 				foreach( $pupilListInput as $pupilInput ) {

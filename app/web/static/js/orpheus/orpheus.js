@@ -270,14 +270,20 @@ Cookie.prototype.toString = function chienToString() {
 // Set TimeZone Cookie
 (function () {
 	var offset = new Date().getTimezoneOffset();
-//	console.log("TimeZone offset => "+offset);
 	new Cookie("orpheus_timezone").setValue((offset > 0 ? "-" : "+") + leadZero(Math.abs(parseInt(offset / 60))) + ':' + leadZero(Math.abs(offset % 60))).expireInDays(7).save();
-//	document.cookie = '='++'; expires=Mon, 1 Mar 2010 00:00:00 UTC; path=/'
-//	document.cookie = 'orpheus_timezone='+leadZero(parseInt(-offset/60))+leadZero(Math.abs(offset%60))+'; expires=Mon, 1 Mar 2010 00:00:00 UTC; path=/'
 })();
 
 if( $ ) {
 	
+	/**
+	 * Flat given data using pattern
+	 *
+	 * @param data
+	 * @param pattern
+	 * @param target The object to store data, or new one is created
+	 * @param childSuffix String to append to the key to generate children pattern
+	 * @returns {{}}
+	 */
 	function flatData(data, pattern, target, childSuffix) {
 		if( !target ) {
 			target = {};
@@ -316,6 +322,7 @@ if( $ ) {
 				});
 			});
 		});
+		return $(this);
 	};
 	
 	/**
@@ -333,6 +340,7 @@ if( $ ) {
 				});
 			});
 		});
+		return $(this);
 	};
 	
 	$.fn.assignValue = function (value) {
@@ -356,6 +364,7 @@ if( $ ) {
 		} else {
 			$element.text(value);
 		}
+		return $(this);
 	}
 	
 	$.fn.contextualize = function (env) {
@@ -378,6 +387,7 @@ if( $ ) {
 				
 			})($(this), env);
 		});
+		return $(this);
 	};
 	
 	/**
@@ -392,23 +402,86 @@ if( $ ) {
 	};
 	
 	/**
+	 * Get FormData from all children input by parsing their name
+	 */
+	$.fn.getFormData = function (silent) {
+		var $form = $(this).getForm(silent);
+		return new FormData($form.get(0));
+	};
+	
+	/**
+	 * Extract data object from all children input by parsing their name
+	 */
+	$.fn.getFormObject = function (silent) {
+		var formData = $(this).getFormData(silent);
+		var object = {};
+		var buildObject = function (data, keys, value) {
+			let key = keys.shift();
+			if( !keys.length ) {
+				if( !key ) {
+					// Last empty returns value
+					return value;
+				}
+				// Lone key with no brackets
+				data[key] = value;
+				return data;
+			}
+			value = buildObject((data && data[key]) || null, keys, value);
+			if( data === null ) {
+				if( !key ) {
+					// Empty key in middle of string means []
+					return [value];
+				}
+				return {[key]: value};
+			}
+			data[key] = value;
+			return data;
+		};
+		formData.forEach((value, name) => {
+			object = buildObject(object, name.split(/[\[\]]{1,2}/), value);
+		});
+		return object;
+	};
+	
+	/*
+	normalizeForm(form) {
+		var object = {};
+		for( let [key, value] of form.entries() ) {
+			object[key] = value;
+		}
+		return object;
+	}
+	
+	getFormObject(selector) {
+		let form = this.getFormData(selector);
+		return this.normalizeForm(form);
+	}
+	 */
+	
+	$.fn.getForm = function (silent) {
+		var $form = $(this).is("form") ? $(this) : $(this).closest("form");
+		if( !$form.length ) {
+			$form = $(this).find("form").first();
+		}
+		if( !$form.length ) {
+			if( silent ) {
+				return;
+			}
+			throw "Unable to reset form, form not found";
+		}
+		return $form;
+	};
+	
+	/**
 	 * Reset a form
 	 */
 	$.fn.resetForm = function (silent) {
 		$(this).each(function () {
-			var form = $(this).is("form") ? $(this) : $(this).closest("form");
-			if( !form.length ) {
-				form = $(this).find("form").first();
-			}
-			if( !form.length ) {
-				if( silent ) {
-					return;
-				}
-				throw "Unable to reset form, form not found";
-			}
-			form.get(0).reset();
-			form.find(":input[type='hidden']").removeAttr("value");
+			var $form = $(this).getForm();
+			$form.get(0).reset();
+			$form.find(":input[type='hidden']").removeAttr("value");
 		});
+		return $(this);
 	};
 
 //	$(".submittext").click(function() {
@@ -671,23 +744,6 @@ var escapeHTML;
 	};
 	$.cond = $.fn.cond;
 	
-	/*
-	$.each([["show", "shown", function() { return $(this).is(":visible"); }], ["hide", "hidden", function() { return $(this).is(":hidden"); }]], function (i, ev) {
-		var fun	= $.fn[ev[0]];
-		$.fn[ev[0]]	= function () {
-			var r	= this.trigger(ev[0]);
-			if( r === false ) { return r; }
-			r		= fun.apply(this, arguments);
-			this.trigger(ev[1]);
-			var children	= this.find("*");
-			if( ev.length>2 ) {
-				children.filter(ev[2]);
-			}
-			children.trigger(ev[1]);
-			return r;
-		};
-	});
-	*/
 	$.fn.showIf = function (cond) {
 		cond ? $(this).show() : $(this).hide();
 	};
@@ -697,7 +753,6 @@ var escapeHTML;
 		if( $(this).is(":visible") ) {
 			this.callback = callback;
 			this.callback();
-//			$(this).trigger("shown");
 		}
 	};
 	// Scroll to element

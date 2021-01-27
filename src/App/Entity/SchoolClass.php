@@ -59,6 +59,14 @@ class SchoolClass extends PermanentEntity {
 		return $this->name;
 	}
 	
+	public function hasLearningSheet(): bool {
+		return !!$this->learning_sheet_id;
+	}
+	
+	public function getLearningSheet(): ?LearningSheet {
+		return $this->hasLearningSheet() ? LearningSheet::load($this->learning_sheet_id, true) : null;
+	}
+	
 	public function getTeacher(): Person {
 		return Person::load($this->teacher_id, false);
 	}

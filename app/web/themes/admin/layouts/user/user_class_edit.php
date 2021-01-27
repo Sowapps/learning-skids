@@ -6,7 +6,6 @@
  * @var HTTPController $Controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
- * @var string $CONTROLLER_OUTPUT
  * @var string $Content
  * @var FormToken $formToken
  * @var User $currentUser
@@ -39,7 +38,7 @@ $teacher = $class->getTeacher();
 			
 			<?php $this->display('reports-bootstrap3'); ?>
 			
-			<?php $rendering->display('user/class.form'); ?>
+			<?php $rendering->display('user/class.form', ['class' => $class]); ?>
 			
 			<div class="form-group">
 				<label class="form-label" for="InputClassTeacher"><?php _t('teacher', DOMAIN_CLASS); ?></label>
@@ -48,6 +47,11 @@ $teacher = $class->getTeacher();
 			</div>
 			
 			<?php $rendering->startNewBlock('footer'); ?>
+			<?php if( $class->hasLearningSheet() ) { ?>
+				<a class="btn btn-outline-secondary" href="<?php echo
+				u('user_class_learning_sheet_edit', ['classId' => $class->id(), 'learningSheetId' => $class->getLearningSheet()->id()]);
+				?>"><?php _t('learningSheet', DOMAIN_CLASS); ?></a>
+			<?php } ?>
 			<button class="btn btn-primary" type="submit" name="submitUpdate"><?php _t('save'); ?></button>
 			<?php $rendering->endCurrentLayout(['title' => $class->getLabel()]); ?>
 		</form>
@@ -150,14 +154,15 @@ $teacher = $class->getTeacher();
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php echo t('cancel'); ?></button>
-					<button type="submit" class="btn btn-primary" name="submitAddMultiple"><?php echo t('add'); ?></button>
+					<button type="submit" class="btn btn-primary" name="submitAddMultiplePupils"><?php echo t('add'); ?></button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
-<?php /*
+<?php
+/*
 
 <div id="DialogClassPupilEdit" class="modal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">

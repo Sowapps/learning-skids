@@ -49,6 +49,22 @@
 			$datepicker.datetimepicker(options);
 		});
 		
+		// Bootstrap custom file
+		$('.custom-file').each(function () {
+			const $label = $(this).find('.custom-file-label');
+			const $input = $(this).find('.custom-file-input');
+			$input.change(function () {
+				let name = basename($input.val());
+				if( !$label.data('text') ) {
+					$label.data('text', $label.text());
+				}
+				$label.text(name);
+				if( !$input.val() ) {
+					$input.val(name);
+				}
+			});
+		});
+		
 	});
 })(jQuery);
 

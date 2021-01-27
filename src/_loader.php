@@ -18,7 +18,7 @@ defifn('DOMAIN_SETUP', 'setup');
 PermanentEntity::registerEntity('App\Entity\ClassPupil');
 PermanentEntity::registerEntity('App\Entity\LearningCategory');
 PermanentEntity::registerEntity('App\Entity\LearningSheet');
-PermanentEntity::registerEntity('App\Entity\LearningSheetClass');
+PermanentEntity::registerEntity('App\Entity\LearningSheetUser');
 PermanentEntity::registerEntity('App\Entity\LearningSkill');
 PermanentEntity::registerEntity('App\Entity\Person');
 PermanentEntity::registerEntity('App\Entity\PupilSkill');

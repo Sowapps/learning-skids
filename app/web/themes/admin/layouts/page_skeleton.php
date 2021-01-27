@@ -11,6 +11,7 @@
 
 use App\Controller\AbstractHttpController;
 use App\Entity\User;
+use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
@@ -21,6 +22,8 @@ global $APP_LANG;
 $routeName = $Controller->getRouteName();
 $user = User::getLoggedUser();
 
+$pageTitle = $Controller->getOption(AbstractAdminController::OPTION_PAGE_TITLE, isset($pageTitle) ? $pageTitle : null);
+
 $libExtension = DEV_VERSION ? '' : '.min';
 
 ?>
@@ -30,7 +33,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php echo !empty($PageTitle) ? $PageTitle : t('app_name'); ?></title>
+	<title><?php echo $pageTitle ?? t('app_name'); ?></title>
 	<meta name="Description" content=""/>
 	<meta name="Author" content="<?php echo AUTHORNAME; ?>"/>
 	<meta name="application-name" content="<?php _t('app_name'); ?>"/>
@@ -61,6 +64,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	
 	<link rel="stylesheet" href="<?php echo VENDOR_URL; ?>/sb-admin/sb-admin-6.0.2/css/styles.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="<?php echo STYLE_URL; ?>/base.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="<?php echo $rendering->getCssUrl(); ?>theme-fix.css" type="text/css" media="screen"/>
 	<link rel="stylesheet" href="<?php echo $rendering->getCssUrl(); ?>style.css" type="text/css" media="screen"/>
 	<?php
 	foreach( $this->listCSSURLs() as $url ) {

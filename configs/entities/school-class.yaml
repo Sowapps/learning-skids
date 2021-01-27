@@ -10,3 +10,4 @@ fields:
     teacher_id: ref(person)
     openDate: date
     enabled: boolean=true
+    learning_sheet_id: ref(learning-sheet)

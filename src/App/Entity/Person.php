@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
+use Orpheus\SQLRequest\SQLSelectRequest;
 
 /**
  * Class Person
@@ -30,6 +31,20 @@ class Person extends PermanentEntity {
 	protected static $fields = null;
 	protected static $validator = null;
 	protected static $domain = null;
+	
+	/**
+	 * @param string|string[],null $role
+	 * @return SQLSelectRequest
+	 */
+	public function queryLearningSheets($role = null): SQLSelectRequest {
+		$query = LearningSheet::get()
+			->join(LearningSheetUser::class, $userAlias, null, 'learning_sheet_id', true);
+		if( $role ) {
+			$query->where($userAlias . '.role', $role);
+		}
+		
+		return $query;
+	}
 	
 	public function getLabel() {
 		return $this->firstname . ' ' . $this->lastname;

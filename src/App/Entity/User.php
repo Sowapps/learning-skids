@@ -61,6 +61,15 @@ class User extends AbstractUser implements FixtureInterface {
 		return $this->canDo('class_manage') || $class->getTeacher()->equals($this->getPerson());
 	}
 	
+	public function canLearningSheetAccess(LearningSheet $learningSheet, ?LearningSheetUser &$learningSheetUser) {
+		$learningSheetUser = LearningSheetUser::get()
+			->where('user_id', $this)
+			->where('learning_sheet_id', $learningSheet)
+			->asObject()->run();
+		
+		return $this->canDo('class_manage') || ($learningSheetUser && $learningSheetUser->canAdminLearningSheet());
+	}
+	
 	public function getLabel() {
 		return $this->fullname;
 	}
