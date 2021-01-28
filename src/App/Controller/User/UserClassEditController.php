@@ -34,6 +34,7 @@ class UserClassEditController extends AbstractUserController {
 		
 		$this->consumeSuccess('classEdit');
 		$this->consumeSuccess('pupilList', 'pupilList');
+		$this->setPageTitle(t('class_label', DOMAIN_CLASS, $class->getLabel()));
 		$this->setContentTitle($class);
 		
 		try {

@@ -33,6 +33,22 @@ class Person extends PermanentEntity {
 	protected static $domain = null;
 	
 	/**
+	 * @param LearningSheet $learningSheet
+	 * @return PupilSkill[]
+	 */
+	public function getPupilSkills(LearningSheet $learningSheet): array {
+		$query = PupilSkill::get()
+			->where('pupil_id', $this)
+			->where('learning_sheet_id', $learningSheet);
+		$pupilSkills = [];
+		foreach( $query as $pupilSkill ) {
+			$pupilSkills[$pupilSkill->skill_id] = $pupilSkill;
+		}
+		
+		return $pupilSkills;
+	}
+	
+	/**
 	 * @param string|string[],null $role
 	 * @return SQLSelectRequest
 	 */

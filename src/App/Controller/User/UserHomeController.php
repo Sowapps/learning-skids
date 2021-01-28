@@ -16,6 +16,8 @@ class UserHomeController extends AbstractUserController {
 	 */
 	public function run($request) {
 		
+		$this->setPageTitle(t('user_home'));
+		
 		return $this->renderHTML('user/user_home');
 	}
 	

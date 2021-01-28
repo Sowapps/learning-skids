@@ -27,7 +27,6 @@ $rendering->addThemeCssFile('user_learning_sheet_edit.css');
 $rendering->addThemeJsFile('user_learning_sheet_edit.js');
 $rendering->useLayout('layout.full-width');
 
-$teacher = $class->getTeacher();
 ?>
 
 <form method="POST">

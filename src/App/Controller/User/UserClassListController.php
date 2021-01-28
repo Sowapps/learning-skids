@@ -18,6 +18,7 @@ class UserClassListController extends AbstractUserController {
 	public function run($request) {
 		
 		$this->addRouteToBreadcrumb('user_class_list');
+		$this->setPageTitle(t('user_class_list'));
 		
 		$classes = User::getLoggedUser()->getPerson()->queryClasses();
 		

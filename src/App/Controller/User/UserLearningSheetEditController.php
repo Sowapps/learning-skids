@@ -43,6 +43,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 				t('learningSheet_label', DOMAIN_LEARNING_SKILL, $learningSheet->getLabel()),
 				['classId' => $class->id(), 'learningSheetId' => $learningSheet->id()]);
 		} else {
+			$this->addRouteToBreadcrumb('user_learning_sheet_list');
 			$this->addRouteToBreadcrumb('user_learning_sheet_edit', t('learningSheet_label', DOMAIN_LEARNING_SKILL, $learningSheet->getLabel()), ['learningSheetId' => $learningSheet->id()]);
 		}
 		
