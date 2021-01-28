@@ -31,12 +31,12 @@ $rendering->useLayout('layout.full-width');
 		</div>
 	</div>
 
-<?php
-$activeClass = $currentUser->getLastActiveClass();
-if( $activeClass ) {
-	?>
-	<div class="row">
-		
+<div class="row">
+	
+	<?php
+	$activeClass = $currentUser->getLastActiveClass();
+	if( $activeClass ) {
+		?>
 		<div class="col-md-6 col-xl-3">
 			<?php $rendering->useLayout('panel-default'); ?>
 			
@@ -56,7 +56,30 @@ if( $activeClass ) {
 			]);
 			?>
 		</div>
-	
-	</div>
-	<?php
-}
+		<?php
+	} else {
+		?>
+		<div class="col-md-6 col-xl-3">
+			<?php $rendering->useLayout('panel-default'); ?>
+			
+			Créez votre première classe !
+			
+			<?php $rendering->startNewBlock('footer'); ?>
+			<a class="small text-white stretched-link" href="<?php echo u('user_class_new'); ?>">
+				<?php _t('create'); ?>
+			</a>
+			<div class="small text-white">
+				<i class="fas fa-chevron-right"></i>
+			</div>
+			<?php
+			$rendering->endCurrentLayout([
+				'panelClass'  => 'bg-success text-white',
+				'footerClass' => 'd-flex align-items-center justify-content-between',
+			]);
+			?>
+		</div>
+		<?php
+	}
+	?>
+
+</div>

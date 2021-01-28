@@ -12,35 +12,6 @@ $(function () {
 		}
 	});
 	
-	$learningSheet.on('click', '[data-toggle-class]', function () {
-		let $actionner = $(this);
-		let $target = $($actionner.data('toggleTarget'));
-		if( $target.length > 1 ) {
-			$target = $target.has($actionner);
-		}
-		$target.toggleClass($actionner.data('toggleClass'));
-	});
-	
-	$('.modal-focus').each(function () {
-		let $focused = $(this);
-		let $dialog = $focused.closest('.modal')
-		$dialog.on('shown.bs.modal', function () {
-			$focused.focus();
-		})
-	});
-	
-	$('[data-enter]').each(function () {
-		let $element = $(this);
-		$element.pressEnter(function () {
-			let action = $element.data('enter');
-			if( action === 'click' ) {
-				let $target = $($element.data('target'));
-				console.log('Click', $target);
-				$target.click();
-			}
-		});
-	});
-	
 });
 
 class EditableEntity {
@@ -263,7 +234,6 @@ class LearningCategory extends EditableEntity {
 			.off('click')
 			.on('click', () => {
 				let data = $dialog.getFormObject();
-				console.log('data', data);
 				$dialog.modal('hide');
 				this.learningSheet.setData(data.learningSheet);
 			});

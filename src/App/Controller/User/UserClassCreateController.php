@@ -20,6 +20,10 @@ class UserClassCreateController extends AbstractUserController {
 	 */
 	public function run($request) {
 		
+		$this->addRouteToBreadcrumb('user_class_list');
+		$this->addRouteToBreadcrumb('user_class_new');
+		$this->setPageTitle(t('user_class_new'));
+		
 		try {
 			if( $request->hasData('submitCreate') ) {
 				$classInput = $request->getData('class');

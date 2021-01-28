@@ -80,6 +80,12 @@ http:
         restrictTo:
             role: member
 
+    user_learning_sheet_list:
+        path: "/professeur/mes-fiches-d-apprentissage.html"
+        controller: App\Controller\User\UserLearningSheetListController
+        restrictTo:
+            role: member
+
     user_learning_sheet_edit:
         path: "/professeur/fiche-d-apprentissage/{id:learningSheetId}/édition.html"
         controller: App\Controller\User\UserLearningSheetEditController

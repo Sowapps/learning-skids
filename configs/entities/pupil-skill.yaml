@@ -1,4 +1,8 @@
 fields:
     pupil_id: ref(person)
     skill_id: ref(learning-skill)
+    learning_sheet_id: ref(learning-sheet) # Shortcut
     value: string[nullable]
+
+indexes:
+    - UNIQUE(pupil_id, skill_id)
