@@ -74,6 +74,14 @@
 			$target.toggleClass($actionner.data('toggleClass'));
 		});
 		
+		$('[data-form-change],[data-form-change-not]').each(function () {
+			let $subject = $(this);
+			// If any change in the form
+			$subject.closest('form').find(':input').one('change', function () {
+				$subject.removeClass($subject.data('formChangeNot')).addClass($subject.data('formChange'));
+			});
+		});
+		
 		$('.modal-focus').each(function () {
 			let $focused = $(this);
 			let $dialog = $focused.closest('.modal')

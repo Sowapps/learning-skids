@@ -21,7 +21,7 @@ class UserLearningSheetListController extends AbstractUserController {
 		$this->addRouteToBreadcrumb('user_learning_sheet_list');
 		$this->setPageTitle(t('user_learning_sheet_list'));
 		
-		$learningSheets = User::getLoggedUser()->getPerson()->queryLearningSheets(LearningSheetUser::ROLE_ADMIN);
+		$learningSheets = User::getLoggedUser()->queryLearningSheets(LearningSheetUser::ROLE_ADMIN);
 		
 		return $this->renderHTML('user/user_learning_sheet_list', [
 			'learningSheets' => $learningSheets,

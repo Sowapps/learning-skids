@@ -44,7 +44,6 @@
 
 #LearningSheet .list-show .column-skill {
 	visibility: visible;
-	max-height: 1000px;
 }
 
 #LearningSheet .column-skill .card {
