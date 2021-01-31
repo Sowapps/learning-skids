@@ -41,7 +41,9 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	<meta name="Keywords" content="projet"/>
 	<meta name="Robots" content="Index, Follow"/>
 	<meta name="revisit-after" content="16 days"/>
+	<?php /*
 	<link rel="icon" type="image/png" href="<?php echo STATIC_ASSETS_URL . '/images/icon.png'; ?>"/>
+	 */ ?>
 	<?php
 	foreach( $this->listMetaProperties() as $property => $content ) {
 		echo '

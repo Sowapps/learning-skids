@@ -91,6 +91,17 @@ button.fa, input[type=button].fa {
 	background-color: #F3F3F3;
 }
 
+/* Blink */
+.blink {
+	animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0.1;
+	}
+}
+
 /* Application */
 .logo.enterprise {
 	display: block;
@@ -154,6 +165,11 @@ input[type='date']::-webkit-inner-spin-button {
 .text-big {
 	font-size: 34px;
 	line-height: normal;
+}
+
+/* Flex features */
+.gap-1 {
+	gap: .25rem;
 }
 
 /* System Notifications */

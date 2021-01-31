@@ -8,6 +8,7 @@ use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
 use Orpheus\Publisher\Fixture\FixtureInterface;
 use Orpheus\SQLAdapter\SQLAdapter;
+use Orpheus\SQLRequest\SQLSelectRequest;
 
 /**
  * Class User
@@ -31,6 +32,21 @@ use Orpheus\SQLAdapter\SQLAdapter;
 class User extends AbstractUser implements FixtureInterface {
 	
 	protected ?Person $person = null;
+	
+	/**
+	 * @param string|string[],null $role
+	 * @return SQLSelectRequest
+	 */
+	public function queryLearningSheets($role = null): SQLSelectRequest {
+		$query = LearningSheet::get()
+			->join(LearningSheetUser::class, $userAlias, null, 'learning_sheet_id', true);
+		if( $role ) {
+			$query->where($userAlias . '.role', $role);
+		}
+		$query->where($userAlias . '.user_id', $this);
+		
+		return $query;
+	}
 	
 	/**
 	 * @return SchoolClass|null

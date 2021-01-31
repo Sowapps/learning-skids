@@ -47,12 +47,24 @@ $teacher = $class->getTeacher();
 			</div>
 			
 			<?php $rendering->startNewBlock('footer'); ?>
-			<?php if( $class->hasLearningSheet() ) { ?>
-				<a class="btn btn-outline-secondary" href="<?php echo
-				u('user_class_learning_sheet_edit', ['classId' => $class->id(), 'learningSheetId' => $class->getLearningSheet()->id()]);
-				?>"><?php _t('learningSheet', DOMAIN_CLASS); ?></a>
-			<?php } ?>
-			<button class="btn btn-primary" type="submit" name="submitUpdate"><?php _t('save'); ?></button>
+			
+			<div class="row">
+				<div class="col mb-2 mb-sm-0 d-none" data-form-change-not="d-none">
+					<div class="alert alert-success d-flex flex-column flex-md-row justify-content-between align-items-center m-0" role="alert">
+						<span class="mb-2 mb-md-0">Pensez à sauvegarder vos modifications !</span>
+					</div>
+				</div>
+				
+				<div class="col-auto d-flex align-items-center justify-content-end gap-1">
+					<?php if( $class->hasLearningSheet() ) { ?>
+						<a class="btn btn-outline-secondary" href="<?php echo
+						u('user_class_learning_sheet_edit', ['classId' => $class->id(), 'learningSheetId' => $class->getLearningSheet()->id()]);
+						?>"><?php _t('learningSheet', DOMAIN_CLASS); ?></a>
+					<?php } ?>
+					<button class="btn btn-primary" type="submit" name="submitUpdate" data-form-change="blink"><?php _t('save'); ?></button>
+				</div>
+			
+			</div>
 			<?php $rendering->endCurrentLayout(['title' => $class->getLabel()]); ?>
 		</form>
 	

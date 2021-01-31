@@ -7,4 +7,4 @@
 # Change working directory to this file's folder
 chdir(__DIR__ . '/..');
 
-passthru('php app/console/run.php upgrade-database');
+passthru('/usr/bin/php7.4 app/console/run.php upgrade-database');
