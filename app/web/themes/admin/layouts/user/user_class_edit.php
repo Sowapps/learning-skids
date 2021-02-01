@@ -49,7 +49,7 @@ $teacher = $class->getTeacher();
 			<?php $rendering->startNewBlock('footer'); ?>
 			
 			<div class="row">
-				<div class="col mb-2 mb-sm-0 d-none" data-form-change-not="d-none">
+				<div class="col mb-2 mb-sm-0 invisible" data-form-change-not="invisible">
 					<div class="alert alert-success d-flex flex-column flex-md-row justify-content-between align-items-center m-0" role="alert">
 						<span class="mb-2 mb-md-0">Pensez à sauvegarder vos modifications !</span>
 					</div>

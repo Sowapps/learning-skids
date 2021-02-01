@@ -22,6 +22,7 @@ class LearningSheetImporter {
 	
 	protected LearningSheet $learningSheet;
 	protected ?LearningCategory $previousCategory;
+	protected array $previousCategorySkillKeys;
 	
 	protected array $errors;
 	protected array $itemAliases = [
@@ -45,6 +46,7 @@ class LearningSheetImporter {
 		$this->skillChanges = 0;
 		$this->rowCount = 0;
 		$this->previousCategory = null;
+		$this->previousCategorySkillKeys = [];
 		
 		while( $row = $this->nextRow($file) ) {
 			$item = $this->parseRow($row);
@@ -138,22 +140,30 @@ class LearningSheetImporter {
 	 */
 	protected function processItem(stdClass $item): void {
 		// Category - can only be inserted if new
-		$category = $item->category
-			? $this->getCategoryByKey($item->category->key)
-			: $this->previousCategory;
-		if( !$category ) {
-			if( empty($item->category->name) ) {
-				throw new ParseException('category.name.empty');
+		if( !$item->category ) {
+			$category = $this->previousCategory;
+		} else {
+			$category = $this->getCategoryByKey($item->category->key);
+			$justCreated = false;
+			if( !$category ) {
+				if( empty($item->category->name) ) {
+					throw new ParseException('category.name.empty');
+				}
+				$category = LearningCategory::createAndGet([
+					'key'               => $item->category->key,
+					'name'              => $item->category->name,
+					'learning_sheet_id' => $this->learningSheet->id(),
+				]);
+				$this->categoryChanges++;
+				$justCreated = true;
 			}
-			$category = LearningCategory::createAndGet([
-				'key'               => $item->category->key,
-				'name'              => $item->category->name,
-				'learning_sheet_id' => $this->learningSheet->id(),
-			]);
-			$this->previousCategory = $category;
-			$this->categoryChanges++;
+			$this->setPreviousCategory($category, $justCreated);
 		}
 		
+		if( array_key_exists($item->skill->key, $this->previousCategorySkillKeys) ) {
+			// Exact same Skill already exists
+			return;
+		}
 		// Skill - Always considered as new
 		LearningSkill::create([
 			'key'                  => $item->skill->key,
@@ -173,6 +183,23 @@ class LearningSheetImporter {
 			->where('key', $key)
 			->asObject()
 			->run();
+	}
+	
+	protected function setPreviousCategory(LearningCategory $category, bool $justCreated): void {
+		if( $category->equals($this->previousCategory) ) {
+			return;
+		}
+		$this->previousCategory = $category;
+		$this->previousCategorySkillKeys = [];
+		if( !$justCreated ) {
+			$skillKeys = $category->querySkills()
+				->fields(LearningSkill::ei('key'))
+				->asArrayList()
+				->run();
+			foreach( $skillKeys as $skillArray ) {
+				$this->previousCategorySkillKeys[$skillArray['key']] = 1;
+			}
+		}
 	}
 	
 	/**
