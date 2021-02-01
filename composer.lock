@@ -525,16 +525,16 @@
         },
         {
             "name": "orpheus/orpheus-webtools",
-            "version": "v1.2.4",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sowapps/orpheus-webtools.git",
-                "reference": "543437f2c69b3dea968ec77c5caea23e1f945317"
+                "reference": "fba53f41ee8f80b41d8d68acc901d0f136bfcaff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-webtools/zipball/543437f2c69b3dea968ec77c5caea23e1f945317",
-                "reference": "543437f2c69b3dea968ec77c5caea23e1f945317",
+                "url": "https://api.github.com/repos/Sowapps/orpheus-webtools/zipball/fba53f41ee8f80b41d8d68acc901d0f136bfcaff",
+                "reference": "fba53f41ee8f80b41d8d68acc901d0f136bfcaff",
                 "shasum": ""
             },
             "require": {
@@ -573,9 +573,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-webtools/issues",
-                "source": "https://github.com/Sowapps/orpheus-webtools/tree/v1.2.4"
+                "source": "https://github.com/Sowapps/orpheus-webtools/tree/v1.2.5"
             },
-            "time": "2021-02-01T08:02:49+00:00"
+            "time": "2021-02-01T08:09:28+00:00"
         },
         {
             "name": "orpheus/orpheus-yaml",
