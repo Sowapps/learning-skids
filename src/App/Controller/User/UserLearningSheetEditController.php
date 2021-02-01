@@ -76,6 +76,13 @@ class UserLearningSheetEditController extends AbstractUserController {
 						'errors'     => count($importErrors),
 						'rows'       => $importer->getRowCount(),
 					]));
+				} else {
+					reportSuccess(t('importNoChanges', DOMAIN_LEARNING_SKILL, [
+						'categories' => $importer->getCategoryChanges(),
+						'skills'     => $importer->getSkillChanges(),
+						'errors'     => count($importErrors),
+						'rows'       => $importer->getRowCount(),
+					]));
 				}
 				foreach( $importErrors as $importError ) {
 					reportError(sprintf('%s : ligne #%d pour domaine "%s" et compétence "%s"', $importError->exception, $importError->row, $importError->category, $importError->skill));
