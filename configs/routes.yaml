@@ -74,6 +74,12 @@ http:
         restrictTo:
             role: member
 
+    user_class_pupil_export:
+        path: "/professeur/élève/{id:pupilId}/fiche-d-apprentissage.pdf"
+        controller: App\Controller\User\UserClassPupilExportController
+        restrictTo:
+            role: member
+
     user_class_learning_sheet_edit:
         path: "/professeur/classe/{id:classId}/fiche-d-apprentissage/{id:learningSheetId}/édition.html"
         controller: App\Controller\User\UserLearningSheetEditController
