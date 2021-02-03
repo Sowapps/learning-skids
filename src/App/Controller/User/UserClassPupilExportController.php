@@ -45,7 +45,7 @@ class UserClassPupilExportController extends AbstractUserController {
 			'person'        => $person,
 			'class'         => $class,
 			'learningSheet' => $learningSheet,
-			'title'         => sprintf("Fiche d'apprentissage de %s pour %s", $person, $class->year),
+			'title'         => sprintf("Exploits de %s pour %s", $person, $class->year),
 		];
 		
 		$bodyHtml = $render->render('pdf-pupil-learning-sheet', $data);

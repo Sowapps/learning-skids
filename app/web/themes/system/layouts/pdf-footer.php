@@ -38,7 +38,7 @@ $rendering->useLayout('pdf-skeleton');
 	}
 	</script>
 	<footer>
-		<span class="footer-note">Fiche d'apprentissage de <?php echo $person; ?> pour sa classe de <?php echo $class->year; ?></span>
+		<span class="footer-note">Exploits de <?php echo $person; ?> pour sa classe de <?php echo $class->year; ?></span>
 		<div class="page-number">Page <span class="meta-page"></span> / <span class="meta-topage"></span></div>
 	</footer>
 <?php

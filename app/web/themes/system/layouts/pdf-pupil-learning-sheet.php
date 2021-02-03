@@ -21,7 +21,7 @@ $rendering->useLayout('pdf-skeleton');
 ?>
 
 <h1 class="text-center">
-	Fiche d'apprentissage<br>
+	Mes exploits<br>
 	<small><?php echo $person; ?> - <?php echo $class->year ?></small>
 </h1>
 
