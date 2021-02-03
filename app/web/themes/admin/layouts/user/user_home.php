@@ -21,15 +21,15 @@ use Orpheus\Rendering\HTMLRendering;
 
 $rendering->useLayout('layout.full-width');
 ?>
-	<div class="row">
-		<div class="col-12 col-xl-6">
-			<div class="alert alert-info">
-				Bienvenue sur Learning Skids,<br>
-				Pour chacune de vos classes de maternel, vous pouvez gérer ses élèves et leurs compétences.<br>
-				Cette humble application a été développée par <a href="https://sowapps.com" target="_blank">Florent HAZARD</a>.
-			</div>
+<div class="row">
+	<div class="col-12 col-xl-6">
+		<div class="alert alert-info">
+			Bienvenue sur Learning Skids,<br>
+			Pour chacune de vos classes de maternelle, vous pouvez gérer vos élèves et leurs compétences.<br>
+			Cette humble application a été développée par <a href="https://sowapps.com" target="_blank">Florent HAZARD</a>.
 		</div>
 	</div>
+</div>
 
 <div class="row">
 	
