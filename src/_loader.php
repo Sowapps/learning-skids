@@ -105,4 +105,10 @@ function getHomeRoute() {
 	return USER_DEFAULT_ROUTE;
 }
 
+function formatDateMonth(DateTime $dateTime) {
+	$month = strtolower($dateTime->format('F'));
+	
+	return t('month.' . $month);
+}
+
 require_once 'setup.php';

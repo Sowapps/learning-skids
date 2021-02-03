@@ -7,6 +7,7 @@ namespace App\Controller\User;
 
 use App\Entity\ClassPupil;
 use App\Entity\User;
+use DateTime;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\Generator\WkHtmlToPdfGenerator;
@@ -40,11 +41,15 @@ class UserClassPupilExportController extends AbstractUserController {
 		$render->setTheme('system');
 		$render->setRemote($debug);
 		
+		$date = new DateTime('previous month');
+		$dateText = sprintf('%s %s', formatDateMonth($date), $date->format('Y'));
+		
 		$data = [
 			'pupil'         => $pupil,
 			'person'        => $person,
 			'class'         => $class,
 			'learningSheet' => $learningSheet,
+			'dateText'      => $dateText,
 			'title'         => sprintf("Exploits de %s pour %s", $person, $class->year),
 		];
 		
@@ -82,7 +87,7 @@ class UserClassPupilExportController extends AbstractUserController {
 		return new LocalFileHTTPResponse(
 			$generator->getOutputPath(),
 			// fiche-d-apprentissage-annee-nom-prenom.pdf
-			sprintf('fiche-d-apprentissage-%s-%s-%s.pdf', $class->year, $slugGenerator->format($person->lastname), $slugGenerator->format($person->firstname)),
+			sprintf('fiche-d-apprentissage-%s-%s-%s-%s.pdf', $class->year, $slugGenerator->format($person->lastname), $slugGenerator->format($person->firstname), $date->format('Ym')),
 			$download
 		);
 	}
