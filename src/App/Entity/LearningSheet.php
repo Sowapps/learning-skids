@@ -20,6 +20,7 @@ use Orpheus\SQLRequest\SQLSelectRequest;
  * @property string $name
  * @property string $level
  * @property int $owner_id
+ * @property bool $enabled
  */
 class LearningSheet extends PermanentEntity {
 	
@@ -28,6 +29,27 @@ class LearningSheet extends PermanentEntity {
 	protected static $fields = null;
 	protected static $validator = null;
 	protected static $domain = null;
+	
+	public function setEnabled(bool $enabled) {
+		$this->enabled = $enabled;
+	}
+	
+	public function remove() {
+		foreach( $this->queryCategories() as $category ) {
+			$category->remove();
+		}
+		
+		return parent::remove();
+	}
+	
+	/**
+	 * @return LearningCategory[]|SQLSelectRequest
+	 */
+	public function queryCategories() {
+		return LearningCategory::get()
+			->where('learning_sheet_id', $this)
+			->orderby('name ASC');
+	}
 	
 	public function getTree() {
 		$tree = (object) $this->asArray(OUTPUT_MODEL_EDITION);
@@ -58,15 +80,6 @@ class LearningSheet extends PermanentEntity {
 		return parent::asArray($model);
 	}
 	
-	/**
-	 * @return LearningCategory[]|SQLSelectRequest
-	 */
-	public function queryCategories() {
-		return LearningCategory::get()
-			->where('learning_sheet_id', $this)
-			->orderby('name ASC');
-	}
-	
 	public function getLabel() {
 		return $this->name;
 	}
@@ -75,18 +88,22 @@ class LearningSheet extends PermanentEntity {
 		return User::load($this->owner_id, false);
 	}
 	
-	public function addUser(User $user, string $role): LearningSheetUser {
-		return LearningSheetUser::createAndGet(['learning_sheet_id' => $this, 'user_id' => $user, 'role' => $role]);
-	}
-	
-	public static function make(string $name, string $level, ?User $owner = null): LearningSheet {
-		if( !$owner ) {
-			$owner = User::getLoggedUser();
+	public static function make(array $input, ?User $owner = null): LearningSheet {
+		$input = array_filterbykeys($input, ['name', 'level', 'owner_id']);
+		if( empty($input['owner_id']) || $owner ) {
+			if( !$owner ) {
+				$owner = User::getLoggedUser();
+			}
+			$input['owner_id'] = $owner;
 		}
-		$learningSheet = static::createAndGet(['name' => $name, 'level' => $level, 'owner_id' => $owner]);
+		$learningSheet = static::createAndGet($input);
 		$learningSheet->addUser($owner, LearningSheetUser::ROLE_ADMIN);
 		
 		return $learningSheet;
+	}
+	
+	public function addUser(User $user, string $role): LearningSheetUser {
+		return LearningSheetUser::createAndGet(['learning_sheet_id' => $this, 'user_id' => $user, 'role' => $role]);
 	}
 	
 }

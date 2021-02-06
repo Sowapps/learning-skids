@@ -44,7 +44,7 @@ $isNew = !isset($class);
 	<div class="form-group">
 		<label class="form-label" for="InputClassLearningSheet"><?php _t('learningSheet', DOMAIN_CLASS); ?></label>
 		<select name="class[learning_sheet_id]" class="select2" id="InputClassLearningSheet">
-			<?php echo htmlOptions('class/learning_sheet_id', $currentUser->queryLearningSheets(), null, OPT_PERMANENTOBJECT); ?>
+			<?php echo htmlOptions('class/learning_sheet_id', $currentUser->queryLearningSheets(null, true), null, OPT_PERMANENTOBJECT); ?>
 			<option value="new"<?php echo $isNew || !$class->learning_sheet_id ? ' selected' : ''; ?>>Nouvelle fiche</option>
 		</select>
 	</div>

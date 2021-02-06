@@ -21,6 +21,7 @@ use Orpheus\SQLRequest\SQLSelectRequest;
  * @property string $level
  * @property int $year
  * @property int $teacher_id
+ * @property int $learning_sheet_id
  * @property DateTime $openDate
  * @property boolean $enabled
  */
@@ -34,7 +35,7 @@ class SchoolClass extends PermanentEntity {
 	
 	protected static $fields = null;
 	protected static $validator = null;
-	protected static $domain = null;
+	protected static $domain = DOMAIN_CLASS;
 	
 	public function addPupil(Person $person): void {
 		$exists = $this->queryPupils()
@@ -59,16 +60,26 @@ class SchoolClass extends PermanentEntity {
 		return $this->name;
 	}
 	
-	public function hasLearningSheet(): bool {
-		return !!$this->learning_sheet_id;
-	}
-	
 	public function getLearningSheet(): ?LearningSheet {
 		return $this->hasLearningSheet() ? LearningSheet::load($this->learning_sheet_id, true) : null;
 	}
 	
+	public function hasLearningSheet(): bool {
+		return !!$this->learning_sheet_id;
+	}
+	
 	public function getTeacher(): Person {
 		return Person::load($this->teacher_id, false);
+	}
+	
+	public static function onEdit(array &$data, $object) {
+		if( !empty($data['learning_sheet_id']) ) {
+			$learningSheet = LearningSheet::load($data['learning_sheet_id'], false);
+			if( !$learningSheet->enabled ) {
+				static::throwException('canNotUseArchivedLearningSheet');
+			}
+		}
+		parent::onEdit($data, $object);
 	}
 	
 	public static function getAllLevels() {

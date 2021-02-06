@@ -28,6 +28,20 @@ class LearningSkill extends PermanentEntity {
 	protected static $validator = null;
 	protected static $domain = null;
 	
+	public function remove() {
+		foreach( $this->queryPupilSkills() as $pupilSkill ) {
+			$pupilSkill->remove();
+		}
+		
+		return parent::remove();
+	}
+	
+	public function queryPupilSkills() {
+		return PupilSkill::get()
+			->where('skill_id', $this)
+			->orderby('id ASC');
+	}
+	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
 			$data = parent::asArray(self::OUTPUT_MODEL_MINIMALS);

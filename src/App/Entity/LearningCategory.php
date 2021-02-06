@@ -29,6 +29,23 @@ class LearningCategory extends PermanentEntity {
 	protected static $validator = null;
 	protected static $domain = null;
 	
+	public function remove() {
+		foreach( $this->querySkills() as $skill ) {
+			$skill->remove();
+		}
+		
+		return parent::remove();
+	}
+	
+	/**
+	 * @return LearningSkill[]|SQLSelectRequest
+	 */
+	public function querySkills() {
+		return LearningSkill::get()
+			->where('learning_category_id', $this)
+			->orderby('name ASC');
+	}
+	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
 			$data = parent::asArray(self::OUTPUT_MODEL_MINIMALS);
@@ -42,21 +59,19 @@ class LearningCategory extends PermanentEntity {
 		return parent::asArray($model);
 	}
 	
-	/**
-	 * @return LearningSkill[]|SQLSelectRequest
-	 */
-	public function querySkills() {
-		return LearningSkill::get()
-			->where('learning_category_id', $this)
-			->orderby('name ASC');
-	}
-	
 	public function getLabel() {
 		return $this->name;
 	}
 	
 	public function getLearningSheet(): LearningSheet {
 		return LearningSheet::load($this->learning_sheet_id, false);
+	}
+	
+	public static function onEdit(array &$data, $object) {
+		parent::onEdit($data, $object);
+		if( isset($data['name']) && !isset($data['key']) ) {
+			$data['key'] = LearningCategory::slugName($data['name']);
+		}
 	}
 	
 	public static function slugName($name) {
@@ -69,13 +84,6 @@ class LearningCategory extends PermanentEntity {
 		}
 		
 		return $slugGenerator->format($name);
-	}
-	
-	public static function onEdit(array &$data, $object) {
-		parent::onEdit($data, $object);
-		if( isset($data['name']) && !isset($data['key']) ) {
-			$data['key'] = LearningCategory::slugName($data['name']);
-		}
 	}
 	
 }

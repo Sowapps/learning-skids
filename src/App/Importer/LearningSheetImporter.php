@@ -181,6 +181,7 @@ class LearningSheetImporter {
 	protected function getCategoryByKey(string $key): ?LearningCategory {
 		return LearningCategory::get()
 			->where('key', $key)
+			->where('learning_sheet_id', $this->learningSheet)
 			->asObject()
 			->run();
 	}
