@@ -91,3 +91,5 @@ defifn('DOMAIN_TRANSLATIONS', 'translations');
 
 defifn('TRANSLATIONS_PATH', STOREPATH . 'translations/');
 
+/* WKHTMLTOPDF */
+defifn('WKHTMLTOPDF_EXEC', '/usr/local/bin/wkhtmltopdf');

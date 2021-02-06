@@ -74,7 +74,7 @@ function sendUserActivationEmail(User $user) {
 	$email->setHTMLBody(nl2br(<<<BODY
 Bonjour,
 
-Bienvenue sur {$appName}, notre site a été conçu pour vous accompagner dans l'évaluation de vos élèves de maternel.
+Bienvenue sur {$appName}, notre site a été conçu pour vous accompagner dans l'évaluation de vos élèves de maternelle.
 Votre compte a bien été enregistré mais il n'est pas encore activé.
 Une fois que votre compte sera activé, vous serez connecté et vous pourrez créer et gérer votre classe.
 
@@ -103,6 +103,12 @@ function getHomeRoute() {
 	}
 	
 	return USER_DEFAULT_ROUTE;
+}
+
+function formatDateMonth(DateTime $dateTime) {
+	$month = strtolower($dateTime->format('F'));
+	
+	return t('month.' . $month);
 }
 
 require_once 'setup.php';

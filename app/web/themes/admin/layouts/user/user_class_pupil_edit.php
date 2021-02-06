@@ -138,7 +138,11 @@ $rendering->addThemeJsFile('user_class_pupil_edit.js');
 			</div>
 			<div class="modal-body">
 				<p>
-					Une valeur est attendue pour cette compétence, veuillez la préciser et presser la touche <b>Entrée</b>.
+					Une valeur est attendue pour cette compétence, au moment de générer un extrait des compétences de cet élève,
+					cette valeur remplacera tout caractère # présent dans le nom de la compétence.<br>
+					Par exemple: "Sait compter jusqu'à #" (valeur = 35) devient "Sait compter jusqu'à 35"<br>
+					Attention donc à entrer quelque chose de cohérent avec ce qui est attendu.<br>
+					Pour continuer, veuillez entrer cette valeur et pressez la touche <b>Entrée</b>.
 				</p>
 				<div class="form-group">
 					<label class="form-label" for="InputPupilSkillValue"><?php _t('value', DOMAIN_LEARNING_SKILL); ?></label>

@@ -41,6 +41,15 @@ class LearningSkill extends PermanentEntity {
 			->where('skill_id', $this)
 			->orderby('id ASC');
 	}
+  
+	public function formatName(PupilSkill $pupilSkill) {
+		$name = $this->name;
+		if( $this->valuable && $pupilSkill->value ) {
+			$name = str_replace('#', $pupilSkill->value, $name);
+		}
+		
+		return $name;
+  }
 	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
