@@ -8,6 +8,7 @@ namespace App\Controller\User;
 use App\Entity\LearningSheet;
 use App\Entity\LearningSheetUser;
 use App\Entity\LearningSkill;
+use App\Entity\PupilSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
 use App\Importer\LearningSheetImporter;
@@ -16,6 +17,7 @@ use Orpheus\Exception\UserException;
 use Orpheus\File\UploadedFile;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
 
 class UserLearningSheetEditController extends AbstractUserController {
 	
@@ -24,6 +26,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 	 * @return HTTPResponse The output HTTP response
 	 */
 	public function run($request) {
+		// Parameters
 		$learningSheet = LearningSheet::load($request->getPathValue('learningSheetId'), false);
 		$class = $request->hasPathValue('classId') ? SchoolClass::load($request->getPathValue('classId'), false) : null;
 		
@@ -33,6 +36,8 @@ class UserLearningSheetEditController extends AbstractUserController {
 			throw new ForbiddenException();
 		}
 		
+		// Breadcrumb
+		$parentRoute = 'user_learning_sheet_list';
 		if( $class ) {
 			if( !$currentUser->canClassManage($class) ) {
 				throw new ForbiddenException();
@@ -42,17 +47,27 @@ class UserLearningSheetEditController extends AbstractUserController {
 			$this->addRouteToBreadcrumb('user_class_learning_sheet_edit',
 				t('learningSheet_label', DOMAIN_LEARNING_SKILL, $learningSheet->getLabel()),
 				['classId' => $class->id(), 'learningSheetId' => $learningSheet->id()]);
+			$parentRoute = 'user_class_list';
 		} else {
 			$this->addRouteToBreadcrumb('user_learning_sheet_list');
 			$this->addRouteToBreadcrumb('user_learning_sheet_edit', t('learningSheet_label', DOMAIN_LEARNING_SKILL, $learningSheet->getLabel()), ['learningSheetId' => $learningSheet->id()]);
 		}
 		
+		// Permissions
 		$allowLearningSheetUpdate = $learningSheetUser->canAdminLearningSheet();
 		
+		$removeDisallowReasons = $this->checkLearningSheetIsRemovable($learningSheet);
+		$allowLearningSheetRemove = !$removeDisallowReasons;
+		
+		$archiveDisallowReasons = $this->checkLearningSheetIsArchivable($learningSheet);
+		$allowLearningSheetArchive = !$archiveDisallowReasons;
+		
+		// Template data
 		$this->consumeSuccess('learningSheetEdit');
 		$this->setPageTitle(t('learningSheet_label', DOMAIN_LEARNING_SKILL, $learningSheet->getLabel()));
 		$this->setContentTitle($learningSheet);
 		
+		// Forms
 		try {
 			if( $request->hasData('submitImport') ) {
 				
@@ -94,16 +109,73 @@ class UserLearningSheetEditController extends AbstractUserController {
 					$learningSheet->update($sheetInput, ['name', 'level']);
 					reportSuccess(t('learningSheetSaved', DOMAIN_LEARNING_SKILL, $learningSheet));
 				}
+				
+			} elseif( $request->hasData('submitRemove') ) {
+				
+				$learningSheet->remove();
+				
+				return new RedirectHTTPResponse(u($parentRoute));
+				
+			} elseif( $request->hasData('submitArchive') ) {
+				if( !$learningSheet->enabled ) {
+					throw new ForbiddenException();
+				}
+				$learningSheet->setEnabled(false);
+				$learningSheet->save();
+				reportSuccess(t('learningSheetArchived', DOMAIN_LEARNING_SKILL, $learningSheet));
+				
+			} elseif( $request->hasData('submitEnable') ) {
+				if( $learningSheet->enabled ) {
+					throw new ForbiddenException();
+				}
+				$learningSheet->setEnabled(true);
+				$learningSheet->save();
+				reportSuccess(t('learningSheetEnabled', DOMAIN_LEARNING_SKILL, $learningSheet));
 			}
 		} catch( UserException $e ) {
 			reportError($e);
 		}
 		
 		return $this->renderHTML('user/user_learning_sheet_edit', [
-			'learningSheet'            => $learningSheet,
-			'class'                    => $class,
-			'allowLearningSheetUpdate' => $allowLearningSheetUpdate,
+			'learningSheet'             => $learningSheet,
+			'class'                     => $class,
+			'allowLearningSheetUpdate'  => $allowLearningSheetUpdate,
+			'allowLearningSheetRemove'  => $allowLearningSheetRemove,
+			'removeDisallowReasons'     => $removeDisallowReasons,
+			'allowLearningSheetArchive' => $allowLearningSheetArchive,
+			'archiveDisallowReasons'    => $archiveDisallowReasons,
 		]);
+	}
+	
+	public function checkLearningSheetIsRemovable(LearningSheet $learningSheet) {
+		$disallowReasons = [];
+		$classCount = SchoolClass::get()
+			->where('learning_sheet_id', $learningSheet)
+			->count();
+		if( $classCount ) {
+			$disallowReasons[] = t('learningSheetIsUsedByClass', DOMAIN_LEARNING_SKILL, $classCount);
+		}
+		$pupilSkillCount = PupilSkill::get()
+			->where('learning_sheet_id', $learningSheet)
+			->count();
+		if( $pupilSkillCount ) {
+			$disallowReasons[] = t('learningSheetIsUsedByPupil', DOMAIN_LEARNING_SKILL, $pupilSkillCount);
+		}
+		
+		return $disallowReasons;
+	}
+	
+	public function checkLearningSheetIsArchivable(LearningSheet $learningSheet) {
+		$disallowReasons = [];
+		$classCount = SchoolClass::get()
+			->where('learning_sheet_id', $learningSheet)
+			->where('enabled')
+			->count();
+		if( $classCount ) {
+			$disallowReasons[] = t('learningSheetIsUsedByActiveClass', DOMAIN_LEARNING_SKILL, $classCount);
+		}
+		
+		return $disallowReasons;
 	}
 	
 }

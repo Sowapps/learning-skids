@@ -13,6 +13,7 @@
  */
 
 use App\Entity\LearningSheet;
+use App\Entity\SchoolClass;
 use Orpheus\Form\FormToken;
 use Orpheus\InputController\HTTPController\HTTPController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
@@ -60,9 +61,40 @@ $rendering->useLayout('layout.full-width');
 			?>
 			</tbody>
 		</table>
+		<?php $rendering->startNewBlock('footer'); ?>
+		<button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#DialogLearningSheetCreate"><?php _t('add'); ?></button>
 		<?php
 		$rendering->endCurrentLayout(['title' => t('user_learning_sheet_list')]);
 		?>
 	</div>
 </div>
 
+<div id="DialogLearningSheetCreate" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<form class="modal-content" method="post">
+			<div class="modal-header">
+				<h2 class="modal-title text-center w-100">Nouvelle fiche d'apprentissage</h2>
+				<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo t('close'); ?>">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="form-label" for="InputLearningSheetLevel"><?php _t('level', DOMAIN_CLASS); ?></label>
+					<select name="learningSheet[level]" class="select2 sheet_level" id="InputLearningSheetLevel">
+						<?php echo htmlOptions('class/level', SchoolClass::getAllLevels(), null, OPT_VALUE, 'level_', DOMAIN_CLASS); ?>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="form-label" for="InputLearningSheetName"><?php _t('name', DOMAIN_CLASS); ?></label>
+					<input type="text" class="form-control modal-focus sheet_name" id="InputLearningSheetName" name="learningSheet[name]"
+						   placeholder="Le nom ne peut être vide" data-enter="click" data-target="#ButtonLearningSheetSave">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php echo t('cancel'); ?></button>
+				<button type="submit" class="btn btn-primary" name="submitCreate"><?php echo t('save'); ?></button>
+			</div>
+		</form>
+	</div>
+</div>

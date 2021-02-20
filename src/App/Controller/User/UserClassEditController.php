@@ -41,7 +41,7 @@ class UserClassEditController extends AbstractUserController {
 			if( $request->hasData('submitUpdate') ) {
 				$classInput = $request->getData('class');
 				if( !empty($classInput['name']) && !empty($classInput['level']) && !empty($classInput['learning_sheet_id']) && $classInput['learning_sheet_id'] === 'new' ) {
-					$classInput['learning_sheet_id'] = LearningSheet::make($classInput['name'], $classInput['level']);
+					$classInput['learning_sheet_id'] = LearningSheet::make($classInput);
 				}
 				$class->update($classInput, ['name', 'year', 'level', 'openDate', 'learning_sheet_id']);
 				

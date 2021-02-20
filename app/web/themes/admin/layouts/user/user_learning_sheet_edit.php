@@ -12,6 +12,10 @@
  * @var LearningSheet $learningSheet
  * @var SchoolClass $class
  * @var bool $allowLearningSheetUpdate
+ * @var bool $allowLearningSheetRemove
+ * @var bool $allowLearningSheetArchive
+ * @var string[] $removeDisallowReasons
+ * @var string[] $archiveDisallowReasons
  */
 
 use App\Entity\LearningSheet;
@@ -98,6 +102,58 @@ $rendering->useLayout('layout.full-width');
 								<button class="btn btn-outline-primary btn-block btn-sm action-sheet-update" type="button">
 									<i class="fas fa-edit mr-1"></i>
 									<?php echo t('edit'); ?>
+								</button>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col">
+								<?php
+								if( $learningSheet->enabled ) {
+									?>
+									<button class="btn btn-outline-warning btn-block btn-sm" type="button" data-toggle="confirm"
+										<?php
+										if( $allowLearningSheetArchive ) {
+											?>
+											data-confirm_title="<?php echo t('archiveLearningSheet_title', DOMAIN_LEARNING_SKILL); ?>"
+											data-confirm_message="<?php echo t('archiveLearningSheet_message', DOMAIN_LEARNING_SKILL); ?>"
+											data-confirm_submit_name="submitArchive"
+											<?php
+										} else {
+											echo sprintf('disabled title="%s"', implode('; ', $archiveDisallowReasons));
+										}
+										?>>
+										<i class="fas fa-archive mr-1"></i>
+										<?php echo t('archive'); ?>
+									</button>
+									<?php
+								} else {
+									?>
+									<button class="btn btn-success btn-block btn-sm" type="button" data-toggle="confirm"
+											data-confirm_title="<?php echo t('enableLearningSheet_title', DOMAIN_LEARNING_SKILL); ?>"
+											data-confirm_message="<?php echo t('enableLearningSheet_message', DOMAIN_LEARNING_SKILL); ?>"
+											data-confirm_submit_name="submitEnable">
+										<i class="far fa-check-circle mr-1"></i>
+										<?php echo t('unarchive'); ?>
+									</button>
+									<?php
+								}
+								?>
+							</div>
+							<div class="col">
+								<button class="btn btn-outline-danger btn-block btn-sm" type="button" data-toggle="confirm"
+									<?php
+									if( $allowLearningSheetRemove ) {
+										?>
+										data-confirm_title="<?php echo t('removeLearningSheet_title', DOMAIN_LEARNING_SKILL); ?>"
+										data-confirm_message="<?php echo t('removeLearningSheet_message', DOMAIN_LEARNING_SKILL); ?>"
+										data-confirm_submit_name="submitRemove"
+										<?php
+									} else {
+										echo sprintf('disabled title="%s"', implode('; ', $removeDisallowReasons));
+									}
+									?>>
+									<i class="fas fa-times-circle mr-1"></i>
+									<?php echo t('delete'); ?>
 								</button>
 							</div>
 						</div>

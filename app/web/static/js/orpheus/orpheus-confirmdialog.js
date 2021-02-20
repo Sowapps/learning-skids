@@ -130,5 +130,12 @@ $.fn.requireConfirm = function (action) {
 };
 
 $(function () {
-	$("[data-confirm_message]").requireConfirm();
+	$('[data-confirm_message]').requireConfirm();
+	// Lazy confirm, build it each time
+	$(document).on('click', '[data-toggle="confirm"]', function () {
+		let $button = $(this);
+		let confirmDialog = ConfirmDialog.buildFromDOMElement($button);
+		confirmDialog.open();
+	});
+	
 });

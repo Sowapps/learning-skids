@@ -34,14 +34,19 @@ class User extends AbstractUser implements FixtureInterface {
 	protected ?Person $person = null;
 	
 	/**
-	 * @param string|string[],null $role
+	 * @param string|null $role
+	 * @param boolean|null $enabled
 	 * @return SQLSelectRequest
 	 */
-	public function queryLearningSheets($role = null): SQLSelectRequest {
+	public function queryLearningSheets($role = null, $enabled = null): SQLSelectRequest {
 		$query = LearningSheet::get()
+			->alias('learningSheet')
 			->join(LearningSheetUser::class, $userAlias, null, 'learning_sheet_id', true);
 		if( $role ) {
 			$query->where($userAlias . '.role', $role);
+		}
+		if( $enabled !== null ) {
+			$query->where('learningSheet.enabled', $enabled);
 		}
 		$query->where($userAlias . '.user_id', $this);
 		
