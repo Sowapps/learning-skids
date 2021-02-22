@@ -22,7 +22,7 @@ class UserClassListController extends AbstractUserController {
 		
 		$classes = User::getLoggedUser()->getPerson()->queryClasses();
 		
-		return $this->renderHTML('user/user_class_list', [
+		return $this->renderHTML('class/class_list', [
 			'classes' => $classes,
 		]);
 	}

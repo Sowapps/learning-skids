@@ -6,7 +6,6 @@
 namespace App\Controller\User;
 
 use App\Entity\ClassPupil;
-use App\Entity\PupilSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
 use Orpheus\Exception\ForbiddenException;
@@ -16,6 +15,8 @@ use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
 
 class UserClassPupilEditController extends AbstractUserController {
+	
+	use PupilSkillForm;
 	
 	/**
 	 * @param HTTPRequest $request The input HTTP request
@@ -54,55 +55,8 @@ class UserClassPupilEditController extends AbstractUserController {
 				
 			} elseif( $request->hasData('submitUpdateSkills') ) {
 				startReportStream('pupilSkillsUpdate');
-				$newPupilSkills = $request->getArrayData('pupilSkill');
-				$created = 0;
-				$updated = 0;
-				$removed = 0;
-				foreach( $newPupilSkills as $newPupilSkill ) {
-					if( empty($newPupilSkill['status']) || empty($newPupilSkill['skill_id']) ) {
-						continue;
-					}
-					try {
-						$currentPupilSkill = $pupilSkills[$newPupilSkill['skill_id']] ?? null;
-						if( $newPupilSkill['status'] === 'new' ) {
-							if( $currentPupilSkill ) {
-								// Should be new but there is one existing
-								continue;
-							}
-							// Create new pupil skill
-							PupilSkill::create([
-								'pupil_id'          => $person,
-								'skill_id'          => $newPupilSkill['skill_id'],
-								'learning_sheet_id' => $learningSheet,
-								'value'             => $newPupilSkill['value'] ?? null,
-							]);
-							$created++;
-							
-						} elseif( $newPupilSkill['status'] === 'remove' ) {
-							// Remove existing pupil skill
-							if( !$currentPupilSkill ) {
-								// Should be existing, may have already been removed by another request
-								continue;
-							}
-							$currentPupilSkill->remove();
-							$removed++;
-							
-						} else {
-							// Update existing pupil skill
-							if( !$currentPupilSkill ) {
-								// Should be existing, may have been removed by another request
-								continue;
-							}
-							$currentPupilSkill->update($newPupilSkill, ['value']);
-							$updated++;
-						}
-					} catch( UserException $e ) {
-						reportError($e);
-					}
-				}
-				endReportStream();
-				$this->storeSuccess('pupilSkillsUpdate', 'successClassPupilSkillEdit',
-					['name' => $person->getLabel(), 'created' => $created, 'updated' => $updated], DOMAIN_CLASS);
+				
+				$this->processPupilSkillEdit($request, $learningSheet, $pupilSkills, $person);
 				
 				return $this->redirectToSelf();
 			}
@@ -110,7 +64,7 @@ class UserClassPupilEditController extends AbstractUserController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('user/user_class_pupil_edit', [
+		return $this->renderHTML('class/class_pupil_edit', [
 			'class'       => $class,
 			'pupil'       => $pupil,
 			'person'      => $person,

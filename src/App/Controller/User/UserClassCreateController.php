@@ -40,7 +40,7 @@ class UserClassCreateController extends AbstractUserController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('user/user_class_create');
+		return $this->renderHTML('class/class_create');
 	}
 	
 }

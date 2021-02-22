@@ -31,8 +31,8 @@ global $formData;
 $formData['person'] = $person->all;
 
 $rendering->useLayout('layout.full-width');
-$rendering->addThemeCssFile('user_class_pupil_edit.css');
-$rendering->addThemeJsFile('user_class_pupil_edit.js');
+$rendering->addThemeCssFile('class_pupil_edit.css');
+$rendering->addThemeJsFile('class_pupil_edit.js');
 
 ?>
 <div class="row">
