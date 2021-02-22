@@ -14,8 +14,6 @@
 			});
 		})();
 		
-		$('table.tablesorter').tablesorter();
-		
 		$('.modal').on('shown.bs.modal', function (e) {
 			var target = $(e.relatedTarget);
 			if( target.length && target.data("focus") ) {

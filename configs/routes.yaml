@@ -68,6 +68,12 @@ http:
         restrictTo:
             role: member
 
+    user_class_pupils_sheet:
+        path: "/professeur/classe/{id:classId}/fiche-des-élèves.html"
+        controller: App\Controller\User\UserClassPupilsSheetController
+        restrictTo:
+            role: member
+
     user_class_pupil_edit:
         path: "/professeur/classe/{id:classId}/élève/{id:pupilId}/gestion.html"
         controller: App\Controller\User\UserClassPupilEditController

@@ -200,3 +200,42 @@ input[type='date']::-webkit-inner-spin-button {
 .system_notification + .system_notification {
 	margin-top: 10px;
 }
+
+/* Custom checkbox */
+.custom-checkbox .custom-control-input + label .checked {
+	display: none;
+}
+
+.custom-checkbox .custom-control-input:checked + label .checked {
+	display: block;
+}
+
+.custom-checkbox .custom-control-input:checked + label .unchecked {
+	display: none;
+}
+
+
+.label-checkbox .checked {
+	display: none;
+}
+
+.label-checkbox .custom-control-input:checked ~ .checked {
+	display: block;
+}
+
+.label-checkbox .custom-control-input:checked ~ .unchecked {
+	display: none;
+}
+
+.column-highlight {
+	border-right: 1px solid red !important;
+}
+
+.row-highlight td,
+.row-highlight + tr td {
+	border-top: 1px solid red !important;
+}
+
+.row-highlight:last-child td {
+	border-bottom: 1px solid red !important;
+}

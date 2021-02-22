@@ -37,6 +37,13 @@ class SchoolClass extends PermanentEntity {
 	protected static $validator = null;
 	protected static $domain = DOMAIN_CLASS;
 	
+	public function queryPupilPersons() {
+		return Person::select()
+			->join(ClassPupil::class, $pupilAlias, null, 'pupil_id', true)
+			->where($pupilAlias . '.class_id', $this)
+			->orderby('person.id ASC');
+	}
+	
 	public function addPupil(Person $person): void {
 		$exists = $this->queryPupils()
 			->where('pupil_id', $person)
@@ -51,7 +58,7 @@ class SchoolClass extends PermanentEntity {
 	}
 	
 	public function queryPupils(): SQLSelectRequest {
-		return ClassPupil::get()
+		return ClassPupil::select()
 			->where('class_id', $this)
 			->orderby('id ASC');
 	}

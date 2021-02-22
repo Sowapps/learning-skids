@@ -25,7 +25,7 @@ global $formData;
 
 $formData['class'] = $class->all;
 
-$rendering->addThemeJsFile('user_class_edit.js');
+$rendering->addThemeJsFile('class_edit.js');
 $rendering->useLayout('layout.full-width');
 
 $teacher = $class->getTeacher();
@@ -57,11 +57,21 @@ $teacher = $class->getTeacher();
 				
 				<div class="col-auto d-flex align-items-center justify-content-end gap-1">
 					<?php if( $class->hasLearningSheet() ) { ?>
-						<a class="btn btn-outline-secondary" href="<?php echo
-						u('user_class_learning_sheet_edit', ['classId' => $class->id(), 'learningSheetId' => $class->getLearningSheet()->id()]);
-						?>"><?php _t('learningSheet', DOMAIN_CLASS); ?></a>
+						<a class="btn btn-outline-secondary" href="<?php echo u('user_class_pupils_sheet', ['classId' => $class->id()]); ?>">
+							<i class="fas fa-tasks"></i>
+							<?php _t('user_class_pupils_sheet'); ?>
+						</a>
+						<a class="btn btn-outline-secondary" href="<?php
+						echo u('user_class_learning_sheet_edit', ['classId' => $class->id(), 'learningSheetId' => $class->getLearningSheet()->id()]);
+						?>">
+							<i class="far fa-list-alt"></i>
+							<?php _t('learningSheet', DOMAIN_CLASS); ?>
+						</a>
 					<?php } ?>
-					<button class="btn btn-primary" type="submit" name="submitUpdate" data-form-change="blink"><?php _t('save'); ?></button>
+					<button class="btn btn-primary" type="submit" name="submitUpdate" data-form-change="blink">
+						<i class="fas fa-save"></i>
+						<?php _t('save'); ?>
+					</button>
 				</div>
 			
 			</div>

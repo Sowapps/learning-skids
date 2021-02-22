@@ -57,7 +57,8 @@ class UserClassEditController extends AbstractUserController {
 						if( empty($pupilInput['firstname']) || empty($pupilInput['lastname']) ) {
 							continue;
 						}
-						$person = Person::createAndGet($pupilInput, ['firstname', 'lastname']);
+						$pupilInput['role'] = Person::ROLE_PUPIL;
+						$person = Person::createAndGet($pupilInput, ['firstname', 'lastname', 'role']);
 						$class->addPupil($person);
 						reportSuccess(t('successNewPupil', DOMAIN_CLASS, ['pupil' => $person->getLabel()]));
 					} catch( UserException $e ) {
@@ -92,7 +93,7 @@ class UserClassEditController extends AbstractUserController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('user/user_class_edit', [
+		return $this->renderHTML('class/class_edit', [
 			'class' => $class,
 		]);
 	}
