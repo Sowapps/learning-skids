@@ -1,12 +1,13 @@
 <?php
 /**
- * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var AbstractHttpController $Controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var AbstractHttpController $controller
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
+ *
+ * @var string $CONTROLLER_OUTPUT
  * @var User $currentUser
- * @var string $Content
+ * @var string $content
  */
 
 use App\Controller\AbstractHttpController;
@@ -19,10 +20,10 @@ use Orpheus\Rendering\HTMLRendering;
 
 global $APP_LANG;
 
-$routeName = $Controller->getRouteName();
+$routeName = $controller->getRouteName();
 $user = User::getLoggedUser();
 
-$pageTitle = $Controller->getOption(AbstractAdminController::OPTION_PAGE_TITLE, isset($pageTitle) ? $pageTitle : null);
+$pageTitle = $controller->getOption(AbstractAdminController::OPTION_PAGE_TITLE, isset($pageTitle) ? $pageTitle : null);
 
 $libExtension = DEV_VERSION ? '' : '.min';
 
@@ -88,11 +89,9 @@ $libExtension = DEV_VERSION ? '' : '.min';
 <body class="sb-nav-fixed">
 
 <?php
-echo $CONTROLLER_OUTPUT;
-echo $Content;
+echo $content;
 ?>
 
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap<?php echo $libExtension; ?>.js"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -114,8 +113,8 @@ foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
 ?>
 
 <script type="text/javascript" src="<?php echo VENDOR_URL; ?>/sb-admin/sb-admin-6.0.2/js/scripts.js"></script>
-<script src="<?php echo JS_URL; ?>/orpheus/orpheus.js"></script>
-<script src="<?php echo JS_URL; ?>/orpheus/orpheus-confirmdialog.js"></script>
+<script src="<?php echo VENDOR_URL; ?>/orpheus/js/orpheus.js"></script>
+<script src="<?php echo VENDOR_URL; ?>/orpheus/js/orpheus-confirmdialog.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>orpheus.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>script.js"></script>
 

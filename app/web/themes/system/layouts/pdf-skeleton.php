@@ -8,7 +8,7 @@ use Orpheus\Rendering\HTMLRendering;
 
 /**
  * @var HTMLRendering $rendering
- * @var string $Content
+ * @var string $content
  *
  * @var string $title
  * @var string $onLoad
@@ -56,7 +56,7 @@ $rendering->addThemeCssFile('style.css');
 <body<?php echo $onLoad ? ' onload="' . $onLoad . '"' : ''; ?>>
 
 <div class="container container-main">
-	<?php echo $Content; ?>
+	<?php echo $content; ?>
 </div>
 
 </body>

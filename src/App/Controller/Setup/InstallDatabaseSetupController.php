@@ -23,7 +23,7 @@ class InstallDatabaseSetupController extends SetupController {
 		
 		$FORM_TOKEN = new FormToken();
 		$env = [
-			'FORM_TOKEN'    => $FORM_TOKEN,
+			'$formToken'    => $FORM_TOKEN,
 			'allowContinue' => false,
 		];
 		// TODO: Check and suggest to delete unknown tables in DB

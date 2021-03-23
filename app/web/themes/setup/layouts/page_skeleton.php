@@ -2,10 +2,10 @@
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
- * @var string $Content
+ * @var HTTPController $controller
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
+ * @var string $content
  */
 
 use Orpheus\InputController\HTTPController\HTTPController;
@@ -85,7 +85,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 <main role="main">
 	<div class="container mt-5 mb-3">
 		<?php
-		echo $Content;
+		echo $content;
 		// If report was not be reported
 		$this->display('reports');
 		?>
