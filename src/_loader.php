@@ -33,15 +33,6 @@ function asJsonAttribute(PermanentEntity $object, $model = OUTPUT_MODEL_USAGE) {
 	echo htmlFormATtr($object->asArray($model));
 }
 
-function getModuleAccess($module = null) {
-	if( $module === null ) {
-		$module = &$GLOBALS['Module'];
-	}
-	global $ACCESS;
-	
-	return !empty($ACCESS) && isset($ACCESS->$module) ? $ACCESS->$module : -2;
-}
-
 /**
  * @param User $user
  * @return bool

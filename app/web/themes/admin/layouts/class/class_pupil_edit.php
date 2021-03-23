@@ -3,11 +3,11 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPController $controller
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  * @var string $CONTROLLER_OUTPUT
- * @var string $Content
+ * @var string $content
  * @var FormToken $formToken
  * @var SchoolClass $class
  * @var ClassPupil $pupil
