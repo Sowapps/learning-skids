@@ -3,11 +3,11 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  * @var string $CONTROLLER_OUTPUT
- * @var string $Content
+ * @var string $content
  */
 
 use App\Entity\User;
@@ -20,13 +20,13 @@ $user = User::getLoggedUser();
 
 $rendering->useLayout('page_skeleton');
 
-$invertedStyle = $Controller->getOption('invertedStyle', 1);
+$invertedStyle = $controller->getOption('invertedStyle', 1);
 ?>
 
 <!-- Sidebar -->
 <nav class="sb-topnav navbar navbar-expand <?php echo $invertedStyle ? 'navbar-dark bg-dark' : 'navbar-light bg-light'; ?>" role="navigation">
 	<a class="navbar-brand" href="<?php _u(DEFAULT_ROUTE); ?>">
-		<?php _t($Controller->getOption('main_title', 'app_name')); ?>
+		<?php _t($controller->getOption('main_title', 'app_name')); ?>
 	</a>
 	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
 	
@@ -53,10 +53,10 @@ $invertedStyle = $Controller->getOption('invertedStyle', 1);
 </nav>
 
 <div id="layoutSidenav">
-	<?php echo $Content; ?>
+	<?php echo $content; ?>
 </div>
 <?php
-if( $Controller->hasNotification() ) {
+if( $controller->hasNotification() ) {
 	?>
 	
 	<script>

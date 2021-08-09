@@ -8,11 +8,11 @@ use Orpheus\Rendering\HTMLRendering;
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var AbstractAdminController $Controller
+ * @var AbstractAdminController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *
- * @var string $Content
+ * @var string $content
  */
 
 if( !isset($title) ) {
@@ -39,8 +39,8 @@ if( !isset($bodyClass) ) {
 	$bodyClass = '';
 }
 
-if( !isset($body) ) {
-	$body = $Content;
+if( !isset($body) && isset($content) ) {
+	$body = $content;
 }
 
 if( !isset($footerClass) ) {

@@ -2,11 +2,11 @@
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var AbstractHttpController $Controller
+ * @var AbstractHttpController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  * @var User $currentUser
- * @var string $Content
+ * @var string $content
  */
 
 use App\Controller\AbstractHttpController;
@@ -19,10 +19,10 @@ use Orpheus\Rendering\HTMLRendering;
 
 global $APP_LANG;
 
-$routeName = $Controller->getRouteName();
+$routeName = $controller->getRouteName();
 $user = User::getLoggedUser();
 
-$pageTitle = $Controller->getOption(AbstractAdminController::OPTION_PAGE_TITLE, isset($pageTitle) ? $pageTitle : null);
+$pageTitle = $controller->getOption(AbstractAdminController::OPTION_PAGE_TITLE, isset($pageTitle) ? $pageTitle : null);
 
 $libExtension = DEV_VERSION ? '' : '.min';
 
@@ -89,7 +89,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 
 <?php
 echo $CONTROLLER_OUTPUT;
-echo $Content;
+echo $content;
 ?>
 
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>-->

@@ -9,7 +9,7 @@ use Orpheus\Rendering\HTMLRendering;
 
 /**
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *

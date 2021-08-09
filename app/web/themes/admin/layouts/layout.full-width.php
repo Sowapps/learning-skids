@@ -3,11 +3,11 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  * @var string $CONTROLLER_OUTPUT
- * @var string $Content
+ * @var string $content
  */
 
 use Orpheus\Controller\Admin\AbstractAdminController;
@@ -16,14 +16,13 @@ use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 
-$routeName = $Controller->getRouteName();
-$contentTitle = $Controller->getOption(AbstractAdminController::OPTION_CONTENT_TITLE, isset($contentTitle) ? $contentTitle : null);
-$contentLegend = $Controller->getOption(AbstractAdminController::OPTION_CONTENT_LEGEND);
+$routeName = $controller->getRouteName();
+$contentTitle = $controller->getOption(AbstractAdminController::OPTION_CONTENT_TITLE, isset($contentTitle) ? $contentTitle : null);
+$contentLegend = $controller->getOption(AbstractAdminController::OPTION_CONTENT_LEGEND);
 
 $rendering->useLayout('layout.admin');
 
-
-$this->showMenu($Controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar');
+$this->showMenu($controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar');
 ?>
 
 <div id="layoutSidenav_content">
@@ -35,10 +34,10 @@ $this->showMenu($Controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar')
 					<?php
 					if( $contentTitle !== false ) {
 						if( $contentTitle === null ) {
-							$contentTitle = t(isset($titleRoute) ? $titleRoute : $routeName);
+							$contentTitle = t($titleRoute ?? $routeName);
 						}
 						if( $contentLegend === null ) {
-							$contentLegend = t((isset($titleRoute) ? $titleRoute : $routeName) . '_legend');
+							$contentLegend = t(($titleRoute ?? $routeName) . '_legend');
 						}
 						?>
 						<h1 class="page-header mt-4">
@@ -78,18 +77,18 @@ $this->showMenu($Controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar')
 			
 			<?php
 			echo $CONTROLLER_OUTPUT;
-			echo $Content;
+			echo $content;
 			?>
 		
 		</div>
 	</main>
 	
 	<?php
-	if( $Controller->hasNotification() ) {
+	if( $controller->hasNotification() ) {
 		?>
 		<div class="py-3 px-2" style="position: fixed; top: 56px; right: 0;">
 			<?php
-			foreach( $Controller->getNotifications() as $notification ) {
+			foreach( $controller->getNotifications() as $notification ) {
 				$style = (object) [
 					'header' => null,
 					'date'   => 'text-muted',

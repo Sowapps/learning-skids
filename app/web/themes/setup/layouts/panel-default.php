@@ -8,11 +8,11 @@ use Sowapps\Controller\Admin\AdminController;
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var AdminController $Controller
+ * @var AdminController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *
- * @var string $Content
+ * @var string $content
  */
 
 if( !isset($title) ) {
@@ -40,7 +40,7 @@ if( !isset($bodyClass) ) {
 }
 
 if( !isset($body) ) {
-	$body = $Content;
+	$body = $content;
 }
 
 ?>

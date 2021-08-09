@@ -10,7 +10,7 @@ use Orpheus\Rendering\HTMLRendering;
  * @var HTMLRendering $rendering
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  *
  * @var User $user
  */

@@ -3,7 +3,7 @@
 use Orpheus\Rendering\HTMLRendering;
 
 /* @var HTMLRendering $this */
-/* @var HTTPController $Controller */
+/* @var HTTPController $controller */
 /* @var HTTPRequest $Request */
 /* @var HTTPRoute $Route */
 
@@ -43,7 +43,7 @@ if( $translatingLocale ) {
 		<div class="panel-group" id="TranslatedDomains" role="tablist" aria-multiselectable="true">
 		
 			<?php
-			foreach( $Controller->listDomains() as $domain ) {
+			foreach( $controller->listDomains() as $domain ) {
 				// Foreach domain present in fallback
 				// $fallbackDomain is an array of translations for this domain presents in fallback
 				$fallbackDomain = getLangDomainFile($fallbackLocale, $domain);
@@ -136,7 +136,7 @@ if( $translatingLocale ) {
 			<label class="control-label"><?php _t('chooseLanguageToTranslate', DOMAIN_TRANSLATIONS); ?></label>
 			<select name="locale" class="form-control">
 				<?php
-				_htmlOptions('locale', $Controller->listAllLocales(), null, OPT_LABEL_IS_KEY|OPT_VALUE_IS_KEY);
+				_htmlOptions('locale', $controller->listAllLocales(), null, OPT_LABEL_IS_KEY | OPT_VALUE_IS_KEY);
 				?>
 			</select>
 		</div>

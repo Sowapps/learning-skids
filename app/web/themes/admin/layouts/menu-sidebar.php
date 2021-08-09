@@ -3,11 +3,11 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  * @var string $CONTROLLER_OUTPUT
- * @var string $Content
+ * @var string $content
  */
 
 use App\Entity\User;
@@ -20,7 +20,7 @@ use Orpheus\Rendering\Menu\MenuItem;
 
 /**
  * @var HTMLRendering $rendering
- * @var AbstractAdminController $Controller
+ * @var AbstractAdminController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  *
@@ -28,7 +28,7 @@ use Orpheus\Rendering\Menu\MenuItem;
  * @var MenuItem[] $items
  */
 
-$invertedStyle = $Controller->getOption('invertedStyle', 1);
+$invertedStyle = $controller->getOption('invertedStyle', 1);
 $user = User::getLoggedUser();
 
 ?>

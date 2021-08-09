@@ -9,11 +9,11 @@ use Orpheus\Rendering\HTMLRendering;
 /**
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
  * @var User $user
- * @var string $Content
+ * @var string $content
  */
 
 global $APP_LANG;
@@ -88,7 +88,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 
 <main role="main">
 	<?php
-	echo $Content;
+	echo $content;
 	// If report was not be reported
 	$this->display('reports');
 	?>

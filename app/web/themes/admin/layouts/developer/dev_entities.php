@@ -1,9 +1,10 @@
 <?php
-use Orpheus\Rendering\HTMLRendering;
+
 use Orpheus\EntityDescriptor\PermanentEntity;
+use Orpheus\Rendering\HTMLRendering;
 
 /* @var HTMLRendering $this */
-/* @var HTTPController $Controller */
+/* @var HTTPController $controller */
 /* @var HTTPRequest $Request */
 /* @var HTTPRoute $Route */
 /* @var $resultingSQL string */

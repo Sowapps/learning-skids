@@ -11,7 +11,7 @@ use Orpheus\SQLRequest\SQLSelectRequest;
  * @var HTMLRendering $rendering
  * @var HTTPRequest $Request
  * @var HTTPRoute $Route
- * @var HTTPController $Controller
+ * @var HTTPController $controller
  *
  * @var SQLSelectRequest $users
  */
