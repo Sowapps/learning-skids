@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
+use Orpheus\SQLRequest\SQLSelectRequest;
 
 /**
  * Class Person
@@ -31,6 +32,19 @@ class Person extends PermanentEntity {
 	protected static $validator = null;
 	protected static $domain = null;
 	
+	public function querySchoolClasses(): SQLSelectRequest {
+		return SchoolClass::select()
+			->join(ClassPupil::class, $pupilAlias, null, 'class_id', true)
+			->where($pupilAlias . '.pupil_id', $this)
+			->orderby('year DESC');
+	}
+	
+	public function getSchoolClass(int $year): ?SchoolClass {
+		return $this->querySchoolClasses()
+			->where('year', $year)
+			->asObject()->run();
+	}
+	
 	/**
 	 * @param LearningSheet $learningSheet
 	 * @return PupilSkill[]
@@ -47,7 +61,7 @@ class Person extends PermanentEntity {
 		return $pupilSkills;
 	}
 	
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->firstname . ' ' . $this->lastname;
 	}
 	
@@ -62,8 +76,19 @@ class Person extends PermanentEntity {
 		return $query;
 	}
 	
-	public static function getAllRoles() {
+	public static function getAllRoles(): array {
 		return [self::ROLE_PUPIL, self::ROLE_TEACHER];
+	}
+	
+	public static function getByName(string $firstName, string $lastName, ?string $role = null): array {
+		$query = Person::get()
+			->where('firstname', 'LIKE', $firstName)
+			->where('lastname', 'LIKE', $lastName);
+		if( $role ) {
+			$query->where('role', 'LIKE', $role);
+		}
+		
+		return $query->asObjectList()->run();
 	}
 	
 }

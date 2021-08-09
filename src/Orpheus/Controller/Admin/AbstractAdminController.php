@@ -5,7 +5,6 @@ namespace Orpheus\Controller\Admin;
 use App\Controller\AbstractHttpController;
 use App\Entity\User;
 use DateTime;
-use Exception;
 use Orpheus\Rendering\HTMLRendering;
 
 abstract class AbstractAdminController extends AbstractHttpController {
@@ -51,7 +50,6 @@ abstract class AbstractAdminController extends AbstractHttpController {
 	 * @param $route
 	 * @param string|null $label
 	 * @param string|bool|array $link
-	 * @throws Exception
 	 */
 	public function addRouteToBreadcrumb($route, $label = null, $link = true) {
 		if( !$link ) {

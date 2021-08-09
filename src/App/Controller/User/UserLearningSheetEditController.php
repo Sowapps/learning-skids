@@ -79,8 +79,9 @@ class UserLearningSheetEditController extends AbstractUserController {
 				$uploadedFile->validate();
 				
 				$importer = new LearningSheetImporter();
+				$importer->initialize($learningSheet);
 				try {
-					$importer->import($learningSheet, $uploadedFile);
+					$importer->import($uploadedFile);
 				} finally {
 					$importErrors = $importer->getErrors();
 				}

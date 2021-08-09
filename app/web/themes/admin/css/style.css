@@ -219,10 +219,13 @@ input[type='date']::-webkit-inner-spin-button {
 	display: none;
 }
 
-.label-checkbox .custom-control-input:checked ~ .checked {
+.label-checkbox .unchecked {
 	display: block;
 }
 
+.label-checkbox .custom-control-input:checked ~ .checked {
+	display: block;
+}
 .label-checkbox .custom-control-input:checked ~ .unchecked {
 	display: none;
 }

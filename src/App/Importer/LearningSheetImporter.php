@@ -9,22 +9,17 @@ use App\Entity\LearningCategory;
 use App\Entity\LearningSheet;
 use App\Entity\LearningSkill;
 use App\Exception\ParseException;
-use Orpheus\File\UploadedFile;
-use SplFileObject;
 use stdClass;
 
-class LearningSheetImporter {
+class LearningSheetImporter extends AbstractCsvImporter {
 	
-	protected array $headers;
 	protected int $categoryChanges;
 	protected int $skillChanges;
-	protected int $rowCount;
 	
 	protected LearningSheet $learningSheet;
 	protected ?LearningCategory $previousCategory;
 	protected array $previousCategorySkillKeys;
 	
-	protected array $errors;
 	protected array $itemAliases = [
 		'dom'  => 'category',
 		'comp' => 'skill',
@@ -35,81 +30,19 @@ class LearningSheetImporter {
 		'valeur' => 'valuable',
 	];
 	
-	public function import(LearningSheet $learningSheet, UploadedFile $file) {
-		$file = $file->getSplFileInfo()->openFile();
-		$this->parseHeaders($this->nextRow($file));
-		$rowNumber = 2;// Start after headers
-		
+	public function initialize(LearningSheet $learningSheet) {
 		$this->learningSheet = $learningSheet;
-		$this->errors = [];
-		$this->categoryChanges = 0;
-		$this->skillChanges = 0;
-		$this->rowCount = 0;
 		$this->previousCategory = null;
 		$this->previousCategorySkillKeys = [];
-		
-		while( $row = $this->nextRow($file) ) {
-			$item = $this->parseRow($row);
-			if( !$item ) {
-				// Ignore empty line
-				continue;
-			}
-			try {
-				$this->processItem($item);
-			} catch( ParseException $e ) {
-				$this->errors[] = (object) [
-					'exception' => $e->getMessage(),
-					'row'       => $rowNumber,
-					'category'  => !empty($item->category->name) ? $item->category->name : 'N/A',
-					'skill'     => !empty($item->skill->name) ? $item->skill->name : 'N/A',
-				];
-			}
-			$rowNumber++;
-			$this->rowCount++;
-		}
 	}
 	
-	/**
-	 * @param string[] $headers
-	 */
-	protected function parseHeaders(array $headers) {
-		$this->headers = [];
-		foreach( $headers as $name ) {
-			$header = new stdClass();
-			[$header->item, $header->property] = explode('_', strtolower(utf8_encode($name)), 2);
-			if( array_key_exists($header->item, $this->itemAliases) ) {
-				$header->item = $this->itemAliases[$header->item];
-			}
-			if( array_key_exists($header->property, $this->fieldAliases) ) {
-				$header->property = $this->fieldAliases[$header->property];
-			}
-			$this->headers[] = $header;
-		}
-	}
-	
-	/**
-	 * @param SplFileObject $file
-	 * @return array|false
-	 */
-	protected function nextRow(SplFileObject $file) {
-		return $file->fgetcsv(';');
-	}
-	
-	/**
-	 * @param array $row
-	 * @return stdClass|null
-	 */
-	protected function parseRow(array $row): ?stdClass {
-		$data = new stdClass();
-		foreach( $row as $column => $value ) {
-			$header = $this->headers[$column];
-			if( empty($data->{$header->item}) ) {
-				$data->{$header->item} = new stdClass();
-			}
-			$data->{$header->item}->{$header->property} = utf8_encode($value);
-		}
-		
-		return $this->formatRowData($data);
+	protected function formatItemParseError(object $item, ParseException $e, int $rowNumber): array {
+		return [
+			'exception' => $e->getMessage(),
+			'row'       => $rowNumber,
+			'category'  => !empty($item->category->name) ? $item->category->name : 'N/A',
+			'skill'     => !empty($item->skill->name) ? $item->skill->name : 'N/A',
+		];
 	}
 	
 	/**
@@ -117,7 +50,7 @@ class LearningSheetImporter {
 	 * @return stdClass|null
 	 */
 	protected function formatRowData(object $data): ?stdClass {
-		// Skill name is required, row is ignored
+		// Skill name is required, else row is ignored
 		// Category name is defaulting to previous one
 		// Skill key and category key are guessed from name
 		if( empty($data->skill->name) ) {
@@ -205,13 +138,6 @@ class LearningSheetImporter {
 	}
 	
 	/**
-	 * @return int
-	 */
-	public function getRowCount(): int {
-		return $this->rowCount;
-	}
-	
-	/**
 	 * @return bool
 	 */
 	public function didAnyChanges(): bool {
@@ -230,13 +156,6 @@ class LearningSheetImporter {
 	 */
 	public function getSkillChanges(): int {
 		return $this->skillChanges;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getErrors(): array {
-		return $this->errors;
 	}
 	
 }

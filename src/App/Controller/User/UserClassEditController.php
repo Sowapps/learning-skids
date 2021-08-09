@@ -7,11 +7,14 @@ namespace App\Controller\User;
 
 use App\Entity\ClassPupil;
 use App\Entity\LearningSheet;
-use App\Entity\Person;
+use App\Entity\LearningSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
+use App\Importer\ClassPupilListImporter;
+use DateTime;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
+use Orpheus\File\UploadedFile;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
 use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
@@ -37,6 +40,8 @@ class UserClassEditController extends AbstractUserController {
 		$this->setPageTitle(t('class_label', DOMAIN_CLASS, $class->getLabel()));
 		$this->setContentTitle($class);
 		
+		$requirePupilValidation = false;
+		$outputPupilList = null;
 		try {
 			if( $request->hasData('submitUpdate') ) {
 				$classInput = $request->getData('class');
@@ -50,22 +55,37 @@ class UserClassEditController extends AbstractUserController {
 				return new RedirectHTTPResponse(u('user_class_edit', ['classId' => $class->id()]));
 				
 			} elseif( $request->hasData('submitAddMultiplePupils') ) {
-				startReportStream('pupilList');
-				$pupilListInput = $request->getData('pupil');
-				foreach( $pupilListInput as $pupilInput ) {
-					try {
-						if( empty($pupilInput['firstname']) || empty($pupilInput['lastname']) ) {
-							continue;
-						}
-						$pupilInput['role'] = Person::ROLE_PUPIL;
-						$person = Person::createAndGet($pupilInput, ['firstname', 'lastname', 'role']);
-						$class->addPupil($person);
-						reportSuccess(t('successNewPupil', DOMAIN_CLASS, ['pupil' => $person->getLabel()]));
-					} catch( UserException $e ) {
-						reportError($e);
-					}
+				
+				return $this->redirectToPupilAddValidator($class, $request->getData('pupil'));
+				//				startReportStream('pupilList');
+				//				$pupilListInput = $request->getData('pupil');
+				//				$requirePupilValidation = $class->checkPupilList($pupilListInput, $outputPupilList);
+				//				if( !$requirePupilValidation ) {
+				//					$class->addPupilList($outputPupilList);
+				//				}
+				//				endReportStream();
+				
+			} elseif( $request->hasData('submitImport') ) {
+				
+				$uploadedFile = UploadedFile::load('file');
+				if( !$uploadedFile ) {
+					LearningSkill::throwException('importFileRequired');
 				}
-				endReportStream();
+				$uploadedFile->allowedExtensions = ['csv'];
+				$uploadedFile->validate();
+				
+				$importer = new ClassPupilListImporter();
+				try {
+					$importer->import($uploadedFile);
+				} finally {
+					$importErrors = $importer->getErrors();
+				}
+				foreach( $importErrors as $importError ) {
+					reportError(sprintf('%s : ligne #%d', $importError->exception, $importError->row));
+				}
+				if( !$importErrors && $importer->didAnyChanges() ) {
+					return $this->redirectToPupilAddValidator($class, $importer->getPupils());
+				}
 				
 			} elseif( $request->hasData('submitRemovePupil') ) {
 				startReportStream('pupilList');
@@ -96,6 +116,23 @@ class UserClassEditController extends AbstractUserController {
 		return $this->renderHTML('class/class_edit', [
 			'class' => $class,
 		]);
+	}
+	
+	protected function redirectToPupilAddValidator(SchoolClass $class, array $pupils): RedirectHTTPResponse {
+		$token = generateRandomString(8);
+		if( !isset($_SESSION['class_add_pupils']) ) {
+			$_SESSION['class_add_pupils'] = [];
+		}
+		$_SESSION['class_add_pupils'][$token] = (object) [
+			'createDate' => new DateTime(),
+			'classId'    => $class->id(),
+			'pupils'     => $pupils,
+		];
+		
+		return new RedirectHTTPResponse(u('user_class_add_pupils', [
+			'classId' => $class->id(),
+			'token'   => $token,
+		]));
 	}
 	
 }

@@ -68,6 +68,12 @@ http:
         restrictTo:
             role: member
 
+    user_class_add_pupils:
+        path: "/professeur/classe/{id:classId}/{token}/nouveaux-élèves.html"
+        controller: App\Controller\User\UserClassAddPupilsController
+        restrictTo:
+            role: member
+
     user_class_pupils_sheet:
         path: "/professeur/classe/{id:classId}/fiche-des-élèves.html"
         controller: App\Controller\User\UserClassPupilsSheetController
