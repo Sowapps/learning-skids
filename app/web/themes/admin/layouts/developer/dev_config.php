@@ -1,32 +1,42 @@
 <?php
-use Orpheus\Rendering\HTMLRendering;
-use Orpheus\Config\AppConfig;
+/**
+ * @var HTMLRendering $rendering
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
+ * @var HTTPController $controller
+ */
 
-HTMLRendering::useLayout('page_skeleton');
+use Orpheus\Config\AppConfig;
+use Orpheus\InputController\HTTPController\HTTPController;
+use Orpheus\InputController\HTTPController\HTTPRequest;
+use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\Rendering\HTMLRendering;
+
+$rendering->useLayout('page_skeleton');
 
 $AppConfig = AppConfig::instance();
 ?>
 <div class="row">
 	<div class="col-lg-12">
-		<?php HTMLRendering::useLayout('panel-default'); ?>
-<div class="btn-group" role="group" aria-label="Actions">
-	<button type="button" class="btn btn btn-primary mb10 createbtn"><i class="fa fa-plus"></i> <?php _t('new'); ?></button>
-</div>
-<table class="table table-bordered table-hover tablesorter">
-	<thead>
-		<tr>
-			<th><?php _t('key'); ?> <i class="fa fa-sort" title="<?php _t('sortByKey'); ?>"></i></th>
-			<th class="sorter-false"><?php _t('value'); ?></th>
-			<th class="sorter-false"><?php _t('actionsColumn'); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-<?php
-foreach( $AppConfig->asArray() as $key => $value ) {
-	echo '
-<tr data-key="'.$key.'" data-value="'.$value.'">
-	<td>'.escapeText($key).'</td>
-	<td>'.escapeText($value).'</td>
+		<?php $rendering->useLayout('panel-default'); ?>
+		<div class="btn-group" role="group" aria-label="Actions">
+			<button type="button" class="btn btn btn-primary mb10 createbtn"><i class="fa fa-plus"></i> <?php _t('new'); ?></button>
+		</div>
+		<table class="table table-bordered table-hover">
+			<thead>
+			<tr>
+				<th><?php _t('key'); ?> <i class="fa fa-sort" title="<?php _t('sortByKey'); ?>"></i></th>
+				<th class="sorter-false"><?php _t('value'); ?></th>
+				<th class="sorter-false"><?php _t('actionsColumn'); ?></th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php
+			foreach( $AppConfig->asArray() as $key => $value ) {
+				echo '
+<tr data-key="' . $key . '" data-value="' . $value . '">
+	<td>' . escapeText($key) . '</td>
+	<td>' . escapeText($value) . '</td>
 	<td>
 		<div class="btn-group" role="group" aria-label="Actions">
 			<button type="button" class="btn btn-default editbtn"><i class="fa fa-edit"></i></button>
@@ -34,11 +44,11 @@ foreach( $AppConfig->asArray() as $key => $value ) {
 		</div>
 	</td>
 </tr>';
-}
-?>
-				</tbody>
-			</table>
-		<?php HTMLRendering::endCurrentLayout(); ?>
+			}
+			?>
+			</tbody>
+		</table>
+		<?php $rendering->endCurrentLayout(); ?>
 	</div>
 </div>
 
@@ -46,19 +56,19 @@ foreach( $AppConfig->asArray() as $key => $value ) {
 <div id="EditConfigDialog" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-		<form method="POST">
-			
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Edit configuration</h4>
-			</div>
-			<div class="modal-body">
-			
-				<div class="form-group">
-					<label for="inputRowKey">Key</label>
-					<input name="row[key]" type="text" class="form-control row_key" id="inputRowKey" required>
+			<form method="POST">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Edit configuration</h4>
 				</div>
-				<div class="form-group">
+				<div class="modal-body">
+					
+					<div class="form-group">
+						<label for="inputRowKey">Key</label>
+						<input name="row[key]" type="text" class="form-control row_key" id="inputRowKey" required>
+					</div>
+					<div class="form-group">
 					<label for="inputRowValue">Value</label>
 					<input name="row[value]" type="text" class="form-control row_value" id="inputRowValue" required>
 				</div>

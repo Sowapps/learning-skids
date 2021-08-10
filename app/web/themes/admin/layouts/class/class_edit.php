@@ -4,8 +4,8 @@
  *
  * @var HTMLRendering $rendering
  * @var HTTPController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  * @var string $content
  * @var FormToken $formToken
  * @var User $currentUser
@@ -85,7 +85,7 @@ $teacher = $class->getTeacher();
 		
 		<?php $this->display('reports-bootstrap3', ['stream' => 'pupilList']); ?>
 		
-		<table class="table table-striped table-bordered">
+		<table id="TableClassList" class="table table-striped table-bordered">
 			<thead>
 			<tr>
 				<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
@@ -130,11 +130,6 @@ $teacher = $class->getTeacher();
 			</tbody>
 		</table>
 		<?php $rendering->startNewBlock('footer'); ?>
-		<button class="btn btn-outline-primary" type="button"
-				data-toggle="modal" data-target="#DialogLearningSheetImport">
-			<i class="fas fa-upload mr-1"></i>
-			<?php echo t('import'); ?>
-		</button>
 		<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#DialogClassPupilAdd"><?php _t('add'); ?></button>
 		<?php
 		$rendering->endCurrentLayout(['title' => t('user_class_pupil_list', DOMAIN_CLASS)]);
@@ -186,35 +181,6 @@ $teacher = $class->getTeacher();
 				</div>
 			</form>
 		</div>
-	</div>
-</div>
-<div id="DialogLearningSheetImport" class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<form method="post" enctype="multipart/form-data" class="modal-content">
-			<div class="modal-header">
-				<h2 class="modal-title text-center w-100">Import d'une liste d'élève</h2>
-				<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo t('close'); ?>">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="alert alert-danger notify-learning-sheet-save" role="alert" style="display: none;">
-					Attention ! Veuillez sauvegarder vos modifications avant d'importer de nouvelles données sinon elles seront perdues !
-				</div>
-				<p>
-					L'import ne supporte que le format CSV (Excel, séparateur <b>;</b>) et il ne peut qu'ajouter de nouveaux élèves ou ré-affecter d'anciens élèves.<br>
-					Les entêtes <b>ELEVE_PRENOM</b> et <b>ELEVE_NOM</b> sont requises.
-				</p>
-				<div class="custom-file">
-					<input type="file" class="custom-file-input" id="InputImportFile" name="file" required>
-					<label class="custom-file-label" for="InputImportFile">Parcourir</label>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php echo t('cancel'); ?></button>
-				<button type="submit" class="btn btn-primary" name="submitImport"><?php echo t('import'); ?></button>
-			</div>
-		</form>
 	</div>
 </div>
 

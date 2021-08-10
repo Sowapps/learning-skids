@@ -4,8 +4,8 @@
  *
  * @var HTMLRendering $rendering
  * @var HTTPController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  * @var string $CONTROLLER_OUTPUT
  * @var string $content
  */
@@ -21,6 +21,7 @@ $contentTitle = $controller->getOption(AbstractAdminController::OPTION_CONTENT_T
 $contentLegend = $controller->getOption(AbstractAdminController::OPTION_CONTENT_LEGEND);
 
 $rendering->useLayout('layout.admin');
+
 
 $this->showMenu($controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar');
 ?>
@@ -76,7 +77,6 @@ $this->showMenu($controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar')
 			</div>
 			
 			<?php
-			echo $CONTROLLER_OUTPUT;
 			echo $content;
 			?>
 		

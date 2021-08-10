@@ -9,8 +9,8 @@ use Orpheus\Rendering\HTMLRendering;
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
  * @var HTTPController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  *
  * @var object $DB_SETTINGS
  */

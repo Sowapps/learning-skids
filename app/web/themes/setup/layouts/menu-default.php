@@ -9,8 +9,8 @@ use Orpheus\Rendering\Menu\MenuItem;
 /**
  * @var HTMLRendering $rendering
  * @var HTTPController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  *
  * @var string $menu
  * @var MenuItem[] $items

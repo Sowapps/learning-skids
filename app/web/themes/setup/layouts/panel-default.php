@@ -9,8 +9,8 @@ use Sowapps\Controller\Admin\AdminController;
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
  * @var AdminController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
  *
  * @var string $content
  */

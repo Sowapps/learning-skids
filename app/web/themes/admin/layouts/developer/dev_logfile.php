@@ -1,80 +1,88 @@
 <?php
+/**
+ * @var HTMLRendering $rendering
+ * @var HTTPRequest $request
+ * @var HTTPRoute $route
+ * @var HTTPController $controller
+ */
 
+use Orpheus\InputController\HTTPController\HTTPController;
+use Orpheus\InputController\HTTPController\HTTPRequest;
+use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
-
-/* @var HTMLRendering $this */
-/* @var HTTPController $controller */
-/* @var HTTPRequest $Request */
-/* @var HTTPRoute $Route */
 
 /* @var string $file */
 /* @var string $filePathInfo */
 /* @var string $format */
 /* @var AbstractFile $fileHandler */
 
-HTMLRendering::useLayout('page_skeleton');
+$rendering->useLayout('page_skeleton');
 
 // $filePathInfo = (object) pathinfo($file);
 ?>
 
 <div class="row">
 	<div class="col-lg-8">
-		<?php HTMLRendering::useLayout('panel-default'); ?>
+		<?php $rendering->useLayout('panel-default'); ?>
 		
-			<div class="form-horizontal">
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><?php _t('file_name', DOMAIN_LOGS); ?></label>
-					<div class="col-sm-10">
-						<p class="form-control-static"><?php echo $filePathInfo->basename; ?></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><?php _t('file_path', DOMAIN_LOGS); ?></label>
-					<div class="col-sm-10">
-						<p class="form-control-static"><?php echo $file; ?></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><?php _t('file_format', DOMAIN_LOGS); ?></label>
-					<div class="col-sm-10">
-						<p class="form-control-static"><?php echo $format; ?></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><?php _t('file_size', DOMAIN_LOGS); ?></label>
-					<div class="col-sm-10">
-						<p class="form-control-static"><?php echo formatInt(filesize($file)); ?> bytes</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label"><?php _t('file_mtime', DOMAIN_LOGS); ?></label>
-					<div class="col-sm-10">
-						<p class="form-control-static"><?php echo dt(filemtime($file)); ?></p>
-					</div>
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><?php _t('file_name', DOMAIN_LOGS); ?></label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><?php echo $filePathInfo->basename; ?></p>
 				</div>
 			</div>
-			
-		<?php HTMLRendering::endCurrentLayout(array(
-			'title' => t('file_informations', DOMAIN_LOGS)
-		)); ?>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><?php _t('file_path', DOMAIN_LOGS); ?></label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><?php echo $file; ?></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><?php _t('file_format', DOMAIN_LOGS); ?></label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><?php echo $format; ?></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><?php _t('file_size', DOMAIN_LOGS); ?></label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><?php echo formatInt(filesize($file)); ?> bytes</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"><?php _t('file_mtime', DOMAIN_LOGS); ?></label>
+				<div class="col-sm-10">
+					<p class="form-control-static"><?php echo dt(filemtime($file)); ?></p>
+				</div>
+			</div>
+		</div>
+		
+		<?php $rendering->endCurrentLayout([
+			'title' => t('file_informations', DOMAIN_LOGS),
+		]); ?>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-lg-12">
-		<?php HTMLRendering::useLayout('panel-default'); ?>
-			
-			<div class="panel-group" id="LogList" role="tablist" aria-multiselectable="true">
+		<?php $rendering->useLayout('panel-default'); ?>
+		
+		<div class="panel-group" id="LogList" role="tablist" aria-multiselectable="true">
 			<?php
 			if( $hideDuplicate ) {
-				$shownLogs = array();
+				$shownLogs = [];
 			}
 			$lineCount = 0;
 			while( ($line = $fileHandler->getNextLine()) !== false ) {
 				try {
 					$log = (object) json_decode($line, 1);
-					if( !isset($log->id) )		{ $log->id		= 'LL'.$lineCount; }
-					if( !isset($log->date) )	{ $log->date	= 'N/A'; }
+					if( !isset($log->id) ) {
+						$log->id = 'LL' . $lineCount;
+					}
+					if( !isset($log->date) ) {
+						$log->date = 'N/A';
+					}
 					if( !isset($log->action) )	{ $log->action	= 'N/A'; }
 					if( !isset($log->report) )	{ $log->report	= 'N/A'; }
 					if( !isset($log->crc32) )	{ $log->crc32	= crc32($log->report); }
@@ -136,38 +144,38 @@ HTMLRendering::useLayout('page_skeleton');
 						</div>
 						<div class="panel-footer text-right">
 							<button class="btn btn-primary"
-								data-confirm_title="<?php _t('removeOneConfirmTitle', DOMAIN_LOGS); ?>"
-								data-confirm_message="<?php _t('removeOneConfirmMessage', DOMAIN_LOGS); ?>"
-								data-confirm_submit_name="submitRemoveByCRC"
-								data-confirm_submit_value="<?php echo $log->crc32; ?>"
-								><?php _t('removeOneButton', DOMAIN_LOGS); ?></button>
+									data-confirm_title="<?php _t('removeOneConfirmTitle', DOMAIN_LOGS); ?>"
+									data-confirm_message="<?php _t('removeOneConfirmMessage', DOMAIN_LOGS); ?>"
+									data-confirm_submit_name="submitRemoveByCRC"
+									data-confirm_submit_value="<?php echo $log->crc32; ?>"
+							><?php _t('removeOneButton', DOMAIN_LOGS); ?></button>
 						</div>
 					</div>
 				</div>
 					<?php
 					$lineCount++;
-				} catch ( Exception $e ) {
+				} catch( Exception $e ) {
 					echo $e;
 				}
 			}
 			unset($line, $log, $panelID);
 			$fileHandler->ensureClosed();
 			?>
-			</div>
-			
-		<?php HTMLRendering::endCurrentLayout(array(
-			'title' => t('file_logs', DOMAIN_LOGS).' <a href="#lastLog" class="pull-right">
-				<i class="fa fa-arrow-circle-o-down"></i> '.t('goToLastOneButton', DOMAIN_LOGS).'
+		</div>
+		
+		<?php $rendering->endCurrentLayout(array(
+			'title'  => t('file_logs', DOMAIN_LOGS) . ' <a href="#lastLog" class="pull-right">
+				<i class="fa fa-arrow-circle-o-down"></i> ' . t('goToLastOneButton', DOMAIN_LOGS) . '
 			</a>',
 			'footer' => '
-				<div class="panel-footer text-right">'.
-						($fileHandler->isCompressible() ?
+				<div class="panel-footer text-right">' .
+				($fileHandler->isCompressible() ?
 					'
 					<button class="btn btn-primary"
-						data-confirm_title="'.t('archiveFileConfirmTitle', DOMAIN_LOGS).'"
-						data-confirm_message="'.t('archiveFileConfirmMessage', DOMAIN_LOGS).'"
+						data-confirm_title="' . t('archiveFileConfirmTitle', DOMAIN_LOGS) . '"
+						data-confirm_message="' . t('archiveFileConfirmMessage', DOMAIN_LOGS) . '"
 						data-confirm_submit_name="submitArchive"
-						>'.t('archiveFileButton', DOMAIN_LOGS).'</button>' : '').
+						>' . t('archiveFileButton', DOMAIN_LOGS) . '</button>' : '') .
 					'
 					<button class="btn btn-danger"
 						data-confirm_title="'.t('removeAllConfirmTitle', DOMAIN_LOGS).'"
