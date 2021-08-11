@@ -16,7 +16,7 @@ use Orpheus\Rendering\HTMLRendering;
 /* @var string $format */
 /* @var AbstractFile $fileHandler */
 
-$rendering->useLayout('page_skeleton');
+$rendering->useLayout('layout.full-width');
 
 // $filePathInfo = (object) pathinfo($file);
 ?>

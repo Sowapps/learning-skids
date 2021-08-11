@@ -11,7 +11,7 @@ use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 
-$rendering->useLayout('page_skeleton');
+$rendering->useLayout('layout.full-width');
 
 ?>
 <div class="panel-group">

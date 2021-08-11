@@ -22,7 +22,9 @@ PermanentEntity::registerEntity('App\Entity\LearningSheetUser');
 PermanentEntity::registerEntity('App\Entity\LearningSkill');
 PermanentEntity::registerEntity('App\Entity\Person');
 PermanentEntity::registerEntity('App\Entity\PupilSkill');
+PermanentEntity::registerEntity('App\Entity\PupilSkillValue');
 PermanentEntity::registerEntity('App\Entity\SchoolClass');
+PermanentEntity::registerEntity('App\Entity\User');
 PermanentEntity::registerEntity('App\Entity\User');
 
 FixtureRepository::register('App\Entity\User');
@@ -31,6 +33,12 @@ User::setUserClass();
 
 function asJsonAttribute(PermanentEntity $object, $model = OUTPUT_MODEL_USAGE) {
 	echo htmlFormATtr($object->asArray($model));
+}
+
+function listAsArray(array $list, $model = OUTPUT_MODEL_USAGE): array {
+	return array_map(function (PermanentEntity $entity) use ($model) {
+		return $entity->asArray($model);
+	}, $list);
 }
 
 /**
@@ -78,8 +86,8 @@ BODY
 	return $email->send($user->email);
 }
 
-function includeHTMLAdminFeatures() {
-	require_once ORPHEUSPATH . 'src/admin-form.php';
+function includeAdminComponents() {
+	require_once pathOf(SRC_PATH . '/admin-form.php');
 }
 
 /**
@@ -100,6 +108,17 @@ function formatDateMonth(DateTime $dateTime) {
 	$month = strtolower($dateTime->format('F'));
 	
 	return t('month.' . $month);
+}
+
+/**
+ * @param User|null $user
+ */
+function renderUserLink(?User $user) {
+	if( $user ) {
+		?>
+		<a href="<?php echo $user->getAdminLink(); ?>"><?php echo $user; ?></a>
+		<?php
+	}
 }
 
 require_once 'setup.php';

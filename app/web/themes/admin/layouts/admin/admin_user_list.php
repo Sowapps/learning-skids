@@ -1,7 +1,7 @@
 <?php
 
 use App\Entity\User;
-use Orpheus\InputController\HTTPController\HTTPController;
+use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
@@ -9,14 +9,16 @@ use Orpheus\SQLRequest\SQLSelectRequest;
 
 /**
  * @var HTMLRendering $rendering
- * @var HTTPRequest $request
- * @var HTTPRoute $route
- * @var HTTPController $controller
+ * @var AbstractAdminController $controller
+ * @var HTTPRequest $Request
+ * @var HTTPRoute $Route
  *
+ * @var boolean $allowCreate
+ * @var boolean $allowUpdate
  * @var SQLSelectRequest $users
  */
 
-$rendering->useLayout('page_skeleton');
+$rendering->useLayout('layout.full-width');
 ?>
 	<form method="POST">
 		
@@ -25,10 +27,10 @@ $rendering->useLayout('page_skeleton');
 				<?php $rendering->useLayout('panel-default'); ?>
 				
 				<?php
-				if( $USER_CAN_USER_EDIT ) {
+				if( $allowCreate ) {
 					?>
-					<div class="btn-group mb10" role="group" aria-label="Actions">
-						<button type="button" class="btn btn btn-inverse" data-toggle="modal" data-target="#AddUserDialog">
+					<div class="btn-group mb-3" role="group" aria-label="<?php _t('actionsColumn'); ?>">
+						<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#AddUserDialog">
 							<i class="fa fa-plus"></i> <?php _t('new'); ?>
 						</button>
 					</div>
@@ -38,30 +40,37 @@ $rendering->useLayout('page_skeleton');
 				<table class="table table-bordered table-hover">
 					<thead>
 					<tr>
-						<th><?php _t('idColumn'); ?> <i class="fa fa-sort" title="<?php _t('sortByID'); ?>"></i></th>
-						<th><?php User::_text('name'); ?> <i class="fa fa-sort" title="<?php User::_text('sortByName'); ?>"></i></th>
-						<th><?php User::_text('email'); ?> <i class="fa fa-sort" title="<?php User::_text('sortByEmail'); ?>"></i></th>
-						<th><?php User::_text('role'); ?> <i class="fa fa-sort" title="<?php User::_text('sortByRole'); ?>"></i></th>
-						<th class="sorter-false"><?php _t('actionsColumn'); ?></th>
+						<th scope="col"><?php _t('idColumn'); ?></th>
+						<th scope="col"><?php User::_text('name'); ?></th>
+						<th scope="col"><?php User::_text('email'); ?></th>
+						<th scope="col"><?php User::_text('role'); ?></th>
+						<th scope="col"><?php _t('actionsColumn'); ?></th>
 					</tr>
 					</thead>
 					<tbody>
 					<?php
 					/* @ar $user User */
 					foreach( $users as $user ) {
-						echo '
-		<tr>
-			<td>' . $user->id() . '</td>
-			<td>' . $user . '</td>
-			<td>' . $user->email . '</td>
-			<td>' . $user->getRoleText() . '</td>
-			<td>' .
-							($USER_CAN_USER_EDIT ? '
-				<div class="btn-group" role="group" aria-label="Actions">
-					<a href="' . $user->getAdminLink() . '" class="btn btn-success btn-sm editbtn"><i class="fa fa-edit"></i></a>
-				</div>' : '') .
-							'</td>
-		</tr>';
+						?>
+						<tr>
+							<th scope="row"><?php echo $user->id(); ?></th>
+							<td><?php renderUserLink($user); ?></td>
+							<td><?php echo $user->email; ?></td>
+							<td><?php echo $user->getRoleText(); ?></td>
+							<td><?php
+								if( $allowUpdate ) {
+									?>
+									<div class="btn-group btn-group-sm" role="group" aria-label="<?php echo t('actionsColumn'); ?>">
+										<a href="<?php echo $user->getAdminLink(); ?>" class="btn btn-success btn-sm">
+											<i class="fa fa-edit"></i>
+										</a>
+									</div>
+									<?php
+								}
+								?>
+							</td>
+						</tr>
+						<?php
 					}
 					?>
 					</tbody>
@@ -73,7 +82,7 @@ $rendering->useLayout('page_skeleton');
 	</form>
 
 <?php
-if( $USER_CAN_USER_EDIT ) {
+if( $allowCreate ) {
 	?>
 	<div id="AddUserDialog" class="modal fade">
 		<div class="modal-dialog">
@@ -81,8 +90,8 @@ if( $USER_CAN_USER_EDIT ) {
 				<form method="POST">
 					
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title"><?php User::_text('addUser'); ?></h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="<?php _t('close'); ?>"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
 						<p class="help-block"><?php User::_text('addUser_lead'); ?></p>
@@ -104,7 +113,7 @@ if( $USER_CAN_USER_EDIT ) {
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal"><?php _t('cancel'); ?></button>
+						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><?php _t('cancel'); ?></button>
 						<button name="submitCreate" type="submit" class="btn btn-primary" data-submittext="<?php _t('saving'); ?>"><?php _t('add'); ?></button>
 					</div>
 				</form>

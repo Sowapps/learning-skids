@@ -23,7 +23,7 @@ $contentLegend = $controller->getOption(AbstractAdminController::OPTION_CONTENT_
 $rendering->useLayout('layout.admin');
 
 
-$this->showMenu($controller->getOption('mainmenu', 'adminmenu'), 'menu-sidebar');
+$rendering->showMenu($controller->getOption('main_menu', 'admin'), 'menu-sidebar');
 ?>
 
 <div id="layoutSidenav_content">

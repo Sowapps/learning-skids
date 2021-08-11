@@ -66,29 +66,23 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 						?>
 						<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>"
 							data-pupil-skill="<?php if( isset($pupilSkills[$skill->id()]) ) {
-								asJsonAttribute($pupilSkills[$skill->id()]);
+								asJsonAttribute($pupilSkills[$skill->id()], OUTPUT_MODEL_EDITION);
 							} ?>">
 							<th class="status-bg" scope="row" style="width:1%;"><?php echo $skill->id(); ?></th>
 							<td><?php echo $skill; ?></td>
 							<td>
-								<span class="font-weight-bold pupil-skill_value skill-valuable"></span>
-								<span class="skill-not-valuable" style="display: none;">-</span>
+								<button class="btn action-value-edit font-weight-bold pupil-skill-value skill-valuable" type="button" title="Cliquez pour modifier la valeur et voir l'historique"
+										style="display: none;"></button>
+								<div class="skill-not-valuable text-center" style="display: none;">-</div>
 							</td>
 							<td class="text-right">
 								<div class="form"></div>
-								<div class="btn-group btn-group-sm status-accepted" role="group" style="display: none;">
-									<button class="btn btn-secondary action-value-edit" type="button">
-										<i class="fas fa-edit fa-fw"></i>
-									</button>
-									<button class="btn btn-warning action-skill-reject" type="button">
-										<i class="fas fa-times fa-fw"></i>
-									</button>
-								</div>
-								<div class="btn-group btn-group-sm status-not-accepted" role="group" style="display: none;">
-									<button class="btn btn-success action-skill-accept" type="button">
-										<i class="fas fa-check fa-fw"></i>
-									</button>
-								</div>
+								<button class="btn action-skill-reject status-accepted" type="button" style="display: none;">
+									<i class="fas fa-check-square text-success fa-2x"></i>
+								</button>
+								<button class="btn action-skill-accept status-not-accepted" type="button" style="display: none;">
+									<i class="far fa-square text-muted fa-2x"></i>
+								</button>
 							</td>
 						</tr>
 						<?php
@@ -127,33 +121,4 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 
 </div>
 
-<div id="DialogPupilSkillEdit" class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<form class="modal-content">
-			<div class="modal-header">
-				<h2 class="modal-title text-center w-100 skill_label"></h2>
-				<button type="button" class="close action-cancel" data-dismiss="modal" aria-label="<?php echo t('close'); ?>">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p>
-					Une valeur est attendue pour cette compétence, au moment de générer un extrait des compétences de cet élève,
-					cette valeur remplacera tout caractère # présent dans le nom de la compétence.<br>
-					Par exemple: "Sait compter jusqu'à #" (valeur = 35) devient "Sait compter jusqu'à 35"<br>
-					Attention donc à entrer quelque chose de cohérent avec ce qui est attendu.<br>
-					Pour continuer, veuillez entrer cette valeur et pressez la touche <b>Entrée</b>.
-				</p>
-				<div class="form-group">
-					<label class="form-label" for="InputPupilSkillValue"><?php _t('value', DOMAIN_LEARNING_SKILL); ?></label>
-					<input type="text" class="form-control modal-focus" id="InputPupilSkillValue" name="pupilSkill[value]"
-						   placeholder="Nouvelle valeur" data-enter="click" data-target="#ButtonPupilSkillSave">
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-secondary action-cancel" data-dismiss="modal"><?php echo t('cancel'); ?></button>
-				<button type="button" class="btn btn-primary action-accept" id="ButtonPupilSkillSave"><?php echo t('add'); ?></button>
-			</div>
-		</form>
-	</div>
-</div>
+<?php $rendering->display('component/pupil-skill-edit.dialog', ['withHistory' => true]); ?>

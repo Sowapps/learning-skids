@@ -15,7 +15,7 @@ abstract class AbstractUserController extends AbstractAdminController {
 		parent::prepare($request);
 		
 		$this->addRouteToBreadcrumb('user_home');
-		$this->setOption('mainmenu', 'user_menu');
+		$this->setOption('main_menu', 'user');
 	}
 	
 }

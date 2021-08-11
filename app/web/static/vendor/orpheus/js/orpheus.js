@@ -76,6 +76,10 @@ function isFunction(v) {
 	return typeof (v) === 'function';
 }
 
+function isDomElement(obj) {
+	return isObject(obj) && obj instanceof HTMLElement;
+}
+
 function isJquery(v) {
 	return isObject(v) && typeof (v.jquery) !== 'undefined';
 }

@@ -1,0 +1,8 @@
+fields:
+    # Header
+    create_date: datetime=now()
+    create_ip: ip=clientIP()
+    create_user_id: ref=userID()
+
+    pupil_skill_id: ref(pupil-skill)
+    value: string
