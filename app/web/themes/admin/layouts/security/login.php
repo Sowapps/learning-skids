@@ -87,32 +87,32 @@ $rendering->addThemeJsFile('sign-in.js');
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="InputFirstName">Votre prénom</label>
-													<input name="user[firstname]" class="form-control py-4" id="InputFirstName" type="text"/>
+													<label class="small mb-1" for="InputRegisterFirstName">Votre prénom</label>
+													<input name="user[firstname]" class="form-control py-4" id="InputRegisterFirstName" type="text"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="InputLastName">Votre nom</label>
-													<input name="user[lastname]" class="form-control py-4" id="InputLastName" type="text"/>
+													<label class="small mb-1" for="InputRegisterLastName">Votre nom</label>
+													<input name="user[lastname]" class="form-control py-4" id="InputRegisterLastName" type="text"/>
 												</div>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="small mb-1" for="InputLoginEmail">Email</label>
-											<input name="user[email]" class="form-control py-4" id="InputLoginEmail" type="email"/>
+											<label class="small mb-1" for="InputRegisterEmail">Email</label>
+											<input name="user[email]" class="form-control py-4" id="InputRegisterEmail" type="email"/>
 										</div>
 										<div class="form-row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="InputLoginPassword">Mot de passe</label>
-													<input name="user[password]" class="form-control py-4" id="InputPassword" type="password"/>
+													<label class="small mb-1" for="InputRegisterPassword">Mot de passe</label>
+													<input name="user[password]" class="form-control py-4" id="InputRegisterPassword" type="password"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="small mb-1" for="InputConfirmPassword">Confirmez votre mot de passe</label>
-													<input name="user[password_conf]" class="form-control py-4" id="InputConfirmPassword" type="password"/>
+													<label class="small mb-1" for="InputRegisterConfirmPassword">Confirmez votre mot de passe</label>
+													<input name="user[password_conf]" class="form-control py-4" id="InputRegisterConfirmPassword" type="password"/>
 												</div>
 											</div>
 										</div>

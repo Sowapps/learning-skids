@@ -40,7 +40,7 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 		
 		<?php $this->display('reports-bootstrap3'); ?>
 		
-		<div id="TablePupilSkillListWrapper" class="loading" style="max-height: 800px;">
+		<div id="TablePupilSkillListWrapper" class="loading">
 			<table id="TablePupilSkillList" class="table table-striped table-bordered invisible">
 				<thead>
 				<tr>
@@ -72,7 +72,6 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 							/** @var PupilSkill $pupilSkill */
 							foreach( $pupils as $pupilPerson ) {
 								$domId = 'Input_' . $pupilPerson->id() . '_' . $skill->id();
-								//									$domName = 'pupilSkill[' . $pupilPerson->id() . '][' . $skill->id() . ']';
 								$pupilSkill = $pupilSkills[$pupilPerson->id()][$skill->id()] ?? null;
 								?>
 								<td class="item-pupil-skill p-0" data-pupil-skill="<?php if( $pupilSkill ) {
