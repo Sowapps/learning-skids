@@ -2,3 +2,8 @@
 .custom-file-label::after {
 	content: 'Parcourir';
 }
+
+/* Fix issue with BS JS & checkbox in table cell */
+.label-checkbox {
+	position: relative;
+}
