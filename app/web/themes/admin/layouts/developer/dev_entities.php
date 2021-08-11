@@ -16,7 +16,7 @@ use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 
-$rendering->useLayout('page_skeleton');
+$rendering->useLayout('layout.full-width');
 
 ?>
 <div class="row">
@@ -63,8 +63,8 @@ $rendering->useLayout('page_skeleton');
 	<div class="col-lg-6">
 		<form method="POST" role="form" class="form-horizontal"><?php echo $formToken; ?>
 			<?php $rendering->useLayout('panel-default'); ?>
-			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', true);"><i class="fa fa-fw fa-check-square-o"></i> <?php _t('checkall'); ?></button>
-			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', false);"><i class="fa fa-fw fa-square-o"></i> <?php _t('uncheckall'); ?></button>
+			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', true);"><i class="far fa-fw fa-check-square"></i> <?php _t('checkAll'); ?></button>
+			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', false);"><i class="far fa-fw fa-square"></i> <?php _t('uncheckAll'); ?></button>
 			
 			<ul class="list-group">
 				<?php

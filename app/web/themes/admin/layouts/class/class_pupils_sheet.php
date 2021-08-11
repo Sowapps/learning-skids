@@ -78,12 +78,14 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 								<td class="item-pupil-skill p-0" data-pupil-skill="<?php if( $pupilSkill ) {
 									asJsonAttribute($pupilSkill, OUTPUT_MODEL_EDITION);
 								} ?>">
-									<label class="label-checkbox d-block text-center p-3">
-										<input type="checkbox" class="custom-control-input input-skill-accept" <?php echo $pupilSkill ? 'checked' : ''; ?>>
-										<i class="fas fa-check-square fa-2x text-success checked"></i>
-										<i class="far fa-square fa-2x text-muted unchecked"></i>
-										<div class="pupil-skill_value skill-valuable action-value-edit pt-1 font-weight-bold"></div>
-									</label>
+									<div class="text-center p-3">
+										<label class="label-checkbox">
+											<input type="checkbox" class="custom-control-input input-skill-accept" <?php echo $pupilSkill ? 'checked' : ''; ?>>
+											<i class="fas fa-check-square fa-2x text-success checked"></i>
+											<i class="far fa-square fa-2x text-muted unchecked"></i>
+										</label>
+										<div class="pupil-skill-value skill-valuable action-value-edit pt-1 font-weight-bold"></div>
+									</div>
 								</td>
 								<?php
 							}
@@ -107,33 +109,4 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 
 </div>
 
-<div id="DialogPupilSkillEdit" class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<form class="modal-content">
-			<div class="modal-header">
-				<h2 class="modal-title text-center w-100 skill_label"></h2>
-				<button type="button" class="close action-cancel" data-dismiss="modal" aria-label="<?php echo t('close'); ?>">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p>
-					Une valeur est attendue pour cette compétence, au moment de générer un extrait des compétences de cet élève,
-					cette valeur remplacera tout caractère # présent dans le nom de la compétence.<br>
-					Par exemple: "Sait compter jusqu'à #" (valeur = 35) devient "Sait compter jusqu'à 35"<br>
-					Attention donc à entrer quelque chose de cohérent avec ce qui est attendu.<br>
-					Pour continuer, veuillez entrer cette valeur et pressez la touche <b>Entrée</b>.
-				</p>
-				<div class="form-group">
-					<label class="form-label" for="InputPupilSkillValue"><?php _t('value', DOMAIN_LEARNING_SKILL); ?></label>
-					<input type="text" class="form-control modal-focus" id="InputPupilSkillValue" name="pupilSkill[value]"
-						   placeholder="Nouvelle valeur" data-enter="click" data-target="#ButtonPupilSkillSave">
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-secondary action-cancel" data-dismiss="modal"><?php echo t('cancel'); ?></button>
-				<button type="button" class="btn btn-primary action-accept" id="ButtonPupilSkillSave"><?php echo t('add'); ?></button>
-			</div>
-		</form>
-	</div>
-</div>
+<?php $rendering->display('component/pupil-skill-edit.dialog'); ?>

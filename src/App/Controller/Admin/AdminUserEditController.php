@@ -1,13 +1,12 @@
 <?php
-/**
- * @author Florent HAZARD <f.hazard@sowapps.com>
- */
 
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use Exception;
 use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\Exception\ForbiddenException;
+use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
@@ -17,63 +16,70 @@ class AdminUserEditController extends AbstractAdminController {
 	/**
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
+	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	public function run($request) {
 		
-		/* @var $USER User */
+		/* @var User $USER */
 		global $USER, $formData;
 		$userDomain = User::getDomain();
 		
-		$user = User::load($request->getPathValue('userID'));
+		$user = User::load($request->getPathValue('userId'));
 		
 		if( !$user ) {
 			User::throwNotFound();
 		}
 		
 		$this->addRouteToBreadcrumb(ROUTE_ADM_USERS);
-		$this->addThisToBreadcrumb($user);
+		$this->addThisToBreadcrumb($user->getLabel());
+		$this->setContentTitle($user->getLabel());
 		
-		$USER_CAN_USER_EDIT = !CHECK_MODULE_ACCESS || $USER->canUserEdit();
-		$USER_CAN_USER_DELETE = $USER->canUserDelete();
+		$allowUserUpdate = $USER->canUserUpdate(CRAC_CONTEXT_RESOURCE, $user);
+		$allowUserPasswordChange = $USER->canUserPassword(CRAC_CONTEXT_RESOURCE, $user);
+		$allowUserDelete = $USER->canUserDelete(CRAC_CONTEXT_RESOURCE, $user);
+		$allowUserGrant = $USER->canUserGrant(CRAC_CONTEXT_RESOURCE, $user);
+		$allowImpersonate = $USER->canUserImpersonate(CRAC_CONTEXT_RESOURCE, $user);
 		
 		try {
 			if( $request->hasData('submitUpdate') ) {
-				if( !$USER_CAN_USER_EDIT ) {
+				if( !$allowUserUpdate ) {
 					throw new ForbiddenException();
 				}
-				$userInput = $request->getArrayData('user');
-				$userFields = ['fullname', 'email', 'accesslevel'];
-				if( !empty($userInput['password']) ) {
+				$userInput = $request->getData('user');
+				$userFields = ['fullname', 'email'];
+				if( $allowUserPasswordChange && !empty($userInput['password']) ) {
 					$userInput['password_conf'] = $userInput['password'];
 					$userFields[] = 'password';
 				}
+				if( $allowUserGrant ) {
+					$userFields[] = 'accesslevel';
+				}
 				$result = $user->update($userInput, $userFields);
 				if( $result ) {
-					reportSuccess('successEdit', $userDomain);
+					reportSuccess('successUpdate', $userDomain);
 				}
+				unset($result, $userInput, $userFields);
 				
-			} elseif( $request->hasData('submitDelete') ) {
-				if( !$USER_CAN_USER_DELETE ) {
-					throw new ForbiddenException();
-				}
-				if( $user->remove() ) {
-					reportSuccess('successDelete', $userDomain);
-				}
+			} elseif( $request->hasData('submitImpersonate') ) {
+				$user->impersonate();
+				reportSuccess(User::text('successImpersonate', $user));
 			}
 		} catch( UserException $e ) {
-			reportError($e, $userDomain);
+			reportError($e);
 		}
 		
 		$formData = ['user' => $user->all];
 		
-		includeHTMLAdminFeatures();
+		includeAdminComponents();
 		
-		return $this->renderHTML('app/admin_useredit', [
-			'USER_CAN_USER_EDIT'   => $USER_CAN_USER_EDIT,
-			'USER_CAN_USER_DELETE' => $USER_CAN_USER_DELETE,
-			'USER_CAN_USER_GRANT'  => true,
-			'ContentTitle'         => $user,
-			'user'                 => $user,
+		return $this->renderHTML('admin/admin_user_edit', [
+			'allowUserUpdate'         => $allowUserUpdate,
+			'allowUserPasswordChange' => $allowUserPasswordChange,
+			'allowUserDelete'         => $allowUserDelete,
+			'allowUserGrant'          => $allowUserGrant,
+			'allowImpersonate'        => $allowImpersonate,
+			'user'                    => $user,
 		]);
 	}
 	

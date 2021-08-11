@@ -9,6 +9,7 @@ namespace App\Controller\User;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\PupilSkill;
+use App\Entity\PupilSkillValue;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\InputRequest;
 
@@ -40,13 +41,16 @@ trait PupilSkillForm {
 						// Should be new but there is one existing
 						continue;
 					}
-					// Create new pupil skill
-					PupilSkill::create([
+					// Create new pupil Skill
+					$pupilSkill = PupilSkill::createAndGet([
 						'pupil_id'          => $pupilPerson,
 						'skill_id'          => $newPupilSkill['skill_id'],
 						'learning_sheet_id' => $learningSheet,
-						'value'             => $newPupilSkill['value'] ?? null,
 					]);
+					// Create new pupil skill Value
+					if( !empty($newPupilSkill['value']) ) {
+						$this->addValueToPupilSkill($pupilSkill, $newPupilSkill['value']);
+					}
 					$created++;
 					
 				} elseif( $newPupilSkill['status'] === 'remove' ) {
@@ -64,7 +68,7 @@ trait PupilSkillForm {
 						// Should be existing, may have been removed by another request
 						continue;
 					}
-					$currentPupilSkill->update($newPupilSkill, ['value']);
+					$this->addValueToPupilSkill($currentPupilSkill, $newPupilSkill['value']);
 					$updated++;
 				}
 			} catch( UserException $e ) {
@@ -79,6 +83,20 @@ trait PupilSkillForm {
 			$this->storeSuccess('pupilSkillsUpdate', 'successClassPupilSkillEdit',
 				['name' => $pupilPerson->getLabel(), 'created' => $created, 'updated' => $updated], DOMAIN_CLASS);
 		}
+	}
+	
+	public function addValueToPupilSkill(PupilSkill $pupilSkill, ?string $value) {
+		$activeValue = $pupilSkill->getActiveValue();
+		if( $activeValue && $activeValue->value === $value ) {
+			// Active value is equal
+			return;
+		}
+		$pupilSkillValue = PupilSkillValue::createAndGet([
+			'pupil_skill_id' => $pupilSkill,
+			'value'          => $value,
+		]);
+		$pupilSkill->setActiveValue($pupilSkillValue);
+		$pupilSkill->save();
 	}
 	
 }

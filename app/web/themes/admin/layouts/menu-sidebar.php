@@ -31,13 +31,17 @@ use Orpheus\Rendering\Menu\MenuItem;
 $invertedStyle = $controller->getOption('invertedStyle', 1);
 $user = User::getLoggedUser();
 
+$allowNavigationToUser = $menu !== 'user' && true;
+$allowNavigationToAdmin = $menu !== 'admin' && $user->isAdminUser();
+$allowNavigationToDeveloper = $menu !== 'developer' && $user->checkPerm(201);
+
 ?>
 <div id="layoutSidenav_nav">
 	<nav class="sb-sidenav accordion <?php echo $invertedStyle ? 'sb-sidenav-dark' : 'sb-sidenav-light'; ?>" id="sidenavAccordion">
 		<div class="sb-sidenav-menu">
 			
 			<div class="nav menu <?php echo $menu; ?>">
-				<div class="sb-sidenav-menu-heading"><?php echo t($menu); ?></div>
+				<div class="sb-sidenav-menu-heading"><?php echo t('menu_' . $menu); ?></div>
 				<?php
 				foreach( $items as $item ) {
 					?>
@@ -48,6 +52,39 @@ $user = User::getLoggedUser();
 				}
 				?>
 			</div>
+			
+			<?php
+			if( $allowNavigationToUser || $allowNavigationToAdmin || $allowNavigationToDeveloper ) {
+				?>
+				<div class="nav menu navigation">
+					<div class="sb-sidenav-menu-heading"><?php echo t('menu_navigation'); ?></div>
+					<?php
+					if( $allowNavigationToUser ) {
+						?>
+						<a class="nav-link menu-item user_home" href="<?php echo u('user_home'); ?>">
+							<?php echo t('user_home'); ?>
+						</a>
+						<?php
+					}
+					if( $allowNavigationToAdmin ) {
+						?>
+						<a class="nav-link menu-item admin_home" href="<?php echo u('admin_home'); ?>">
+							<?php echo t('admin_home'); ?>
+						</a>
+						<?php
+					}
+					if( $allowNavigationToDeveloper ) {
+						?>
+						<a class="nav-link menu-item dev_home" href="<?php echo u('dev_home'); ?>">
+							<?php echo t('dev_home'); ?>
+						</a>
+						<?php
+					}
+					?>
+				</div>
+				<?php
+			}
+			?>
 		
 		</div>
 		<div class="sb-sidenav-footer">

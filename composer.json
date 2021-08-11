@@ -1,40 +1,42 @@
 {
-  "name": "sowapps/learning-skids",
-  "description": "Positive skills evaluator for kids",
-  "type": "project",
-  "license": "MIT",
-  "minimum-stability": "stable",
-  "keywords": [
-	"framework",
-	"php"
-  ],
-  "autoload": {
-	"psr-4": {
-	  "": "src/"
-	}
-  },
-  "require": {
-	"orpheus/orpheus-core": "1.*",
-	"orpheus/orpheus-hook": "1.*",
-	"orpheus/orpheus-cache": "1.*",
-	"orpheus/orpheus-yaml": "1.*",
-	"orpheus/orpheus-initernationalization": "1.*",
-	"orpheus/orpheus-rendering": "1.*",
-	"orpheus/orpheus-inputcontroller": "1.*",
-	"orpheus/orpheus-sqladapter": "1.*",
-	"orpheus/orpheus-publisher": "1.*",
-	"orpheus/orpheus-entitydescriptor": "1.*",
-	"orpheus/orpheus-form": "1.*",
-	"orpheus/orpheus-webtools": "1.*",
-	"ext-pdo": "*",
-	"ext-json": "*"
-  },
-  "authors": [
-	{
-	  "name": "Florent HAZARD",
-	  "email": "contact@sowapps.com",
-	  "homepage": "http://sowapps.com",
-	  "role": "Developer"
-	}
-  ]
+	"name": "sowapps/learning-skids",
+	"description": "Positive skills evaluator for kids",
+	"type": "project",
+	"license": "MIT",
+	"minimum-stability": "stable",
+	"keywords": [
+		"framework",
+		"php"
+	],
+	"autoload": {
+		"psr-4": {
+			"": "src/"
+		}
+	},
+	"require": {
+		"orpheus/orpheus-core": "1.*",
+		"orpheus/orpheus-hook": "1.*",
+		"orpheus/orpheus-cache": "1.*",
+		"orpheus/orpheus-yaml": "1.*",
+		"orpheus/orpheus-initernationalization": "1.*",
+		"orpheus/orpheus-rendering": "1.*",
+		"orpheus/orpheus-inputcontroller": "1.*",
+		"orpheus/orpheus-sqladapter": "1.*",
+		"orpheus/orpheus-publisher": "1.*",
+		"orpheus/orpheus-entitydescriptor": "1.*",
+		"orpheus/orpheus-form": "1.*",
+		"orpheus/orpheus-webtools": "1.*",
+		"ext-pdo": "*",
+		"ext-json": "*",
+		"ext-zip": "*",
+		"ext-apcu": "*"
+	},
+	"authors": [
+		{
+			"name": "Florent HAZARD",
+			"email": "contact@sowapps.com",
+			"homepage": "http://sowapps.com",
+			"role": "Developer"
+		}
+	]
 }

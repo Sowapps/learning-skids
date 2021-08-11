@@ -13,7 +13,7 @@ use Orpheus\Rendering\HTMLRendering;
 
 /* @var array $composerConfig */
 
-$rendering->useLayout('page_skeleton');
+$rendering->useLayout('layout.full-width');
 HTMLRendering::addJsFile('model.js', HTMLRendering::LINK_TYPE_CUSTOM);
 
 global $formData;
@@ -26,7 +26,7 @@ if( isset($formData['composer']['keywords']) ) {
 	apath_setp($formData, 'composer/require', [], false);
 }
 
-includeHTMLAdminFeatures();
+includeAdminComponents();
 
 ?>
 <form method="POST" role="form">

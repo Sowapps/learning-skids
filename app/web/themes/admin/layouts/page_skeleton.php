@@ -115,6 +115,7 @@ foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
 <script type="text/javascript" src="<?php echo VENDOR_URL; ?>/sb-admin/sb-admin-6.0.2/js/scripts.js"></script>
 <script src="<?php echo VENDOR_URL; ?>/orpheus/js/orpheus.js"></script>
 <script src="<?php echo VENDOR_URL; ?>/orpheus/js/orpheus-confirmdialog.js"></script>
+<script src="<?php echo VENDOR_URL; ?>/orpheus/js/dom-service.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>orpheus.js"></script>
 <script src="<?php echo $rendering->getJsUrl(); ?>script.js"></script>
 

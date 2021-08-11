@@ -166,9 +166,9 @@ class PupilSkillManager {
 		});
 	}
 	
-	openSkillEditDialog(data) {
-		let deferred = $.Deferred();
-		let $dialog = this.$skillEditDialog;
+	async openSkillEditDialog(data) {
+		const deferred = $.Deferred();
+		const $dialog = this.$skillEditDialog;
 		
 		$dialog.modal('show')
 			.resetForm()
@@ -254,18 +254,17 @@ class PupilSkill {
 	}
 	
 	bindEvents() {
-		this.$element.find('.input-skill-accept').change(() => {
+		this.$element.find('.input-skill-accept').change(async() => {
 			let checked = this.$inputAccept.prop('checked');
 			if( checked ) {
 				if( this.skill.valuable ) {
-					this.manager.openSkillEditDialog(this)
-						.done((data) => {
-							this.accept(data.pupilSkill.value);
-						})
-						.fail(() => {
-							// Do nothing for now
-							this.$inputAccept.prop('checked', false);
-						});
+					try {
+						const data = await this.manager.openSkillEditDialog(this);
+						this.accept(data.pupilSkill.value);
+					} catch( error ) {
+						console.log('Error', error);
+						this.$inputAccept.prop('checked', false);
+					}
 				} else {
 					this.accept(null);
 				}
@@ -273,17 +272,12 @@ class PupilSkill {
 				this.remove();
 			}
 		});
-		this.$element.find('.action-value-edit').click(() => {
+		this.$element.find('.action-value-edit').click(async() => {
 			if( !this.skill.valuable ) {
 				return;
 			}
-			this.manager.openSkillEditDialog(this)
-				.done((data) => {
-					this.accept(data.pupilSkill.value);
-				})
-				.fail(() => {
-					// Do nothing for now
-				});
+			const data = await this.manager.openSkillEditDialog(this);
+			this.accept(data.pupilSkill.value);
 			return false;
 		});
 	}
@@ -342,15 +336,18 @@ class PupilSkill {
 		if( !this.skill.valuable ) {
 			this.$element.find('.action-value-edit').remove();
 		}
-		this.$element.find('.skill-valuable').showIf(this.skill.valuable);
-		this.$element.find('.skill-not-valuable').showIf(!this.skill.valuable);
+		const valuated = this.skill.valuable && isAccepted;
+		this.$element.find('.skill-valuable').showIf(valuated);
+		this.$element.find('.skill-not-valuable').showIf(!valuated);
 		
 		let statusBg = null;
 		if( isAccepted ) {
 			statusBg = 'bg-success text-white';
 		}
 		
-		this.$element.fill('pupil-skill', this.pupilSkill);
+		if( this.skill.valuable ) {
+			this.$element.find('.pupil-skill-value').text(this.pupilSkill.value || '##');
+		}
 		
 		this.$element.find('.status-bg')
 			.removeClass('bg-success text-white')

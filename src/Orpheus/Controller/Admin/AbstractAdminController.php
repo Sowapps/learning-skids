@@ -18,6 +18,12 @@ abstract class AbstractAdminController extends AbstractHttpController {
 	protected $breadcrumb = [];
 	protected array $notifications = [];
 	
+	public function prepare($request) {
+		parent::prepare($request);
+		
+		$this->setOption('main_menu', 'admin');
+	}
+	
 	public function addNotification($title, $text, $isWarning = false, ?DateTime $date = null) {
 		$this->notifications[] = (object) [
 			'title' => $title,

@@ -28,7 +28,7 @@ $invertedStyle = $controller->getOption('invertedStyle', 1);
 	<a class="navbar-brand" href="<?php _u(DEFAULT_ROUTE); ?>">
 		<?php _t($controller->getOption('main_title', 'app_name')); ?>
 	</a>
-	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
 	
 	<?php
 	if( $user ) {

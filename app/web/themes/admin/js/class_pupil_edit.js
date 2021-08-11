@@ -14,6 +14,7 @@ class PupilSkillManager {
 	constructor($table, $skillEditDialog) {
 		this.$table = $table;
 		this.$skillEditDialog = $skillEditDialog;
+		this.$skillValueRowTemplate = $('#TemplateValueRow').detach();
 		this.skills = [];
 		
 		this.initialize();
@@ -28,14 +29,25 @@ class PupilSkillManager {
 		});
 	}
 	
-	openSkillEditDialog(data) {
-		let deferred = $.Deferred();
-		let $dialog = this.$skillEditDialog;
+	async openSkillEditDialog(data) {
+		const deferred = $.Deferred();
+		const $dialog = this.$skillEditDialog;
 		
 		$dialog.modal('show')
 			.resetForm()
 			.fill('skill', data.skill)
 			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
+		
+		const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
+		console.log('data.pupilSkill', data.pupilSkill, hasValues);
+		$dialog.find('.pupil-skill-history').showIf(hasValues);
+		$dialog.find('.pupil-skill-history-body').empty();
+		if( hasValues ) {
+			for( const skillValue of data.pupilSkill.values ) {
+				const $row = await domService.renderTemplate(this.$skillValueRowTemplate, skillValue);
+				$dialog.find('.pupil-skill-history-body').append($row);
+			}
+		}
 		
 		$dialog.find('.action-accept')
 			.off('click')
@@ -59,14 +71,16 @@ class PupilSkillManager {
 class PupilSkill {
 	
 	manager; // PupilSkillManager
-	$row; // TR row in table for this skill
+	$row; // TR row in table for this skill - DEPRECATED
+	$element; // TR row element in table for this skill
 	skill; // Learning Sheet Skill
 	pupilSkill; // Pupil Skill
 	status; // Pupil Skill Status, empty is no changes
 	
 	constructor(manager, $row) {
 		this.manager = manager;
-		this.$row = $($row);
+		this.$element = $($row);
+		this.$row = this.$element;
 		this.index = this.$row.index();
 		this.skill = this.$row.data('skill') || {};
 		this.pupilSkill = this.$row.data('pupilSkill') || {};
@@ -111,30 +125,20 @@ class PupilSkill {
 	}
 	
 	bindEvents() {
-		this.$row.find('.action-skill-accept').click(() => {
+		this.$row.find('.action-skill-accept').click(async() => {
 			if( this.skill.valuable ) {
-				this.manager.openSkillEditDialog(this)
-					.done((data) => {
-						this.accept(data.pupilSkill.value);
-					})
-					.fail(() => {
-						// Do nothing for now
-					});
+				const data = await this.manager.openSkillEditDialog(this)
+				this.accept(data.pupilSkill.value);
 			} else {
 				this.accept(null);
 			}
 		});
-		this.$row.find('.action-value-edit').click(() => {
+		this.$row.find('.action-value-edit').click(async() => {
 			if( !this.skill.valuable ) {
 				return;
 			}
-			this.manager.openSkillEditDialog(this)
-				.done((data) => {
-					this.accept(data.pupilSkill.value);
-				})
-				.fail(() => {
-					// Do nothing for now
-				});
+			const data = await this.manager.openSkillEditDialog(this)
+			this.accept(data.pupilSkill.value);
 		});
 		this.$row.find('.action-skill-reject').click(() => {
 			this.remove();
@@ -179,23 +183,26 @@ class PupilSkill {
 		this.buildForm();
 		
 		let isAccepted = this.isAccepted();
-		this.$row.find('.status-accepted').showIf(isAccepted);
-		this.$row.find('.status-not-accepted').showIf(!isAccepted);
+		this.$element.find('.status-accepted').showIf(isAccepted);
+		this.$element.find('.status-not-accepted').showIf(!isAccepted);
 		
 		if( !this.skill.valuable ) {
-			this.$row.find('.action-value-edit').remove();
+			this.$element.find('.action-value-edit').remove();
 		}
-		this.$row.find('.skill-valuable').showIf(this.skill.valuable);
-		this.$row.find('.skill-not-valuable').showIf(!this.skill.valuable);
+		const valuated = this.skill.valuable && isAccepted;
+		this.$element.find('.skill-valuable').showIf(valuated);
+		this.$element.find('.skill-not-valuable').showIf(!valuated);
 		
 		let statusBg = null;
 		if( isAccepted ) {
 			statusBg = 'bg-success text-white';
 		}
 		
-		this.$row.fill('pupil-skill', this.pupilSkill);
+		if( this.skill.valuable ) {
+			this.$element.find('.pupil-skill-value').text(this.pupilSkill.value || '##');
+		}
 		
-		this.$row.find('.status-bg')
+		this.$element.find('.status-bg')
 			.removeClass('bg-success text-white')
 			.addClass(statusBg);
 	}

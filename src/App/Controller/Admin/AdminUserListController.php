@@ -6,12 +6,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use Orpheus\Config\Config;
+use Orpheus\Config\IniConfig;
 use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\SQLAdapter\SQLAdapter;
 
 class AdminUserListController extends AbstractAdminController {
 	
@@ -21,38 +20,36 @@ class AdminUserListController extends AbstractAdminController {
 	 */
 	public function run($request) {
 		
-		/* @var $USER User */
-		global $USER;
-		$userDomain = User::getDomain();
+		$user = User::getLoggedUser();
 		
 		$this->addThisToBreadcrumb();
 		
-		$USER_CAN_USER_EDIT = !CHECK_MODULE_ACCESS || $USER->canUserEdit();
-		$USER_CAN_DEV_SEE = !CHECK_MODULE_ACCESS || $USER->canSeeDevelopers();
+		$allowCreate = !CHECK_MODULE_ACCESS || $user->canUserCreate();
+		$allowUpdate = !CHECK_MODULE_ACCESS || $user->canUserUpdate();
+		$allowDevSee = !CHECK_MODULE_ACCESS || $user->canSeeDevelopers();
 		
-		if( $request->hasData('submitCreate') ) {
-			
-			try {
-				if( !$USER_CAN_USER_EDIT ) {
+		try {
+			if( $request->hasData('submitCreate') ) {
+				if( !$allowCreate ) {
 					throw new UserException('forbiddenOperation');
 				}
 				$newUser = User::create($request->getArrayData('user'));
 				reportSuccess(User::text('successCreate', $newUser));
-				
-			} catch( UserException $e ) {
-				reportError($e, $userDomain);
 			}
+		} catch( UserException $e ) {
+			reportError($e);
 		}
 		
-		$users = User::get([
-			'where'   => $USER_CAN_DEV_SEE ? '' : 'accesslevel<=' . Config::get('user_roles/administrator'),
-			'orderby' => 'fullname ASC',
-			'output'  => SQLAdapter::ARR_OBJECTS,
-		]);
+		$query = User::get()
+			->orderby('fullname ASC');
+		if( !$allowDevSee ) {
+			$query->where('accesslevel', '<=', IniConfig::get('user_roles/administrator'));
+		}
 		
-		return $this->renderHTML('app/admin_userlist', [
-			'USER_CAN_USER_EDIT' => $USER_CAN_USER_EDIT,
-			'users'              => $users,
+		return $this->renderHTML('admin/admin_user_list', [
+			'allowCreate' => $allowCreate,
+			'allowUpdate' => $allowUpdate,
+			'users'       => $query,
 		]);
 	}
 	

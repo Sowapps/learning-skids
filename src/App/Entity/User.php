@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Agency;
 use DateTime;
 use Orpheus\EntityDescriptor\User\AbstractUser;
 use Orpheus\Exception\NotFoundException;
@@ -118,6 +119,70 @@ class User extends AbstractUser implements FixtureInterface {
 	
 	public function getLink() {
 		return u('profile', ['userId' => $this->id()]);
+	}
+	
+	/**
+	 * @param int $context
+	 * @param User $contextResource
+	 * @return boolean
+	 */
+	public function canUserCreate($context = CRAC_CONTEXT_APPLICATION, $contextResource = null) {
+		return $this->canDo('user_edit');// Only App admins can do it.
+	}
+	
+	public function canUserView($context = CRAC_CONTEXT_APPLICATION, $contextResource = null) {
+		return $this->canUserUpdate($context, $contextResource);
+	}
+	
+	/**
+	 * @param int $context
+	 * @param User $contextResource
+	 * @return boolean
+	 */
+	public function canUserUpdate($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_edit');// Only App admins can do it.
+	}
+	
+	public function canSeeDevelopers($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_seedev');// Only App admins can do it.
+	}
+	
+	public function canUserStatus($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_status');// Only App admins can do it.
+	}
+	
+	public function canUserDelete($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_delete');// Only App admins can do it.
+	}
+	
+	public function canUserGrant($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_grant');// Only App admins can do it.
+	}
+	
+	public function canUserImpersonate($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		// Only App dev can do it or an user with more permission (inclusive)
+		return $this->canDo('user_impersonate') && (!$contextResource || $contextResource->accesslevel <= $this->accesslevel);
+	}
+	
+	public function canUserPassword($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
+		return $this->canDo('user_password');// Only App admins can do it.
+	}
+	
+	public function getRoleText() {
+		$status = array_flip($this->getAvailRoles());
+		
+		return isset($status[$this->accesslevel]) ? t('role_' . $status[$this->accesslevel], static::getDomain()) : t('role_unknown', static::getDomain(), $this->accesslevel);
+	}
+	
+	public function getAvailRoles() {
+		$permStatus = static::getAppRoles();
+		foreach( $permStatus as $status => $accesslevel ) {
+			if( !$this->checkPerm($accesslevel) ) {
+				unset($permStatus[$status]);
+			}
+		}
+		
+		return $permStatus;
 	}
 	
 	public static function getByEmail($email) {
