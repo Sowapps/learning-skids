@@ -10,6 +10,7 @@
  * @var string $content
  * @var FormToken $formToken
  *
+ * @var string $pageUrl
  * @var SchoolClass $class
  * @var LearningSheet $learningSheet
  * @var Person[] $pupils
@@ -32,6 +33,8 @@ $rendering->useLayout('layout.full-width');
 $rendering->addThemeJsFile('class_pupils_sheet.js');
 $rendering->addThemeCssFile('class_pupils_sheet.css');
 
+/** @var LearningCategory[] $categories */
+$categories = $class->getLearningSheet()->queryCategories();
 ?>
 <div class="row">
 	
@@ -60,13 +63,12 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 				</thead>
 				<tbody class="table-valign-middle">
 				<?php
-				/** @var LearningCategory[] $categories */
-				$categories = $class->getLearningSheet()->queryCategories();
 				foreach( $categories as $category ) {
 					foreach( $category->querySkills() as $skill ) {
 						?>
 						<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>">
-							<td class="skill-name" title="Filtrer par cette compétence"><?php echo $skill; ?></td>
+							<th scope="row"><a class="btn d-block text-left filter-skill" href="<?php echo sprintf('%s?skills[]=%d', $pageUrl, $skill->id()); ?>"
+											   title="Filtrer par cette compétence"><?php echo $skill; ?></a></th>
 							<td class="d-none"><?php echo $category; ?></td>
 							<?php
 							/** @var PupilSkill $pupilSkill */

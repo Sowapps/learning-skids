@@ -40,13 +40,81 @@ $(function () {
 	
 	let $table = $('#TablePupilSkillList');
 	setTimeout(function () {
+		const pupilAsColumn = !!$table.find('thead .item-pupil-person').length;
+		const options = {
+			scrollY: '600px',
+			scrollX: true,
+			scrollCollapse: true,
+			paging: false,
+			ordering: false,
+			orderClasses: false,
+			language: {
+				"infoFiltered": "(sur _MAX_ au total)",
+				"zeroRecords": "Aucun résultat",
+				"loadingRecords": "Chargement...",
+				"processing": "Calculs...",
+				"thousands": " ",
+				"paginate": {
+					"first": "Début",
+					"last": "Fin",
+					"next": "Suivante",
+					"previous": "Précédente"
+				},
+				"aria": {
+					"sortAscending": ": Tri ascendant",
+					"sortDescending": ": Tri descendant"
+				}
+			}
+		};
+		if( pupilAsColumn ) {
+			// With pupil as column, we show skill category and group its skills
+			// With skill as column, we don't show skill category, we don't group
+			options.rowGroup = {
+				dataSrc: 1
+			};
+			// With pupil as column, we show skill category
+			// With skill as column, we don't show skill category, so no hidden column
+			options.columnDefs = [
+				{
+					"targets": [1],
+					"visible": false
+				},
+			];
+			$.extend(options.language, {
+				"lengthMenu": "Afficher _MENU_ compétences",
+				"info": "_TOTAL_ compétences",
+				"infoEmpty": "Aucune compétence",
+				"search": "Rechercher une compétence :",
+			});
+		} else {
+			$.extend(options.language, {
+				"lengthMenu": "Afficher _MENU_ élèves",
+				"info": "_TOTAL_ élèves",
+				"infoEmpty": "Aucun élève",
+				"search": "Rechercher un élève :",
+			});
+			options.ordering = true;
+			options.order = [
+				[1, 'asc']// Column 0 specify if skill is owned & name of pupil
+			];
+			// With pupil as column, we don't limit width
+			// With skill as column, we limit the width of each column
+			options.columnDefs = [
+				{
+					"targets": "_all",
+					"width": "30rem"
+				},
+			];
+		}
+		console.log('DataTable', options);
 		let table = $table
 			.on('draw.dt', function () {
+				// Remove loading content
 				$loader && $loader.removeClass('d-flex').hide();
 				$tableWrapper.find('table.invisible').removeClass('invisible');
 			})
 			.on('mouseenter', 'td', function () {
-				// $(table.cells().nodes()).removeClass('column-highlight');
+				// Follow user cursor through cells
 				$table.find('.column-highlight').removeClass('column-highlight');
 				$(table.rows().nodes()).removeClass('row-highlight');
 				
@@ -62,7 +130,7 @@ $(function () {
 				// Highlight Column
 				let colIdx = cell.column;
 				let rowIdx = cell.row;
-				if( colIdx - 1 < 0 ) {
+				if( colIdx < 1 ) {
 					// Ignore first column
 					return;
 				}
@@ -76,52 +144,10 @@ $(function () {
 				// Highlight Row
 				$(this).parent().addClass('row-highlight');
 			})
-			.DataTable({
-				ordering: false,
-				scrollY: '600px',
-				scrollX: true,
-				scrollCollapse: true,
-				paging: false,
-				// lengthMenu: [30, 100],
-				orderClasses: false,
-				// Fixed column not working well and not compatible with rowGroup
-				// fixedColumns: {
-				// 	leftColumns: 1
-				// },
-				language: {
-					"lengthMenu": "Afficher _MENU_ compétences",
-					"info": "_TOTAL_ compétences",
-					"infoEmpty": "Aucune compétence",
-					"infoFiltered": "(sur _MAX_ au total)",
-					"search": "Filtrer les résultats :",
-					"zeroRecords": "Aucun résultat",
-					"loadingRecords": "Chargement...",
-					"processing": "Calculs...",
-					"thousands": " ",
-					"paginate": {
-						"first": "Début",
-						"last": "Fin",
-						"next": "Suivante",
-						"previous": "Précédente"
-					},
-					"aria": {
-						"sortAscending": ": Tri ascendant",
-						"sortDescending": ": Tri descendant"
-					}
-				},
-				rowGroup: {
-					dataSrc: 1
-				},
-				columnDefs: [
-					{
-						"targets": [1],
-						"visible": false
-					},
-				]
-			});
-		$table.find('.item-skill .skill-name').click(function () {
-			$('#TablePupilSkillList_filter input[type="search"]').val($(this).text()).keyup();
-		});
+			.DataTable(options);
+		// $table.find('.item-skill .skill-name').click(function () {
+		// 	$('#TablePupilSkillList_filter input[type="search"]').val($(this).text()).keyup();
+		// });
 	});
 	
 	$table.data('manager', new PupilSkillManager($table, $('#FormPupilSkills'), $('#DialogPupilSkillEdit')));
@@ -143,6 +169,7 @@ class PupilSkillManager {
 	$table;
 	$form;
 	$skillEditDialog;
+	pupilAsColumn;
 	
 	// pupilSkills;
 	
@@ -150,20 +177,32 @@ class PupilSkillManager {
 		this.$table = $table;
 		this.$form = $form;
 		this.$skillEditDialog = $skillEditDialog;
+		this.pupilAsColumn = !!$table.find('thead .item-pupil-person').length;
 		
 		this.initialize();
 	}
 	
 	initialize() {
 		let manager = this;
-		let pupilPersons = this.$table.find('.item-pupil-person').map(function () {
-			return $(this).data('pupilPerson');
-		})
-		this.$table.find('.item-pupil-skill').each(function () {
-			let pupilPerson = pupilPersons[$(this).index() - 2];
-			let pupilSkill = new PupilSkill(manager, this, pupilPerson);
-			$(this).data('pupilSkill', pupilSkill);
-		});
+		if( this.pupilAsColumn ) {
+			const pupilPersons = this.$table.find('thead .item-pupil-person').map(function () {
+				return $(this).data('pupilPerson');
+			});
+			this.$table.find('.item-pupil-skill').each(function () {
+				let pupilPerson = pupilPersons[$(this).index() - 2];
+				let pupilSkill = new PupilSkill(manager, this, pupilPerson, $(this).closest('.item-skill').data('skill') || {});
+				$(this).data('pupilSkill', pupilSkill);
+			});
+		} else {
+			const skills = this.$table.find('thead .item-skill').map(function () {
+				return $(this).data('skill');
+			});
+			this.$table.find('.item-pupil-skill').each(function () {
+				let skill = skills[$(this).index() - 1];
+				let pupilSkill = new PupilSkill(manager, this, $(this).closest('.item-pupil-person').data('pupilPerson') || {}, skill);
+				$(this).data('pupilSkill', pupilSkill);
+			});
+		}
 	}
 	
 	async openSkillEditDialog(data) {
@@ -186,7 +225,8 @@ class PupilSkillManager {
 		$dialog.find('.action-cancel')
 			.off('click')
 			.on('click', function () {
-				deferred.reject();
+				deferred.resolve(null);
+				// deferred.reject();
 			});
 		
 		return deferred.promise();
@@ -204,13 +244,13 @@ class PupilSkill {
 	pupilSkill; // Pupil Skill
 	status; // Pupil Skill Status, empty is no changes
 	
-	constructor(manager, $element, pupilPerson) {
+	constructor(manager, $element, pupilPerson, skill) {
 		this.manager = manager;
 		this.$element = $($element);
 		this.$inputAccept = $($element).find('.input-skill-accept');
 		this.index = PupilSkill.counter;
 		this.pupilPerson = pupilPerson;
-		this.skill = this.$element.closest('.item-skill').data('skill') || {};
+		this.skill = skill;
 		this.pupilSkill = this.$element.data('pupilSkill') || {};
 		this.status = null;
 		
@@ -258,11 +298,10 @@ class PupilSkill {
 			let checked = this.$inputAccept.prop('checked');
 			if( checked ) {
 				if( this.skill.valuable ) {
-					try {
-						const data = await this.manager.openSkillEditDialog(this);
+					const data = await this.manager.openSkillEditDialog(this);
+					if( data ) {
 						this.accept(data.pupilSkill.value);
-					} catch( error ) {
-						console.log('Error', error);
+					} else {
 						this.$inputAccept.prop('checked', false);
 					}
 				} else {
@@ -277,7 +316,9 @@ class PupilSkill {
 				return;
 			}
 			const data = await this.manager.openSkillEditDialog(this);
-			this.accept(data.pupilSkill.value);
+			if( data ) {
+				this.accept(data.pupilSkill.value);
+			}
 			return false;
 		});
 	}

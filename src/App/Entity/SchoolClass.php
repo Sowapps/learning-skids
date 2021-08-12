@@ -50,7 +50,8 @@ class SchoolClass extends PermanentEntity {
 		return Person::select()
 			->join(ClassPupil::class, $pupilAlias, null, 'pupil_id', true)
 			->where($pupilAlias . '.class_id', $this)
-			->orderby('person.id ASC');
+			->orderby('person.firstname ASC, person.lastname ASC');
+		//			->orderby('person.id ASC');
 	}
 	
 	/**

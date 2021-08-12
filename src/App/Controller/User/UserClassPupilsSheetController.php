@@ -6,6 +6,7 @@
 namespace App\Controller\User;
 
 use App\Entity\LearningSheet;
+use App\Entity\LearningSkill;
 use App\Entity\PupilSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
@@ -53,11 +54,39 @@ class UserClassPupilsSheetController extends AbstractUserController {
 			reportError($e);
 		}
 		
+		$pageUrl = $request->getURL();
+		
+		if( $request->hasParameter('skills') ) {
+			/** @var LearningSkill[] $tempSkills */
+			/** @var LearningSkill[] $skills */
+			$tempSkills = LearningSkill::select()
+				->where('id', $request->getParameter('skills', []));
+			$selfQueryString = '';
+			$skills = [];
+			foreach( $tempSkills as $skill ) {
+				$skills[] = $skill;
+				$selfQueryString .= ($selfQueryString ? '&' : '?') . sprintf('skills[]=%d', $skill->id());
+				//				if( !$learningSheet->hasSkill($skill)) {
+				//					LearningSkill::throwNotFound();
+				//				}
+			}
+			$this->addRouteToBreadcrumb('user_class_pupils_sheet', t('user_class_pupils_sheet_by_skills'), $pageUrl . $selfQueryString);
+			
+			return $this->renderHTML('class/class_pupils_sheet_by_skills', [
+				'class'         => $class,
+				'learningSheet' => $learningSheet,
+				'pupils'        => $pupils,
+				'pupilSkills'   => $pupilSkills,
+				'skills'        => $skills,
+			]);
+		}
+		
 		return $this->renderHTML('class/class_pupils_sheet', [
 			'class'         => $class,
 			'learningSheet' => $learningSheet,
 			'pupils'        => $pupils,
 			'pupilSkills'   => $pupilSkills,
+			'pageUrl'       => $pageUrl,
 		]);
 	}
 	
