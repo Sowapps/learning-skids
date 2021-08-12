@@ -21,6 +21,7 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property int $skill_id
  * @property int $learning_sheet_id
  * @property int $active_value_id
+ * @property string $value Deprecated
  */
 class PupilSkill extends PermanentEntity {
 	
@@ -70,6 +71,28 @@ class PupilSkill extends PermanentEntity {
 	public function setActiveValue(PupilSkillValue $pupilSkillValue) {
 		$this->active_value_id = $pupilSkillValue->id();
 		$this->update_date = now();
+	}
+	
+	public function addValue(?string $value, DateTime $dateTime = null): bool {
+		$activeValue = $this->getActiveValue();
+		if( $activeValue && $activeValue->value === $value ) {
+			// Active value is equal
+			return false;
+		}
+		$data = [
+			'pupil_skill_id' => $this,
+			'value'          => $value,
+		];
+		if( $dateTime ) {
+			$data['create_date'] = $dateTime;
+		}
+		$pupilSkillValue = PupilSkillValue::createAndGet($data);
+		if( !$activeValue || $pupilSkillValue->getDate() > $activeValue->getDate() ) {
+			$this->setActiveValue($pupilSkillValue);
+		}
+		$this->save();
+		
+		return true;
 	}
 	
 }

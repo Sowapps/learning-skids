@@ -9,7 +9,6 @@ namespace App\Controller\User;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\PupilSkill;
-use App\Entity\PupilSkillValue;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\InputRequest;
 
@@ -86,17 +85,7 @@ trait PupilSkillForm {
 	}
 	
 	public function addValueToPupilSkill(PupilSkill $pupilSkill, ?string $value) {
-		$activeValue = $pupilSkill->getActiveValue();
-		if( $activeValue && $activeValue->value === $value ) {
-			// Active value is equal
-			return;
-		}
-		$pupilSkillValue = PupilSkillValue::createAndGet([
-			'pupil_skill_id' => $pupilSkill,
-			'value'          => $value,
-		]);
-		$pupilSkill->setActiveValue($pupilSkillValue);
-		$pupilSkill->save();
+		$pupilSkill->addValue($value);
 	}
 	
 }
