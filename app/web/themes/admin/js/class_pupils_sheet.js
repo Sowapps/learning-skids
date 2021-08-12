@@ -177,9 +177,17 @@ class PupilSkillManager {
 		this.$table = $table;
 		this.$form = $form;
 		this.$skillEditDialog = $skillEditDialog;
+		this.$skillValueRowTemplate = $('#TemplateValueRow').detach();
 		this.pupilAsColumn = !!$table.find('thead .item-pupil-person').length;
 		
 		this.initialize();
+		this.bindEvents();
+	}
+	
+	bindEvents() {
+		this.$skillEditDialog.on('hide.bs.modal', () => {
+			this.$skillEditDialog.find('#CollapseValueHistory').collapse('hide');
+		});
 	}
 	
 	initialize() {
@@ -214,6 +222,18 @@ class PupilSkillManager {
 			.fill('skill', data.skill)
 			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
 		
+		if( $dialog.find('.pupil-skill-history').length ) {
+			const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
+			$dialog.find('.pupil-skill-history').showIf(hasValues);
+			$dialog.find('.pupil-skill-history-body').empty();
+			if( hasValues ) {
+				for( const skillValue of data.pupilSkill.values ) {
+					const $row = await domService.renderTemplate(this.$skillValueRowTemplate, skillValue);
+					$dialog.find('.pupil-skill-history-body').append($row);
+				}
+			}
+		}
+		
 		$dialog.find('.action-accept')
 			.off('click')
 			.on('click', function () {
@@ -226,7 +246,6 @@ class PupilSkillManager {
 			.off('click')
 			.on('click', function () {
 				deferred.resolve(null);
-				// deferred.reject();
 			});
 		
 		return deferred.promise();

@@ -102,4 +102,4 @@ $rendering->addThemeCssFile('class_pupils_sheet.css');
 
 </div>
 
-<?php $rendering->display('component/pupil-skill-edit.dialog'); ?>
+<?php $rendering->display('component/pupil-skill-edit.dialog', ['withHistory' => true]); ?>
