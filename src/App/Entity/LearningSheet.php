@@ -30,11 +30,19 @@ class LearningSheet extends PermanentEntity {
 	protected static $validator = null;
 	protected static $domain = null;
 	
+	public function hasSkill(LearningSkill $skill): bool {
+		return $this->hasSkillCategory($skill->getLearningCategory());
+	}
+	
+	public function hasSkillCategory(LearningCategory $category): bool {
+		return $category->learning_sheet_id === $this->id();
+	}
+	
 	public function setEnabled(bool $enabled) {
 		$this->enabled = $enabled;
 	}
 	
-	public function remove() {
+	public function remove(): int {
 		foreach( $this->queryCategories() as $category ) {
 			$category->remove();
 		}

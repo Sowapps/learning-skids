@@ -18,6 +18,13 @@ class PupilSkillManager {
 		this.skills = [];
 		
 		this.initialize();
+		this.bindEvents();
+	}
+	
+	bindEvents() {
+		this.$skillEditDialog.on('hide.bs.modal', () => {
+			this.$skillEditDialog.find('#CollapseValueHistory').collapse('hide');
+		});
 	}
 	
 	initialize() {
@@ -38,14 +45,15 @@ class PupilSkillManager {
 			.fill('skill', data.skill)
 			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
 		
-		const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
-		console.log('data.pupilSkill', data.pupilSkill, hasValues);
-		$dialog.find('.pupil-skill-history').showIf(hasValues);
-		$dialog.find('.pupil-skill-history-body').empty();
-		if( hasValues ) {
-			for( const skillValue of data.pupilSkill.values ) {
-				const $row = await domService.renderTemplate(this.$skillValueRowTemplate, skillValue);
-				$dialog.find('.pupil-skill-history-body').append($row);
+		if( $dialog.find('.pupil-skill-history').length ) {
+			const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
+			$dialog.find('.pupil-skill-history').showIf(hasValues);
+			$dialog.find('.pupil-skill-history-body').empty();
+			if( hasValues ) {
+				for( const skillValue of data.pupilSkill.values ) {
+					const $row = await domService.renderTemplate(this.$skillValueRowTemplate, skillValue);
+					$dialog.find('.pupil-skill-history-body').append($row);
+				}
 			}
 		}
 		
@@ -60,7 +68,7 @@ class PupilSkillManager {
 		$dialog.find('.action-cancel')
 			.off('click')
 			.on('click', function () {
-				deferred.reject();
+				deferred.resolve(null);
 			});
 		
 		return deferred.promise();
@@ -128,7 +136,9 @@ class PupilSkill {
 		this.$row.find('.action-skill-accept').click(async() => {
 			if( this.skill.valuable ) {
 				const data = await this.manager.openSkillEditDialog(this)
-				this.accept(data.pupilSkill.value);
+				if( data ) {
+					this.accept(data.pupilSkill.value);
+				}
 			} else {
 				this.accept(null);
 			}
@@ -137,8 +147,10 @@ class PupilSkill {
 			if( !this.skill.valuable ) {
 				return;
 			}
-			const data = await this.manager.openSkillEditDialog(this)
-			this.accept(data.pupilSkill.value);
+			const data = await this.manager.openSkillEditDialog(this);
+			if( data ) {
+				this.accept(data.pupilSkill.value);
+			}
 		});
 		this.$row.find('.action-skill-reject').click(() => {
 			this.remove();

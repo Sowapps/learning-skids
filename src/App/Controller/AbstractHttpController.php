@@ -27,12 +27,13 @@ abstract class AbstractHttpController extends HTTPController {
 	protected ?User $currentUser;
 	protected ?FormToken $formToken = null;
 	
-	public function redirectToSelf() {
+	public function redirectToSelf(): RedirectHTTPResponse {
 		return new RedirectHTTPResponse($this->getCurrentUrl());
 	}
 	
-	public function getCurrentUrl() {
-		return $this->getRoute()->formatURL((array) $this->getRequest()->getPathValues());
+	public function getCurrentUrl(): string {
+		return $this->getRequest()->getURL();// With QueryString
+		//		return $this->getRoute()->formatURL((array) $this->getRequest()->getPathValues());
 	}
 	
 	public function storeSuccess(string $key, string $message, array $params = [], ?string $domain = null) {
