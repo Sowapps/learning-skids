@@ -31,6 +31,10 @@ class PupilSkillValue extends PermanentEntity {
 		return PupilSkill::load($this->pupil_skill_id, false);
 	}
 	
+	public function getDate(): DateTime {
+		return $this->create_date;
+	}
+	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
 			$data = [

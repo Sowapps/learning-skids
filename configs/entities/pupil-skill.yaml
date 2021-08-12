@@ -8,6 +8,7 @@ fields:
     pupil_id: ref(person)
     skill_id: ref(learning-skill)
     learning_sheet_id: ref(learning-sheet) # Shortcut
+    value: string[nullable] # DEPRECATED : Should be null, use
     active_value_id: ref(pupil-skill-value)[nullable]
 
 indexes:

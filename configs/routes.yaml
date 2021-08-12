@@ -29,6 +29,11 @@
 require-packages:
     -   name: "orpheus/orpheus-entitydescriptor"
 
+cli:
+    upgrade-existing-data:
+        path: "upgrade-existing-data"
+        controller: App\Controller\Console\UpgradeExistingDataController
+
 http:
     home:
         path: "/"
