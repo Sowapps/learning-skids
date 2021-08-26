@@ -5,9 +5,7 @@
       <paths name="Local Sowapps">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
-            <mapping deploy="/app/web" local="$PROJECT_DIR$/app/web" web="/" />
-            <mapping deploy="/app/console" local="$PROJECT_DIR$/app/console" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
