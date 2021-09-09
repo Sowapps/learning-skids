@@ -9,4 +9,4 @@ fields:
     role: enum(App\Entity\Person::getAllRoles)[nullable]
 
 indexes:
-    - UNIQUE(firstname, lastname)
+    - INDEX(firstname, lastname)
