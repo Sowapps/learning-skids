@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "028f78c3edef491bee62a055200042d9",
+    "content-hash": "bc1349896d53f749a7277cd7e2abcfb5",
     "packages": [
         {
             "name": "orpheus/orpheus-cache",
@@ -634,7 +634,8 @@
         "ext-pdo": "*",
         "ext-json": "*",
         "ext-zip": "*",
-        "ext-apcu": "*"
+        "ext-apcu": "*",
+        "ext-zlib": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"
