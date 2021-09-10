@@ -9,6 +9,7 @@ namespace App\Controller\User;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\PupilSkill;
+use DateTime;
 use Orpheus\Exception\UserException;
 use Orpheus\InputController\InputRequest;
 
@@ -34,6 +35,7 @@ trait PupilSkillForm {
 				}
 			}
 			try {
+				/** @var PupilSkill $currentPupilSkill */
 				$currentPupilSkill = $isMultiPerson ? ($pupilSkills[$pupilPerson->id()][$newPupilSkill['skill_id']] ?? null) : ($pupilSkills[$newPupilSkill['skill_id']] ?? null);
 				if( $newPupilSkill['status'] === 'new' ) {
 					if( $currentPupilSkill ) {
@@ -43,12 +45,13 @@ trait PupilSkillForm {
 					// Create new pupil Skill
 					$pupilSkill = PupilSkill::createAndGet([
 						'pupil_id'          => $pupilPerson,
-						'skill_id'          => $newPupilSkill['skill_id'],
 						'learning_sheet_id' => $learningSheet,
+						'skill_id'          => $newPupilSkill['skill_id'],
+						'date'              => $newPupilSkill['date'],
 					]);
-					// Create new pupil skill Value
+					// Add new pupil skill Value
 					if( !empty($newPupilSkill['value']) ) {
-						$this->addValueToPupilSkill($pupilSkill, $newPupilSkill['value']);
+						$this->addValueToPupilSkill($pupilSkill, $newPupilSkill['value'], $pupilSkill->date);
 					}
 					$created++;
 					
@@ -67,7 +70,12 @@ trait PupilSkillForm {
 						// Should be existing, may have been removed by another request
 						continue;
 					}
-					$this->addValueToPupilSkill($currentPupilSkill, $newPupilSkill['value']);
+					// Update pupil Skill
+					$currentPupilSkill->update($newPupilSkill, ['date']);
+					// Add new pupil skill Value
+					if( !empty($newPupilSkill['value']) ) {
+						$this->addValueToPupilSkill($currentPupilSkill, $newPupilSkill['value'], $currentPupilSkill->date);
+					}
 					$updated++;
 				}
 			} catch( UserException $e ) {
@@ -84,8 +92,8 @@ trait PupilSkillForm {
 		}
 	}
 	
-	public function addValueToPupilSkill(PupilSkill $pupilSkill, ?string $value) {
-		$pupilSkill->addValue($value);
+	public function addValueToPupilSkill(PupilSkill $pupilSkill, ?string $value, DateTime $date) {
+		$pupilSkill->addValue($value, $date);
 	}
 	
 }

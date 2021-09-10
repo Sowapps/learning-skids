@@ -21,11 +21,13 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  */
 class ClassPupil extends PermanentEntity {
 	
-	protected static $table = 'class-pupil';
+	protected static string $table = 'class-pupil';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = null;
+	
+	protected static string $domain;
 	
 	public function getSchoolClass(): SchoolClass {
 		return SchoolClass::load($this->class_id, false);

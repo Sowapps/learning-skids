@@ -18,21 +18,25 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property int $create_user_id
  * @property int $pupil_skill_id
  * @property string $value
+ * @property DateTime $date
  */
 class PupilSkillValue extends PermanentEntity {
 	
-	protected static $table = 'pupil-skill-value';
+	protected static string $table = 'pupil-skill-value';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = 'class';
+	
+	protected static string $domain = 'class';
 	
 	public function getPupil(): PupilSkill {
 		return PupilSkill::load($this->pupil_skill_id, false);
 	}
 	
 	public function getDate(): DateTime {
-		return $this->create_date;
+		return $this->date ?? $this->create_date;
+		//		return $this->date && $this->date->getTimestamp() ? $this->date : $this->create_date;
 	}
 	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
@@ -40,7 +44,7 @@ class PupilSkillValue extends PermanentEntity {
 			$data = [
 				'id' => $this->id(),
 			];
-			$data['date'] = d($this->create_date);
+			$data['date'] = d($this->getDate());
 			$data['value'] = $this->value;
 			
 			return $data;

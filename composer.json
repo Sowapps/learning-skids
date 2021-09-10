@@ -29,7 +29,8 @@
 		"ext-pdo": "*",
 		"ext-json": "*",
 		"ext-zip": "*",
-		"ext-apcu": "*"
+		"ext-apcu": "*",
+		"ext-zlib": "*"
 	},
 	"authors": [
 		{

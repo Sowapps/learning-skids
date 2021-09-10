@@ -34,11 +34,13 @@ class SchoolClass extends PermanentEntity {
 	const LEVEL_KID_MIDDLE = 'kid_middle';
 	const LEVEL_KID_HIGH = 'kid_high';
 	
-	protected static $table = 'school-class';
+	protected static string $table = 'school-class';
 	
-	protected static $fields = null;
+	protected static string $domain = DOMAIN_CLASS;
+	
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = DOMAIN_CLASS;
 	
 	public function hasPupilPersons(Person $person): bool {
 		return $this->queryPupils()
@@ -75,7 +77,7 @@ class SchoolClass extends PermanentEntity {
 			->orderby('id ASC');
 	}
 	
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->name;
 	}
 	

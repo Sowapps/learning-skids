@@ -48,6 +48,7 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 				<tr>
 					<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
 					<th scope="col" class="text-nowrap"><?php echo t('name', DOMAIN_LEARNING_SKILL); ?></th>
+					<th scope="col" class="text-nowrap"><?php echo t('date', DOMAIN_LEARNING_SKILL); ?></th>
 					<th scope="col" class="text-nowrap"><?php echo t('value', DOMAIN_LEARNING_SKILL); ?></th>
 					<th scope="col" class="text-nowrap" data-orderable="false"><?php echo t('actionsColumn'); ?></th>
 				</tr>
@@ -70,6 +71,11 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 							} ?>">
 							<th class="status-bg" scope="row" style="width:1%;"><?php echo $skill->id(); ?></th>
 							<td><?php echo $skill; ?></td>
+							<td>
+								<button class="btn action-value-edit font-weight-bold pupil-skill-date status-accepted" type="button" title="Cliquez pour modifier la date"
+										style="display: none;"></button>
+								<div class="status-not-accepted text-center" style="display: none;">-</div>
+							</td>
 							<td>
 								<button class="btn action-value-edit font-weight-bold pupil-skill-value skill-valuable" type="button" title="Cliquez pour modifier la valeur et voir l'historique"
 										style="display: none;"></button>
@@ -106,7 +112,7 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 			
 			<div class="form-group">
 				<label class="form-label"><?php echo t('firstname', DOMAIN_PERSON); ?></label>
-				<input n<?php echo formInput('person/firstname'); ?> type="text" class="form-control person_firstname">
+				<input <?php echo formInput('person/firstname'); ?> type="text" class="form-control person_firstname">
 			</div>
 			<div class="form-group">
 				<label class="form-label"><?php echo t('lastname', DOMAIN_PERSON); ?></label>

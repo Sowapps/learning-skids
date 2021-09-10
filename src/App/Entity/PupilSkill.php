@@ -21,21 +21,25 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property int $skill_id
  * @property int $learning_sheet_id
  * @property int $active_value_id
+ * @property DateTime $date
  * @property string $value Deprecated
  */
 class PupilSkill extends PermanentEntity {
 	
-	protected static $table = 'pupil-skill';
+	protected static string $table = 'pupil-skill';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = 'class';
+	
+	protected static string $domain = 'class';
 	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
 			$data = parent::asArray(self::OUTPUT_MODEL_MINIMALS);
 			$activeValue = $this->getActiveValue();
 			$data['activeValue'] = $activeValue ? $activeValue->asArray($model) : null;
+			$data['date'] = $activeValue ? d($activeValue->getDate()) : d($this->date);
 			$data['value'] = $activeValue ? $activeValue->value : null;
 			$data['values'] = listAsArray($this->getValues(), $model);
 			
@@ -70,6 +74,7 @@ class PupilSkill extends PermanentEntity {
 	
 	public function setActiveValue(PupilSkillValue $pupilSkillValue) {
 		$this->active_value_id = $pupilSkillValue->id();
+		$this->date = $pupilSkillValue->getDate();
 		$this->update_date = now();
 	}
 	
@@ -82,12 +87,10 @@ class PupilSkill extends PermanentEntity {
 		$data = [
 			'pupil_skill_id' => $this,
 			'value'          => $value,
+			'date'           => $dateTime,
 		];
-		if( $dateTime ) {
-			$data['create_date'] = $dateTime;
-		}
 		$pupilSkillValue = PupilSkillValue::createAndGet($data);
-		if( !$activeValue || $pupilSkillValue->getDate() > $activeValue->getDate() ) {
+		if( !$activeValue || $pupilSkillValue->getDate() > $activeValue->getDate() || ($pupilSkillValue->getDate() == $activeValue->getDate() && $pupilSkillValue->id() > $activeValue->id()) ) {
 			$this->setActiveValue($pupilSkillValue);
 		}
 		$this->save();

@@ -4,11 +4,11 @@ namespace Orpheus\Controller\Developer;
 
 use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
+use Orpheus\File\AbstractFile;
+use Orpheus\File\GZFile;
+use Orpheus\File\TextFile;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
-use Sowapps\File\AbstractFile;
-use Sowapps\File\GZFile;
-use Sowapps\File\TextFile;
 
 class DevLogViewController extends DevController {
 	
