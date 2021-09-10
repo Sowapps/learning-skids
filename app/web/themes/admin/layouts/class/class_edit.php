@@ -107,13 +107,13 @@ $teacher = $class->getTeacher();
 					<td><?php echo $person->lastname; ?></td>
 					<td class="text-right">
 						<div class="btn-group btn-group-sm" role="group">
+							<a class="btn btn-secondary" href="<?php echo u('user_class_pupil_edit', ['classId' => $class->id(), 'pupilId' => $pupil->id()]); ?>"
+							   title="Voir sa fiche personnelle">
+								<i class="fas fa-user-edit"></i>
+							</a>
 							<a class="btn btn-secondary" href="<?php echo u('user_class_pupil_export', ['pupilId' => $pupil->id()]); ?>"
 							   title="Télécharger sa fiche d'apprentissage">
 								<i class="fas fa-download"></i>
-							</a>
-							<a class="btn btn-secondary" href="<?php echo u('user_class_pupil_edit', ['classId' => $class->id(), 'pupilId' => $pupil->id()]); ?>"
-							   title="Éditer ses informations">
-								<i class="fas fa-edit"></i>
 							</a>
 							<button type="button" class="btn btn-secondary" title="Enlever cet élève de cette classe"
 									data-confirm_title="<?php echo t('removePupil_title', DOMAIN_CLASS); ?>"

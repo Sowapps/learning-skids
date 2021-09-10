@@ -2,7 +2,7 @@
 
 namespace App\Controller\Console;
 
-use App\Entity\PupilSkill;
+use App\Entity\PupilSkillValue;
 use Exception;
 use Orpheus\InputController\CLIController\CLIController;
 use Orpheus\InputController\CLIController\CLIRequest;
@@ -24,33 +24,17 @@ class UpgradeExistingDataController extends CLIController {
 			$this->printLine('Running as dry run, we are not applying any change.');
 		}
 		
-		$pupilSkills = PupilSkill::select()
-			->where('value', 'IS NOT', 'NULL', false);
-		
-		/** @var PupilSkill $pupilSkill */
+		// Update existing pu
+		$pupilSkillValues = PupilSkillValue::select()
+			->where('date', '0000-00-00');
+		/** @var PupilSkillValue $pupilSkillValue */
 		$migrated = 0;
-		foreach( $pupilSkills as $pupilSkill ) {
-			if( !$pupilSkill->value ) {
-				continue;
-			}
-			$value = $pupilSkill->value;
-			$date = $pupilSkill->create_date;
-			if( $request->isDebugVerbose() ) {
-				$this->printLine(sprintf('Migrating value "%s" (date %s) from pupil skill #%d', $value, $date, $pupilSkill->id()));
-			}
-			if( !$request->isDryRun() ) {
-				$pupilSkill->value = null;
-				$result = $pupilSkill->addValue($value, $date);
-				// All changes are saved
-				if( !$result && $request->isDebugVerbose() ) {
-					$this->printLine('But value was already known as the active one');
-				}
-			}
+		foreach( $pupilSkillValues as $pupilSkillValue ) {
+			$pupilSkillValue->date = $pupilSkillValue->create_date;
+			$pupilSkillValue->save();
 			$migrated++;
 		}
 		
 		return new CLIResponse(0, sprintf('Migrated %d pupil skills.', $migrated));
 	}
-	
-	
 }

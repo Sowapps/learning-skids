@@ -25,11 +25,13 @@ class LearningSheetUser extends PermanentEntity {
 	const ROLE_USAGE = 'usage';
 	const ROLE_ADMIN = 'admin';
 	
-	protected static $table = 'learning-sheet-user';
+	protected static string $table = 'learning-sheet-user';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = null;
+	
+	protected static string $domain;
 	
 	public function canAdminLearningSheet(): bool {
 		return $this->role === self::ROLE_ADMIN;

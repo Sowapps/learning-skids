@@ -26,11 +26,13 @@ class Person extends PermanentEntity {
 	const ROLE_PUPIL = 'pupil';
 	const ROLE_TEACHER = 'teacher';
 	
-	protected static $table = 'person';
+	protected static string $table = 'person';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = null;
+	
+	protected static string $domain;
 	
 	public function querySchoolClasses(): SQLSelectRequest {
 		return SchoolClass::select()

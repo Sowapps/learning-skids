@@ -28,7 +28,7 @@ button {
 input {
     cursor: text;
 }
-label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
+label, select, button, input[type='button'], input[type='reset'], input[type='submit'], input[type='radio'], input[type='checkbox'] {
     cursor: pointer;
 }
 
@@ -205,25 +205,82 @@ script, style {
 
 .fs11 { font-size: 11px; }
 .fs12 { font-size: 12px; }
-.fs13 { font-size: 13px; }
-.fs14 { font-size: 14px; }
-.fs15 { font-size: 15px; }
-.fs16 { font-size: 16px; }
-.fs17 { font-size: 17px; }
-.fs18 { font-size: 18px; }
-.fs19 { font-size: 19px; }
-.fs20 { font-size: 20px; }
-.fs36 { font-size: 36px; }
+.fs13 {
+	font-size: 13px;
+}
 
-.bsbb { -webkit-box-sizing: border-box;  -moz-box-sizing: border-box;  box-sizing: border-box; }
-.bscb { -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; }
+.fs14 {
+	font-size: 14px;
+}
 
-.force-hide { display: none !important; }
+.fs15 {
+	font-size: 15px;
+}
 
-.pa	{ position: absolute !important; }
-.pr	{ position: relative !important; }
+.fs16 {
+	font-size: 16px;
+}
 
-.oa		{ overflow: auto !important; }
+.fs17 {
+	font-size: 17px;
+}
+
+.fs18 {
+	font-size: 18px;
+}
+
+.fs19 {
+	font-size: 19px;
+}
+
+.fs20 {
+	font-size: 20px;
+}
+
+.fs36 {
+	font-size: 36px;
+}
+
+/* BS 5 */
+.fs-7 {
+	font-size: 0.875rem;
+}
+
+.fs-8 {
+	font-size: 0.75rem;
+}
+
+.fs-9 {
+	font-size: 0.625rem;
+}
+
+.bsbb {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.bscb {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.force-hide {
+	display: none !important;
+}
+
+.pa {
+	position: absolute !important;
+}
+
+.pr {
+	position: relative !important;
+}
+
+.oa {
+	overflow: auto !important;
+}
 .oh		{ overflow: hidden !important; }
 .ov		{ overflow: visible !important; }
 .os		{ overflow: scroll !important; }

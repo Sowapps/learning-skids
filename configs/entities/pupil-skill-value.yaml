@@ -6,3 +6,4 @@ fields:
 
     pupil_skill_id: ref(pupil-skill)
     value: string
+    date: date

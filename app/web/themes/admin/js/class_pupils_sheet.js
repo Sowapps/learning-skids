@@ -221,10 +221,12 @@ class PupilSkillManager {
 			.resetForm()
 			.fill('skill', data.skill)
 			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
+		const $form = $dialog.getForm();
+		$form.removeClass('was-validated');
 		
 		if( $dialog.find('.pupil-skill-history').length ) {
 			const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
-			$dialog.find('.pupil-skill-history').showIf(hasValues);
+			$dialog.find('.pupil-skill-history').toggle(!!hasValues);
 			$dialog.find('.pupil-skill-history-body').empty();
 			if( hasValues ) {
 				for( const skillValue of data.pupilSkill.values ) {
@@ -233,18 +235,24 @@ class PupilSkillManager {
 				}
 			}
 		}
+		$dialog.find('.show-if-valuable').toggle(data.skill.valuable);
+		$dialog.find('.show-if-valuable :input').prop('disabled', !data.skill.valuable);
 		
 		$dialog.find('.action-accept')
 			.off('click')
-			.on('click', function () {
-				let data = $dialog.getFormObject();
-				$dialog.modal('hide');
-				deferred.resolve(data);
+			.on('click', () => {
+				const valid = $form[0].checkValidity();
+				$form.addClass('was-validated');
+				if( valid ) {
+					let data = $dialog.getFormObject();
+					$dialog.modal('hide');
+					deferred.resolve(data);
+				}
 			});
 		
 		$dialog.find('.action-cancel')
 			.off('click')
-			.on('click', function () {
+			.on('click', () => {
 				deferred.resolve(null);
 			});
 		
@@ -270,6 +278,7 @@ class PupilSkill {
 		this.index = PupilSkill.counter;
 		this.pupilPerson = pupilPerson;
 		this.skill = skill;
+		this.skill.valuable = !!this.skill.valuable;// Format value
 		this.pupilSkill = this.$element.data('pupilSkill') || {};
 		this.status = null;
 		
@@ -293,9 +302,10 @@ class PupilSkill {
 		return (this.isExisting() && this.status !== PupilSkill.STATUS_REMOVE) || this.status === PupilSkill.STATUS_NEW;
 	}
 	
-	accept(value) {
+	accept(pupilSkill) {
 		this.pupilSkill.accept = 1;
-		this.pupilSkill.value = this.skill.valuable ? value : null;
+		this.pupilSkill.value = this.skill.valuable ? pupilSkill.value : null;
+		this.pupilSkill.date = pupilSkill.date;
 		this.status = this.isExisting() ? PupilSkill.STATUS_UPDATE : PupilSkill.STATUS_NEW;
 		this.notifyChanges();
 	}
@@ -316,30 +326,43 @@ class PupilSkill {
 		this.$element.find('.input-skill-accept').change(async() => {
 			let checked = this.$inputAccept.prop('checked');
 			if( checked ) {
-				if( this.skill.valuable ) {
-					const data = await this.manager.openSkillEditDialog(this);
-					if( data ) {
-						this.accept(data.pupilSkill.value);
-					} else {
-						this.$inputAccept.prop('checked', false);
-					}
-				} else {
-					this.accept(null);
+				const changed = await this.openEditDialog();
+				if( !changed ) {
+					// May be previously falsy and not validated
+					this.$inputAccept.prop('checked', false);
 				}
 			} else {
 				this.remove();
 			}
 		});
-		this.$element.find('.action-value-edit').click(async() => {
-			if( !this.skill.valuable ) {
-				return;
+		this.$element.find('.action-context-edit').on('contextmenu', async(event) => {
+			event.preventDefault();
+			const changed = await this.openEditDialog();
+			if( changed ) {
+				// May be previously falsy and now validated
+				this.$inputAccept.prop('checked', true);
 			}
-			const data = await this.manager.openSkillEditDialog(this);
-			if( data ) {
-				this.accept(data.pupilSkill.value);
-			}
+			
 			return false;
 		});
+		this.$element.find('.action-value-edit').click(() => {
+			this.openEditDialog();
+			
+			return false;
+		});
+	}
+	
+	async openEditDialog() {
+		// Fix defaults
+		this.pupilSkill.date ||= moment().format('DD/MM/YYYY');
+		// Open dialog
+		const data = await this.manager.openSkillEditDialog(this);
+		if( data ) {
+			this.accept(data.pupilSkill);
+			return true;
+		}
+		// Cancel, do not mean reject
+		return false;
 	}
 	
 	notifyChanges() {
@@ -381,6 +404,7 @@ class PupilSkill {
 		this.addDataToForm('person_id', this.pupilPerson.id);
 		this.addDataToForm('skill_id', this.skill.id);
 		this.addDataToForm('status', this.status);
+		this.addDataToForm('date', this.pupilSkill.date);
 		if( this.status !== PupilSkill.STATUS_REMOVE && this.pupilSkill.value !== null ) {
 			this.addDataToForm('value', this.pupilSkill.value);
 		}
@@ -393,9 +417,6 @@ class PupilSkill {
 		this.$element.find('.status-accepted').showIf(isAccepted);
 		this.$element.find('.status-not-accepted').showIf(!isAccepted);
 		
-		if( !this.skill.valuable ) {
-			this.$element.find('.action-value-edit').remove();
-		}
 		const valuated = this.skill.valuable && isAccepted;
 		this.$element.find('.skill-valuable').showIf(valuated);
 		this.$element.find('.skill-not-valuable').showIf(!valuated);
@@ -407,6 +428,11 @@ class PupilSkill {
 		
 		if( this.skill.valuable ) {
 			this.$element.find('.pupil-skill-value').text(this.pupilSkill.value || '##');
+		}
+		if( isAccepted && this.pupilSkill.date ) {
+			this.$element.attr('title', "Acquise le " + this.pupilSkill.date);
+		} else {
+			this.$element.removeAttr('title');
 		}
 		
 		this.$element.find('.status-bg')

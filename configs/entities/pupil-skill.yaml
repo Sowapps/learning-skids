@@ -5,10 +5,11 @@ fields:
     create_user_id: ref=userID()
 
     update_date: datetime=now()
+    date: date
     pupil_id: ref(person)
     skill_id: ref(learning-skill)
     learning_sheet_id: ref(learning-sheet) # Shortcut
-    value: string[nullable] # DEPRECATED : Should be null, use
+    value: string[nullable] # DEPRECATED : Should be null, use active_value_id as PupilSkillValue
     active_value_id: ref(pupil-skill-value)[nullable]
 
 indexes:

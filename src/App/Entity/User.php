@@ -92,7 +92,7 @@ class User extends AbstractUser implements FixtureInterface {
 		return $this->canDo('class_manage') || ($learningSheetUser && $learningSheetUser->canAdminLearningSheet());
 	}
 	
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->fullname;
 	}
 	
@@ -211,7 +211,7 @@ class User extends AbstractUser implements FixtureInterface {
 		return User::createAndGet($input, ['email', 'password', 'fullname', 'person_id', 'activation_code', 'published']);
 	}
 	
-	public static function checkUserInput($uInputData, $fields = null, $ref = null, &$errCount = 0, $ignoreRequired = false) {
+	public static function checkUserInput($uInputData, $fields = null, $ref = null, &$errCount = 0, $ignoreRequired = false): array {
 		$data = parent::checkUserInput($uInputData, $fields, $ref, $errCount, $ignoreRequired);
 		if( !empty($uInputData['password']) ) {
 			$data['real_password'] = $uInputData['password'];

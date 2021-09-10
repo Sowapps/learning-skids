@@ -22,11 +22,13 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  */
 class LearningSkill extends PermanentEntity {
 	
-	protected static $table = 'learning-skill';
+	protected static string $table = 'learning-skill';
 	
-	protected static $fields = null;
+	protected static array $fields = [];
+	
 	protected static $validator = null;
-	protected static $domain = null;
+	
+	protected static string $domain;
 	
 	public function remove() {
 		foreach( $this->queryPupilSkills() as $pupilSkill ) {
@@ -65,7 +67,7 @@ class LearningSkill extends PermanentEntity {
 		return parent::asArray($model);
 	}
 	
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->name;
 	}
 	

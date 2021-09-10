@@ -80,7 +80,7 @@ $categories = $class->getLearningSheet()->queryCategories();
 									asJsonAttribute($pupilSkill, OUTPUT_MODEL_EDITION);
 								} ?>">
 									<div class="text-center p-3">
-										<label class="label-checkbox">
+										<label class="label-checkbox action-context-edit">
 											<input type="checkbox" class="custom-control-input input-skill-accept" <?php echo $pupilSkill ? 'checked' : ''; ?>>
 											<i class="fas fa-check-square fa-2x text-success checked"></i>
 											<i class="far fa-square fa-2x text-muted unchecked"></i>
