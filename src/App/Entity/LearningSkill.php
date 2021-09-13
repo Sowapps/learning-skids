@@ -46,12 +46,13 @@ class LearningSkill extends PermanentEntity {
   
 	public function formatName(PupilSkill $pupilSkill) {
 		$name = $this->name;
-		if( $this->valuable && $pupilSkill->value ) {
-			$name = str_replace('#', $pupilSkill->value, $name);
+		$activeValue = $pupilSkill->getActiveValue();
+		if( $this->valuable && $activeValue && $activeValue->value ) {
+			$name = str_replace('#', $activeValue->value, $name);
 		}
 		
 		return $name;
-  }
+	}
 	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {

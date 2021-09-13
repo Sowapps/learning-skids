@@ -97,3 +97,11 @@ h1 {
 	border-bottom-right-radius: .25rem;
 	border-bottom-left-radius: .25rem;
 }
+
+.pull-left {
+	float: left !important;
+}
+
+.pull-right {
+	float: right !important;
+}

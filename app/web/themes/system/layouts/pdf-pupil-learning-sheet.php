@@ -39,8 +39,13 @@ $rendering->useLayout('pdf-skeleton');
 			if( !isset($pupilSkills[$skill->id()]) ) {
 				continue;
 			}
+			$pupilSkill = $pupilSkills[$skill->id()];
+			$activeValue = $pupilSkill->getActiveValue();
 			?>
-			<li class="list-group-item item-skill no-page-break"><?php echo $skill->formatName($pupilSkills[$skill->id()]); ?></li>
+			<li class="list-group-item item-skill no-page-break">
+				<div class="pull-right"><?php echo d($activeValue ? $activeValue->date : $pupilSkill->date); ?></div>
+				<div><?php echo $skill->formatName($pupilSkill); ?></div>
+			</li>
 			<?php
 		}
 		$skillRows = HTMLRendering::endCapture();
