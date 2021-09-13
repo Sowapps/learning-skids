@@ -101,19 +101,19 @@
             "time": "2021-03-23T10:52:05+00:00"
         },
         {
-            "name": "orpheus/orpheus-entitydescriptor",
-            "version": "v1.10.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sowapps/orpheus-entitydescriptor.git",
-                "reference": "f636d0c778968766c8c9ad1e9dca216db336da82"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-entitydescriptor/zipball/f636d0c778968766c8c9ad1e9dca216db336da82",
-                "reference": "f636d0c778968766c8c9ad1e9dca216db336da82",
-                "shasum": ""
-            },
+	        "name": "orpheus/orpheus-entitydescriptor",
+	        "version": "v1.10.3",
+	        "source": {
+		        "type": "git",
+		        "url": "https://github.com/Sowapps/orpheus-entitydescriptor.git",
+		        "reference": "eafd848f5d89b90a50490cf75d5af57dd4381d8b"
+	        },
+	        "dist": {
+		        "type": "zip",
+		        "url": "https://api.github.com/repos/Sowapps/orpheus-entitydescriptor/zipball/eafd848f5d89b90a50490cf75d5af57dd4381d8b",
+		        "reference": "eafd848f5d89b90a50490cf75d5af57dd4381d8b",
+		        "shasum": ""
+	        },
             "require": {
                 "orpheus/orpheus-cache": "1.*",
                 "orpheus/orpheus-core": "1.*",
@@ -156,9 +156,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-entitydescriptor/issues",
-                "source": "https://github.com/Sowapps/orpheus-entitydescriptor/tree/v1.10.2"
+	            "source": "https://github.com/Sowapps/orpheus-entitydescriptor/tree/v1.10.3"
             },
-            "time": "2021-09-09T16:53:42+00:00"
+	        "time": "2021-09-10T09:33:32+00:00"
         },
         {
             "name": "orpheus/orpheus-form",
@@ -362,20 +362,20 @@
             },
             "time": "2021-08-12T15:36:33+00:00"
         },
-        {
-            "name": "orpheus/orpheus-publisher",
-            "version": "v1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sowapps/orpheus-publisher.git",
-                "reference": "93fa0acdb69702ba737e5165439bb2e1b868bff9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-publisher/zipball/93fa0acdb69702ba737e5165439bb2e1b868bff9",
-                "reference": "93fa0acdb69702ba737e5165439bb2e1b868bff9",
-                "shasum": ""
-            },
+	    {
+		    "name": "orpheus/orpheus-publisher",
+		    "version": "v1.3.4",
+		    "source": {
+			    "type": "git",
+			    "url": "https://github.com/Sowapps/orpheus-publisher.git",
+			    "reference": "f89de62acfcccbd0586ae1555f6916b66e86d4c6"
+		    },
+		    "dist": {
+			    "type": "zip",
+			    "url": "https://api.github.com/repos/Sowapps/orpheus-publisher/zipball/f89de62acfcccbd0586ae1555f6916b66e86d4c6",
+			    "reference": "f89de62acfcccbd0586ae1555f6916b66e86d4c6",
+			    "shasum": ""
+		    },
             "require": {
                 "orpheus/orpheus-cache": "1.*",
                 "orpheus/orpheus-core": "1.*",
@@ -416,9 +416,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-publisher/issues",
-                "source": "https://github.com/Sowapps/orpheus-publisher/tree/v1.3.3"
+	            "source": "https://github.com/Sowapps/orpheus-publisher/tree/v1.3.4"
             },
-            "time": "2021-09-09T16:53:43+00:00"
+		    "time": "2021-09-12T12:27:09+00:00"
         },
         {
             "name": "orpheus/orpheus-rendering",

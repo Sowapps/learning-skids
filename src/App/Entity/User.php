@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Agency;
 use DateTime;
+use Exception;
 use Orpheus\EntityDescriptor\User\AbstractUser;
 use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
@@ -208,7 +209,12 @@ class User extends AbstractUser implements FixtureInterface {
 		$input['person_id'] = $person->id();
 		$input['fullname'] = $person->getLabel();
 		
-		return User::createAndGet($input, ['email', 'password', 'fullname', 'person_id', 'activation_code', 'published']);
+		try {
+			return User::createAndGet($input, ['email', 'password', 'fullname', 'person_id', 'activation_code', 'published']);
+		} catch( Exception $exception ) {
+			$person->remove();
+			throw $exception;
+		}
 	}
 	
 	public static function checkUserInput($uInputData, $fields = null, $ref = null, &$errCount = 0, $ignoreRequired = false): array {
