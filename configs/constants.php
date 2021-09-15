@@ -42,8 +42,8 @@ defifn('JS_URL', STATIC_ASSETS_URL . '/js');
 
 defifn('ADMIN_EMAIL', 'f.hazard@sowapps.com');
 defifn('DEV_EMAIL', ADMIN_EMAIL);
-defifn('AUTHORNAME', 'Your name');
-defifn('SITENAME', 'Your App Name');// See also translation app_name
+defifn('AUTHORNAME', 'Sowapps');
+defifn('SITENAME', 'Learning Skids');// See also translation app_name
 defifn('ADMINEMAIL', ADMIN_EMAIL);
 defifn('DEVEMAIL', DEV_EMAIL);
 

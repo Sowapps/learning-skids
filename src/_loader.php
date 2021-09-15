@@ -45,7 +45,7 @@ function listAsArray(array $list, $model = OUTPUT_MODEL_USAGE): array {
  * @param User $user
  * @return bool
  */
-function sendAdminRegistrationEmail(User $user) {
+function sendAdminRegistrationEmail(User $user): bool {
 	$appName = t('app_name');
 	$appUrl = u(DEFAULT_ROUTE);
 	$email = new Email($appName . ' - Inscription du professeur ' . $user->getLabel());
@@ -65,7 +65,7 @@ BODY
  * @param User $user
  * @return bool
  */
-function sendUserActivationEmail(User $user) {
+function sendUserActivationEmail(User $user): bool {
 	$appName = t('app_name');
 	$appUrl = u(DEFAULT_ROUTE);
 	$email = new Email($appName . ' - Activation de votre compte');
