@@ -66,7 +66,7 @@ $categories = $class->getLearningSheet()->queryCategories();
 				foreach( $categories as $category ) {
 					foreach( $category->querySkills() as $skill ) {
 						?>
-						<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>">
+						<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>" title="<?php echo $skill->getLabel(); ?>">
 							<th scope="row"><a class="btn d-block text-left filter-skill" href="<?php echo sprintf('%s?skills[]=%d', $pageUrl, $skill->id()); ?>"
 											   title="Filtrer par cette compétence"><?php echo $skill; ?></a></th>
 							<td class="d-none"><?php echo $category; ?></td>

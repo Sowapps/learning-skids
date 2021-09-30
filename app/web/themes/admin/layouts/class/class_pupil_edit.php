@@ -43,60 +43,62 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 			
 			<?php $this->display('reports-bootstrap3', ['stream' => 'pupilSkillsUpdate']); ?>
 			
-			<table id="TablePupilSkillList" class="table table-striped table-bordered">
-				<thead>
-				<tr>
-					<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
-					<th scope="col" class="text-nowrap"><?php echo t('name', DOMAIN_LEARNING_SKILL); ?></th>
-					<th scope="col" class="text-nowrap"><?php echo t('date', DOMAIN_LEARNING_SKILL); ?></th>
-					<th scope="col" class="text-nowrap"><?php echo t('value', DOMAIN_LEARNING_SKILL); ?></th>
-					<th scope="col" class="text-nowrap" data-orderable="false"><?php echo t('actionsColumn'); ?></th>
-				</tr>
-				</thead>
-				<tbody class="table-valign-middle">
-				<?php
-				/** @var LearningCategory[] $categories */
-				$categories = $class->getLearningSheet()->queryCategories();
-				foreach( $categories as $category ) {
-					?>
-					<tr class="item-category">
-						<th scope="row" class="bg-info text-white" colspan="99"><?php echo $category; ?></th>
+			<div class="table-responsive" style="height: 600px;">
+				<table id="TablePupilSkillList" class="table table-striped table-bordered">
+					<thead>
+					<tr>
+						<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
+						<th scope="col" class="text-nowrap"><?php echo t('name', DOMAIN_LEARNING_SKILL); ?></th>
+						<th scope="col" class="text-nowrap"><?php echo t('date', DOMAIN_LEARNING_SKILL); ?></th>
+						<th scope="col" class="text-nowrap"><?php echo t('value', DOMAIN_LEARNING_SKILL); ?></th>
+						<th scope="col" class="text-nowrap" data-orderable="false"><?php echo t('actionsColumn'); ?></th>
 					</tr>
+					</thead>
+					<tbody class="table-valign-middle">
 					<?php
-					foreach( $category->querySkills() as $skill ) {
+					/** @var LearningCategory[] $categories */
+					$categories = $class->getLearningSheet()->queryCategories();
+					foreach( $categories as $category ) {
 						?>
-						<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>"
-							data-pupil-skill="<?php if( isset($pupilSkills[$skill->id()]) ) {
-								asJsonAttribute($pupilSkills[$skill->id()], OUTPUT_MODEL_EDITION);
-							} ?>">
-							<th class="status-bg" scope="row" style="width:1%;"><?php echo $skill->id(); ?></th>
-							<td><?php echo $skill; ?></td>
-							<td>
-								<button class="btn action-value-edit font-weight-bold pupil-skill-date status-accepted" type="button" title="Cliquez pour modifier la date"
-										style="display: none;"></button>
-								<div class="status-not-accepted text-center" style="display: none;">-</div>
-							</td>
-							<td>
-								<button class="btn action-value-edit font-weight-bold pupil-skill-value skill-valuable" type="button" title="Cliquez pour modifier la valeur et voir l'historique"
-										style="display: none;"></button>
-								<div class="skill-not-valuable text-center" style="display: none;">-</div>
-							</td>
-							<td class="text-right">
-								<div class="form"></div>
-								<button class="btn action-skill-reject status-accepted" type="button" style="display: none;">
-									<i class="fas fa-check-square text-success fa-2x"></i>
-								</button>
-								<button class="btn action-skill-accept status-not-accepted" type="button" style="display: none;">
-									<i class="far fa-square text-muted fa-2x"></i>
-								</button>
-							</td>
+						<tr class="item-category">
+							<th scope="row" class="bg-info text-white" colspan="99"><?php echo $category; ?></th>
 						</tr>
 						<?php
+						foreach( $category->querySkills() as $skill ) {
+							?>
+							<tr class="item-skill" data-skill="<?php asJsonAttribute($skill); ?>"
+								data-pupil-skill="<?php if( isset($pupilSkills[$skill->id()]) ) {
+									asJsonAttribute($pupilSkills[$skill->id()], OUTPUT_MODEL_EDITION);
+								} ?>">
+								<th class="status-bg" scope="row" style="width:1%;"><?php echo $skill->id(); ?></th>
+								<td><?php echo $skill; ?></td>
+								<td>
+									<button class="btn action-value-edit font-weight-bold pupil-skill-date status-accepted" type="button" title="Cliquez pour modifier la date"
+											style="display: none;"></button>
+									<div class="status-not-accepted text-center" style="display: none;">-</div>
+								</td>
+								<td>
+									<button class="btn action-value-edit font-weight-bold pupil-skill-value skill-valuable" type="button" title="Cliquez pour modifier la valeur et voir l'historique"
+											style="display: none;"></button>
+									<div class="skill-not-valuable text-center" style="display: none;">-</div>
+								</td>
+								<td class="text-right">
+									<div class="form"></div>
+									<button class="btn action-skill-reject status-accepted" type="button" style="display: none;">
+										<i class="fas fa-check-square text-success fa-2x"></i>
+									</button>
+									<button class="btn action-skill-accept status-not-accepted" type="button" style="display: none;">
+										<i class="far fa-square text-muted fa-2x"></i>
+									</button>
+								</td>
+							</tr>
+							<?php
+						}
 					}
-				}
-				?>
-				</tbody>
-			</table>
+					?>
+					</tbody>
+				</table>
+			</div>
 			
 			<?php $rendering->startNewBlock('footer'); ?>
 			<button class="btn btn-primary" type="submit" name="submitUpdateSkills"><?php _t('save'); ?></button>

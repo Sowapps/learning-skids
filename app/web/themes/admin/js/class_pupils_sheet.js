@@ -80,6 +80,8 @@ $(function () {
 					"visible": false
 				},
 			];
+			// Incompatible with rowGroup & responsive features
+			// options.fixedColumns = true;
 			$.extend(options.language, {
 				"lengthMenu": "Afficher _MENU_ compétences",
 				"info": "_TOTAL_ compétences",
