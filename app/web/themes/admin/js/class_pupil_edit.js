@@ -7,13 +7,10 @@ $(function () {
 
 class PupilSkillManager {
 	
-	$table;
-	$skillEditDialog;
-	skills;
-	
 	constructor($table, $skillEditDialog) {
 		this.$table = $table;
 		this.$skillEditDialog = $skillEditDialog;
+		this.readOnly = !!$table.data('readonly');
 		this.$skillValueRowTemplate = $('#TemplateValueRow').detach();
 		this.skills = [];
 		
@@ -39,11 +36,13 @@ class PupilSkillManager {
 	async openSkillEditDialog(data) {
 		const deferred = $.Deferred();
 		const $dialog = this.$skillEditDialog;
+		const readOnly = data.readOnly;
 		
 		$dialog.modal('show')
 			.resetForm()
 			.fill('skill', data.skill)
-			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
+			.fillByName(data.pupilSkill, 'pupilSkill[%s]')
+			.toggleClass('state-readonly', readOnly);
 		const $form = $dialog.getForm();
 		$form.removeClass('was-validated');
 		
@@ -60,6 +59,7 @@ class PupilSkillManager {
 		}
 		$dialog.find('.show-if-valuable').toggle(data.skill.valuable);
 		$dialog.find('.show-if-valuable :input').prop('disabled', !data.skill.valuable);
+		readOnly && $dialog.find('.modal-body').disableInputs() || $dialog.find('.modal-body').enableInputs();
 		
 		$dialog.find('.action-accept')
 			.off('click')
@@ -98,6 +98,7 @@ class PupilSkill {
 		this.$element = $($row);
 		this.$row = this.$element;
 		this.index = this.$row.index();
+		this.readOnly = manager.readOnly;
 		this.skill = this.$row.data('skill') || {};
 		this.skill.valuable = !!this.skill.valuable;// Format value
 		this.pupilSkill = this.$row.data('pupilSkill') || {};
@@ -152,6 +153,11 @@ class PupilSkill {
 			return false;
 		});
 		this.$row.find('.action-skill-reject').click(() => {
+			if( this.readOnly ) {
+				this.openEditDialog();
+				
+				return;
+			}
 			this.remove();
 		});
 	}

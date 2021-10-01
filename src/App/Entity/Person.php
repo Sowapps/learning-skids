@@ -34,6 +34,12 @@ class Person extends PermanentEntity {
 	
 	protected static string $domain;
 	
+	public function queryClassPupils(): SQLSelectRequest {
+		return ClassPupil::select()
+			->where('pupil_id', $this)
+			->orderby('id DESC');
+	}
+	
 	public function querySchoolClasses(): SQLSelectRequest {
 		return SchoolClass::select()
 			->join(ClassPupil::class, $pupilAlias, null, 'class_id', true)

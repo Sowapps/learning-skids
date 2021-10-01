@@ -21,14 +21,10 @@ use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPRoute;
 use Orpheus\Rendering\HTMLRendering;
 
-global $formData;
-
-$formData['class'] = $class->all;
 
 $rendering->addThemeJsFile('class_edit.js');
 $rendering->useLayout('layout.full-width');
 
-$teacher = $class->getTeacher();
 ?>
 <div class="row">
 	<div class="col-12 col-xl-6">
@@ -39,12 +35,6 @@ $teacher = $class->getTeacher();
 			<?php $this->display('reports-bootstrap3'); ?>
 			
 			<?php $rendering->display('user/class.form', ['class' => $class]); ?>
-			
-			<div class="form-group">
-				<label class="form-label" for="InputClassTeacher"><?php _t('teacher', DOMAIN_CLASS); ?></label>
-				<input type="text" class="form-control-plaintext" disabled id="InputClassTeacher"
-					   value="<?php echo $class->getTeacher() . ($teacher->equals($currentUser->getPerson()) ? ' (vous)' : ''); ?>">
-			</div>
 			
 			<?php $rendering->startNewBlock('footer'); ?>
 			
