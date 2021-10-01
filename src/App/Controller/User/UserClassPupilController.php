@@ -14,7 +14,7 @@ use Orpheus\Exception\UserException;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
 
-class UserClassPupilEditController extends AbstractUserController {
+class UserClassPupilController extends AbstractUserController {
 	
 	use PupilSkillForm;
 	
@@ -23,6 +23,7 @@ class UserClassPupilEditController extends AbstractUserController {
 	 * @return HTTPResponse The output HTTP response
 	 */
 	public function run($request) {
+		$readOnly = $this->getOption('readonly', false);
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
 		$pupil = ClassPupil::load($request->getPathValue('pupilId'), false);
 		$person = $pupil->getPerson();
@@ -45,30 +46,35 @@ class UserClassPupilEditController extends AbstractUserController {
 		
 		$pupilSkills = $person->getPupilSkills($learningSheet);
 		
-		try {
-			if( $request->hasData('submitUpdate') ) {
-				$person->update($request->getArrayData('person'), ['firstname', 'lastname']);
-				
-				$this->storeSuccess('pupilEdit', 'successClassPupilEdit', ['name' => $person->getLabel()], DOMAIN_CLASS);
-				
-				return $this->redirectToSelf();
-				
-			} elseif( $request->hasData('submitUpdateSkills') ) {
-				startReportStream('pupilSkillsUpdate');
-				
-				$this->processPupilSkillEdit($request, $learningSheet, $pupilSkills, $person);
-				
-				return $this->redirectToSelf();
+		if( !$readOnly ) {
+			try {
+				if( $request->hasData('submitUpdate') ) {
+					$person->update($request->getArrayData('person'), ['firstname', 'lastname']);
+					
+					$this->storeSuccess('pupilEdit', 'successClassPupilEdit', ['name' => $person->getLabel()], DOMAIN_CLASS);
+					
+					return $this->redirectToSelf();
+					
+				} elseif( $request->hasData('submitUpdateSkills') ) {
+					startReportStream('pupilSkillsUpdate');
+					
+					$this->processPupilSkillEdit($request, $learningSheet, $pupilSkills, $person);
+					
+					return $this->redirectToSelf();
+				}
+			} catch( UserException $e ) {
+				reportError($e);
 			}
-		} catch( UserException $e ) {
-			reportError($e);
 		}
+		$classPupils = $person->queryClassPupils();
 		
 		return $this->renderHTML('class/class_pupil_edit', [
+			'readOnly'    => $readOnly,
 			'class'       => $class,
 			'pupil'       => $pupil,
 			'person'      => $person,
 			'pupilSkills' => $pupilSkills,
+			'classPupils' => $classPupils,
 		]);
 	}
 	

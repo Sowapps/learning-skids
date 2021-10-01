@@ -87,9 +87,16 @@ http:
 
     user_class_pupil_edit:
         path: "/professeur/classe/{id:classId}/élève/{id:pupilId}/gestion.html"
-        controller: App\Controller\User\UserClassPupilEditController
+        controller: App\Controller\User\UserClassPupilController
         restrictTo:
             role: member
+
+    user_class_pupil_view:
+        path: "/professeur/classe/{id:classId}/élève/{id:pupilId}/voir.html"
+        controller: App\Controller\User\UserClassPupilController
+        restrictTo:
+            role: member
+        readonly: true
 
     user_class_pupil_export:
         path: "/professeur/élève/{id:pupilId}/fiche-d-apprentissage.pdf"
@@ -151,23 +158,29 @@ http:
         path: "/developer/home.html"
         controller: Orpheus\Controller\Developer\DevHomeController
         restrictTo:
-          role: developer
-    
+            role: developer
+
     dev_system:
         path: "/developer/system.html"
         controller: Orpheus\Controller\Developer\DevSystemController
         restrictTo:
-          role: developer
-        
+            role: developer
+
+    dev_phpinfo:
+        path: "/developer/phpinfo.html"
+        controller: Orpheus\Controller\Developer\DevPhpInfoController
+        restrictTo:
+            role: developer
+
     dev_composer:
         path: "/developer/composer.html"
         controller: Orpheus\Controller\Developer\DevComposerController
-        
+
     dev_entities:
         path: "/developer/entities.html"
         controller: Orpheus\Controller\Developer\DevEntitiesController
         restrictTo:
-          role: developer
+            role: developer
         
     dev_loglist:
         path: "/developer/logs.html"

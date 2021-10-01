@@ -25,7 +25,8 @@ $rendering->useLayout('layout.full-width');
 	<div class="col-12 col-xl-6">
 		<div class="alert alert-info">
 			Bienvenue sur Learning Skids,<br>
-			Pour chacune de vos classes de maternelle, vous pouvez gérer vos élèves et leurs compétences.<br>
+			Pour chacune de vos classes de maternelle, vous pouvez gérer vos élèves et les compétences qu'ils ont acquis.<br>
+			L'objectif de Learning Skids est de vous permettre de faire le suivi de vos élèves et d'obtenir chaque semestre un rendu de leur évaluation positive.<br>
 			Cette humble application a été développée par <a href="https://sowapps.com" target="_blank">Florent HAZARD</a>.
 		</div>
 	</div>

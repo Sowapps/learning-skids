@@ -9,10 +9,13 @@
  * @var string $CONTROLLER_OUTPUT
  * @var string $content
  * @var FormToken $formToken
+ *
+ * @var bool $readOnly
  * @var SchoolClass $class
  * @var ClassPupil $pupil
  * @var Person $person
  * @var PupilSkill[] $pupilSkills
+ * @var ClassPupil[] $classPupils
  */
 
 use App\Entity\ClassPupil;
@@ -38,13 +41,12 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 <div class="row">
 	
 	<div class="col-12 col-xl-6">
+		
 		<form method="post">
 			<?php $rendering->useLayout('panel-default'); ?>
-			
 			<?php $this->display('reports-bootstrap3', ['stream' => 'pupilSkillsUpdate']); ?>
-			
 			<div class="table-responsive" style="height: 600px;">
-				<table id="TablePupilSkillList" class="table table-striped table-bordered">
+				<table id="TablePupilSkillList" class="table table-striped table-bordered" data-readonly="<?php echo $readOnly ? 'true' : 'false'; ?>">
 					<thead>
 					<tr>
 						<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
@@ -99,31 +101,82 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 					</tbody>
 				</table>
 			</div>
-			
-			<?php $rendering->startNewBlock('footer'); ?>
-			<button class="btn btn-primary" type="submit" name="submitUpdateSkills"><?php _t('save'); ?></button>
-			<?php $rendering->endCurrentLayout(['title' => t('learningSheet', DOMAIN_CLASS)]); ?>
+			<?php
+			if( !$readOnly ) {
+				$rendering->startNewBlock('footer');
+				?>
+				<button class="btn btn-primary" type="submit" name="submitUpdateSkills"><?php _t('save'); ?></button>
+				<?php
+			}
+			$rendering->endCurrentLayout(['title' => t('learningSheet', DOMAIN_CLASS)]); ?>
 		</form>
+		
+		<?php $rendering->useLayout('panel-default'); ?>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered">
+				<thead>
+				<tr>
+					<th scope="col" style="width:1%;"><?php echo t('idColumn'); ?></th>
+					<th scope="col" class="text-nowrap"><?php echo t('name', DOMAIN_CLASS); ?></th>
+					<th scope="col" class="text-nowrap"><?php echo t('year', DOMAIN_CLASS); ?></th>
+					<th scope="col" class="text-nowrap"><?php echo t('teacher', DOMAIN_CLASS); ?></th>
+					<th scope="col" class="text-nowrap"><?php echo t('actionsColumn'); ?></th>
+				</tr>
+				</thead>
+				<tbody class="table-valign-middle">
+				<?php
+				foreach( $classPupils as $classPupil ) {
+					$schoolClass = $classPupil->getSchoolClass();
+					?>
+					<tr>
+						<th scope="row"><?php echo $schoolClass->id(); ?></th>
+						<td><?php echo $schoolClass; ?></td>
+						<td><?php echo $schoolClass->year; ?></td>
+						<td><?php echo $schoolClass->getTeacher(); ?></td>
+						<td class="text-right">
+							<a class="btn btn-sm btn-outline-secondary" href="<?php echo u('user_class_pupil_view', ['classId' => $schoolClass->id(), 'pupilId' => $classPupil->id()]); ?>">
+								<i class="fas fa-eye"></i>
+							</a>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</tbody>
+			</table>
+		</div>
+		<?php $rendering->endCurrentLayout(['title' => t('pupilClasses', DOMAIN_CLASS)]); ?>
+	
 	</div>
 	
 	<div class="col-12 col-xl-6">
 		<form method="post">
+			
+			<!-- Pupil's Details -->
 			<?php $rendering->useLayout('panel-default'); ?>
-			
 			<?php $this->display('reports-bootstrap3'); ?>
-			
 			<div class="form-group">
 				<label class="form-label"><?php echo t('firstname', DOMAIN_PERSON); ?></label>
-				<input <?php echo formInput('person/firstname'); ?> type="text" class="form-control person_firstname">
+				<input <?php echo formInput('person/firstname'); ?> type="text" class="form-control person_firstname"<?php echo $readOnly ? ' disabled' : ''; ?>>
 			</div>
 			<div class="form-group">
 				<label class="form-label"><?php echo t('lastname', DOMAIN_PERSON); ?></label>
-				<input <?php echo formInput('person/lastname'); ?> type="text" class="form-control person_lastname">
+				<input <?php echo formInput('person/lastname'); ?> type="text" class="form-control person_lastname"<?php echo $readOnly ? ' disabled' : ''; ?>>
 			</div>
+			<?php
+			if( !$readOnly ) {
+				$rendering->startNewBlock('footer');
+				?>
+				<button class="btn btn-primary" type="submit" name="submitUpdate"><?php _t('save'); ?></button>
+				<?php
+			}
+			$rendering->endCurrentLayout(['title' => t('pupil_label', DOMAIN_CLASS, $person->getLabel())]); ?>
 			
-			<?php $rendering->startNewBlock('footer'); ?>
-			<button class="btn btn-primary" type="submit" name="submitUpdate"><?php _t('save'); ?></button>
-			<?php $rendering->endCurrentLayout(['title' => $person->getLabel()]); ?>
+			<!-- Pupil's Class -->
+			<?php $rendering->useLayout('panel-default'); ?>
+			<?php $rendering->display('user/class.form', ['class' => $class, 'readOnly' => true]); ?>
+			<?php $rendering->endCurrentLayout(['title' => t('class_label', DOMAIN_CLASS, $class->getLabel())]); ?>
+		
 		</form>
 	</div>
 
