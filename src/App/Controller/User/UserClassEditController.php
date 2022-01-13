@@ -112,9 +112,12 @@ class UserClassEditController extends AbstractUserController {
 		} catch( UserException $e ) {
 			reportError($e);
 		}
+		$user = User::getLoggedUser();
+		$isNewTeacher = $user->create_date > new DateTime('-1 month');
 		
 		return $this->renderHTML('class/class_edit', [
-			'class' => $class,
+			'class'        => $class,
+			'isNewTeacher' => $isNewTeacher,
 		]);
 	}
 	
