@@ -5,8 +5,8 @@
 
 namespace App\Controller\Setup;
 
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 use Orpheus\Pdo\PdoErrorAnalyzer;
 use Orpheus\Pdo\PdoPermissionAnalyzer;
 use PDOException;
@@ -16,8 +16,8 @@ class CheckDatabaseSetupController extends SetupController {
 	protected static $routeName = 'setup_checkdb';
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		

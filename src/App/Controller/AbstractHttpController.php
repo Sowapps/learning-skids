@@ -8,13 +8,13 @@ namespace App\Controller;
 use App\Entity\User;
 use Exception;
 use Orpheus\Form\FormToken;
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 use Orpheus\InputController\OutputResponse;
 use Orpheus\Rendering\HTMLRendering;
 
-abstract class AbstractHttpController extends HTTPController {
+abstract class AbstractHttpController extends HttpController {
 	
 	const SCOPE_PUBLIC = 'public';
 	const SCOPE_MEMBER = 'member';
@@ -24,11 +24,13 @@ abstract class AbstractHttpController extends HTTPController {
 	const SESSION_SUCCESS = 'SUCCESS';
 	
 	protected string $scope;
+	
 	protected ?User $currentUser;
+	
 	protected ?FormToken $formToken = null;
 	
-	public function redirectToSelf(): RedirectHTTPResponse {
-		return new RedirectHTTPResponse($this->getCurrentUrl());
+	public function redirectToSelf(): RedirectHttpResponse {
+		return new RedirectHttpResponse($this->getCurrentUrl());
 	}
 	
 	public function getCurrentUrl(): string {
@@ -64,14 +66,14 @@ abstract class AbstractHttpController extends HTTPController {
 		parent::prepare($request);
 	}
 	
-	public function validateFormToken(HTTPRequest $request) {
+	public function validateFormToken(HttpRequest $request) {
 		if( $request->hasData() ) {
 			$this->formToken->validateForm($request);
 		}
 	}
 	
 	/**
-	 * @param HTTPRequest $request
+	 * @param HttpRequest $request
 	 * @return OutputResponse|void|null
 	 * @throws Exception
 	 */

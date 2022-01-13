@@ -9,15 +9,15 @@ use App\Entity\LearningSheet;
 use App\Entity\SchoolClass;
 use App\Entity\User;
 use Orpheus\Exception\UserException;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 
 class UserClassCreateController extends AbstractUserController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		
@@ -34,7 +34,7 @@ class UserClassCreateController extends AbstractUserController {
 				$classInput['teacher_id'] = User::getLoggedUser()->getPerson()->id();
 				$classId = SchoolClass::create($classInput, ['name', 'year', 'level', 'openDate', 'teacher_id', 'learning_sheet_id']);
 				
-				return new RedirectHTTPResponse(u('user_class_edit', ['classId' => $classId]));
+				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $classId]));
 			}
 		} catch( UserException $e ) {
 			reportError($e);

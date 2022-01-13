@@ -8,7 +8,7 @@ namespace App\Entity;
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
 use Orpheus\Publisher\SlugGenerator;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class LearningCategory
@@ -40,7 +40,7 @@ class LearningCategory extends PermanentEntity {
 	}
 	
 	/**
-	 * @return LearningSkill[]|SQLSelectRequest
+	 * @return LearningSkill[]|SqlSelectRequest
 	 */
 	public function querySkills() {
 		return LearningSkill::get()

@@ -1,17 +1,17 @@
 <?php
 /**
  * @var HTMLRendering $rendering
- * @var HTTPRequest $request
- * @var HTTPRoute $route
- * @var HTTPController $controller
+ * @var HttpRequest $request
+ * @var HttpRoute $route
+ * @var HttpController $controller
  *
  * @var array $folders
  * @var boolean $allowContinue
  */
 
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
 
 $rendering->useLayout('page_skeleton');
@@ -21,7 +21,8 @@ function collapsiblePanelHTML($id, $title, $description, $panelClass, $open = 0)
 	<div class="panel <?php echo $panelClass; ?>">
 		<div class="panel-heading" role="tab">
 			<h4 class="panel-title">
-				<a role="button" class="ib wf" data-toggle="collapse" data-parent="#CheckFSAccordion" href="#<?php echo $id; ?>" aria-expanded="true" aria-controls="<?php echo $id; ?>">
+				<a role="button" class="ib wf" data-toggle="collapse" data-parent="#CheckFSAccordion" href="#<?php echo $id; ?>" aria-expanded="true"
+				   aria-controls="<?php echo $id; ?>">
 					<?php echo ($panelClass === PANEL_SUCCESS ? '<i class="fa fa-fw fa-check"></i> ' : '<i class="fa fa-fw fa-times"></i> ') . $title; ?>
 				</a>
 			</h4>

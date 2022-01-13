@@ -2,8 +2,8 @@
 /**
  * @var HTMLRendering $rendering
  * @var AbstractHttpController $controller
- * @var HTTPRequest $request
- * @var HTTPRoute $route
+ * @var HttpRequest $request
+ * @var HttpRoute $route
  *
  * @var string $CONTROLLER_OUTPUT
  * @var User $currentUser
@@ -13,8 +13,8 @@
 use App\Controller\AbstractHttpController;
 use App\Entity\User;
 use Orpheus\Controller\Admin\AbstractAdminController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
 
 

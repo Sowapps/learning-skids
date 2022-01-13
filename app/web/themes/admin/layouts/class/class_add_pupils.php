@@ -3,9 +3,9 @@
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
  * @var HTMLRendering $rendering
- * @var HTTPController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HttpController $controller
+ * @var HttpRequest $Request
+ * @var HttpRoute $Route
  * @var string $content
  * @var FormToken $formToken
  * @var User $currentUser
@@ -17,9 +17,9 @@ use App\Entity\Person;
 use App\Entity\SchoolClass;
 use App\Entity\User;
 use Orpheus\Form\FormToken;
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
 
 $rendering->useLayout('layout.full-width');
@@ -29,7 +29,7 @@ $rendering->useLayout('layout.full-width');
 	<div class="col-12 col-xl-6">
 		
 		<form method="post">
-			<?php $rendering->useLayout('panel-default'); ?>
+		<?php $rendering->useLayout('panel-default'); ?>
 			
 			<?php $this->display('reports-bootstrap3'); ?>
 			

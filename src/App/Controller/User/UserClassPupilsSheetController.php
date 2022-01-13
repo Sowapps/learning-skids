@@ -12,16 +12,16 @@ use App\Entity\SchoolClass;
 use App\Entity\User;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 
 class UserClassPupilsSheetController extends AbstractUserController {
 	
 	use PupilSkillForm;
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		$class = SchoolClass::load($request->getPathValue('classId'), false);

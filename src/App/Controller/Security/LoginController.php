@@ -6,10 +6,10 @@ use App\Controller\AbstractHttpController;
 use App\Entity\Person;
 use App\Entity\User;
 use Orpheus\Exception\UserException;
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 
 class LoginController extends AbstractHttpController {
 	
@@ -20,14 +20,14 @@ class LoginController extends AbstractHttpController {
 	protected string $scope = self::SCOPE_PUBLIC;
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse
-	 * @see HTTPController::run()
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse
+	 * @see HttpController::run()
 	 */
 	public function run($request): HttpResponse {
 		
 		if( User::isLogged() ) {
-			return new RedirectHTTPResponse(u(getHomeRoute()));
+			return new RedirectHttpResponse(u(getHomeRoute()));
 		}
 		
 		/* @var User $user */
@@ -42,13 +42,13 @@ class LoginController extends AbstractHttpController {
 				$user->activate();
 				$user->login();
 				
-				return new RedirectHTTPResponse(u(getHomeRoute()));
+				return new RedirectHttpResponse(u(getHomeRoute()));
 				
 			} elseif( $request->hasData('submitLogin') && $loginInput = $request->getData('login') ) {
 				$this->validateFormToken($request);
 				User::userLogin($loginInput);
 				
-				return new RedirectHTTPResponse(u(getHomeRoute()));
+				return new RedirectHttpResponse(u(getHomeRoute()));
 				
 			} elseif( $request->hasData('submitRegister') && ($userInput = $request->getData('user')) ) {
 				startReportStream('register');

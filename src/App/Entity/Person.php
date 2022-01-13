@@ -7,7 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class Person
@@ -34,13 +34,13 @@ class Person extends PermanentEntity {
 	
 	protected static string $domain;
 	
-	public function queryClassPupils(): SQLSelectRequest {
+	public function queryClassPupils(): SqlSelectRequest {
 		return ClassPupil::select()
 			->where('pupil_id', $this)
 			->orderby('id DESC');
 	}
 	
-	public function querySchoolClasses(): SQLSelectRequest {
+	public function querySchoolClasses(): SqlSelectRequest {
 		return SchoolClass::select()
 			->join(ClassPupil::class, $pupilAlias, null, 'class_id', true)
 			->where($pupilAlias . '.pupil_id', $this)

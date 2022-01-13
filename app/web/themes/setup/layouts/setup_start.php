@@ -1,25 +1,25 @@
 <?php
 /**
  * @var HTMLRendering $rendering
- * @var HTTPRequest $request
- * @var HTTPRoute $route
- * @var HTTPController $controller
+ * @var HttpRequest $request
+ * @var HttpRoute $route
+ * @var HttpController $controller
  */
 
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
 
 $rendering->useLayout('page_skeleton');
 
 ?>
 <form method="POST">
-	<div class="row">
+<div class="row">
+	
+	<div class="col-lg-10 col-lg-offset-1">
 		
-		<div class="col-lg-10 col-lg-offset-1">
-			
-			<div class="jumbotron">
+		<div class="jumbotron">
 				<h1><?php _t('start_title', DOMAIN_SETUP, t('app_name')); ?></h1>
 				<p class="lead"><?php echo text2HTML(t('start_description', DOMAIN_SETUP, ['APP_NAME' => t('app_name')])); ?></p>
 				

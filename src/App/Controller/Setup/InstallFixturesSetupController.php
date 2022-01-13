@@ -8,8 +8,8 @@ namespace App\Controller\Setup;
 use Exception;
 use Orpheus\Exception\UserException;
 use Orpheus\Form\FormToken;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 use Orpheus\Publisher\Fixture\FixtureRepository;
 
 class InstallFixturesSetupController extends SetupController {
@@ -17,8 +17,8 @@ class InstallFixturesSetupController extends SetupController {
 	protected static $routeName = 'setup_installfixtures';
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		

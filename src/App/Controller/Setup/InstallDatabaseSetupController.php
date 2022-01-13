@@ -5,19 +5,19 @@
 
 namespace App\Controller\Setup;
 
-use Orpheus\EntityDescriptor\SQLGenerator\SQLGeneratorMySQL;
+use Orpheus\EntityDescriptor\SqlGenerator\SqlGeneratorMySQL;
 use Orpheus\Exception\UserException;
 use Orpheus\Form\FormToken;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 
 class InstallDatabaseSetupController extends SetupController {
 	
 	protected static $routeName = 'setup_installdb';
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		
@@ -34,7 +34,7 @@ class InstallDatabaseSetupController extends SetupController {
 					if( $output == OUTPUT_APPLY ) {
 						$FORM_TOKEN->validateForm($request);
 					}
-					$generator = new SQLGeneratorMySQL();
+					$generator = new SqlGeneratorMySQL();
 					$result = [];
 					foreach( $request->getArrayData('entities') as $entityClass => $on ) {
 						$query = $generator->matchEntity($entityClass::getValidator());
@@ -55,7 +55,7 @@ class InstallDatabaseSetupController extends SetupController {
 							pdo_query(strip_tags($query), PDOEXEC);
 						}
 						$env['allowContinue'] = true;
-						reportSuccess('successSQLApply', DOMAIN_SETUP);
+						reportSuccess('successSqlApply', DOMAIN_SETUP);
 					}
 				}
 			}

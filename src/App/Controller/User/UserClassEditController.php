@@ -15,15 +15,15 @@ use DateTime;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\UploadedFile;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 
 class UserClassEditController extends AbstractUserController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
@@ -52,7 +52,7 @@ class UserClassEditController extends AbstractUserController {
 				
 				$this->storeSuccess('classEdit', 'successClassEdit', ['name' => $class->getLabel()], DOMAIN_CLASS);
 				
-				return new RedirectHTTPResponse(u('user_class_edit', ['classId' => $class->id()]));
+				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $class->id()]));
 				
 			} elseif( $request->hasData('submitAddMultiplePupils') ) {
 				
@@ -107,7 +107,7 @@ class UserClassEditController extends AbstractUserController {
 				//				endReportStream();
 				//
 				//				$this->storeSuccess('pupilList', 'successClassPupilEdit', ['name' => $class->getLabel()], DOMAIN_CLASS);
-				//				return new RedirectHTTPResponse(u('user_class_edit', ['classId' => $class->id()]));
+				//				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $class->id()]));
 			}
 		} catch( UserException $e ) {
 			reportError($e);
@@ -121,7 +121,7 @@ class UserClassEditController extends AbstractUserController {
 		]);
 	}
 	
-	protected function redirectToPupilAddValidator(SchoolClass $class, array $pupils): RedirectHTTPResponse {
+	protected function redirectToPupilAddValidator(SchoolClass $class, array $pupils): RedirectHttpResponse {
 		$token = generateRandomString(8);
 		if( !isset($_SESSION['class_add_pupils']) ) {
 			$_SESSION['class_add_pupils'] = [];
@@ -132,7 +132,7 @@ class UserClassEditController extends AbstractUserController {
 			'pupils'     => $pupils,
 		];
 		
-		return new RedirectHTTPResponse(u('user_class_add_pupils', [
+		return new RedirectHttpResponse(u('user_class_add_pupils', [
 			'classId' => $class->id(),
 			'token'   => $token,
 		]));

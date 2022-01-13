@@ -9,8 +9,8 @@ use Orpheus\EntityDescriptor\User\AbstractUser;
 use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
 use Orpheus\Publisher\Fixture\FixtureInterface;
-use Orpheus\SQLAdapter\SQLAdapter;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlAdapter\SqlAdapter;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class User
@@ -38,9 +38,9 @@ class User extends AbstractUser implements FixtureInterface {
 	/**
 	 * @param string|null $role
 	 * @param boolean|null $enabled
-	 * @return SQLSelectRequest
+	 * @return SqlSelectRequest
 	 */
-	public function queryLearningSheets($role = null, $enabled = null): SQLSelectRequest {
+	public function queryLearningSheets($role = null, $enabled = null): SqlSelectRequest {
 		$query = LearningSheet::get()
 			->alias('learningSheet')
 			->join(LearningSheetUser::class, $userAlias, null, 'learning_sheet_id', true);
@@ -193,7 +193,7 @@ class User extends AbstractUser implements FixtureInterface {
 		
 		return static::get([
 			'where'  => 'email LIKE ' . static::fv($email),
-			'output' => SQLAdapter::OBJECT,
+			'output' => SqlAdapter::OBJECT,
 		]);
 	}
 	

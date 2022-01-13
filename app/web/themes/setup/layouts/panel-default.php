@@ -1,7 +1,7 @@
 <?php
 
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
 use Sowapps\Controller\Admin\AdminController;
 
@@ -9,8 +9,8 @@ use Sowapps\Controller\Admin\AdminController;
  * @var string $CONTROLLER_OUTPUT
  * @var HTMLRendering $rendering
  * @var AdminController $controller
- * @var HTTPRequest $request
- * @var HTTPRoute $route
+ * @var HttpRequest $request
+ * @var HttpRoute $route
  *
  * @var string $content
  */

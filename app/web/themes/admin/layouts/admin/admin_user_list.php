@@ -2,20 +2,20 @@
 
 use App\Entity\User;
 use Orpheus\Controller\Admin\AbstractAdminController;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPRoute;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HTMLRendering;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * @var HTMLRendering $rendering
  * @var AbstractAdminController $controller
- * @var HTTPRequest $Request
- * @var HTTPRoute $Route
+ * @var HttpRequest $Request
+ * @var HttpRoute $Route
  *
  * @var boolean $allowCreate
  * @var boolean $allowUpdate
- * @var SQLSelectRequest $users
+ * @var SqlSelectRequest $users
  */
 
 $rendering->useLayout('layout.full-width');

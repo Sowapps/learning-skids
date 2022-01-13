@@ -10,7 +10,7 @@ use DateTime;
 use Exception;
 use Orpheus\EntityDescriptor\PermanentEntity;
 use Orpheus\Exception\UserException;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class SchoolClass
@@ -71,7 +71,7 @@ class SchoolClass extends PermanentEntity {
 		]);
 	}
 	
-	public function queryPupils(): SQLSelectRequest {
+	public function queryPupils(): SqlSelectRequest {
 		return ClassPupil::select()
 			->where('class_id', $this)
 			->orderby('id ASC');

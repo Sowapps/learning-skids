@@ -4,18 +4,21 @@ namespace App\Controller\Setup;
 
 use Exception;
 use Orpheus\Cache\FSCache;
-use Orpheus\InputController\HTTPController\HTTPController;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpController;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 use Orpheus\Rendering\HTMLRendering;
 
-abstract class SetupController extends HTTPController {
+abstract class SetupController extends HttpController {
 	
 	/** @var string */
 	protected static $routeName;
+	
 	/** @var array */
 	private static $setupData;
+	
 	/** @var FSCache */
 	private static $setupCache;
+	
 	private static $stepOrder = [
 		'StartSetupController',
 		'CheckFileSystemSetupController',
@@ -47,7 +50,7 @@ abstract class SetupController extends HTTPController {
 		
 		$availClass = static::getStepClass(static::getAvailableStepTo($step));
 		if( $stepClass !== $availClass ) {
-			return new RedirectHTTPResponse($availClass::getDefaultRoute());
+			return new RedirectHttpResponse($availClass::getDefaultRoute());
 		}
 		
 		return null;

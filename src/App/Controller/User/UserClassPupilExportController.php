@@ -11,18 +11,18 @@ use DateTime;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\Generator\WkHtmlToPdfGenerator;
-use Orpheus\InputController\HTTPController\HTMLHTTPResponse;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\InputController\HTTPController\LocalFileHTTPResponse;
+use Orpheus\InputController\HttpController\HTMLHttpResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
+use Orpheus\InputController\HttpController\LocalFileHttpResponse;
 use Orpheus\Publisher\SlugGenerator;
 use Orpheus\Rendering\HTMLRendering;
 
 class UserClassPupilExportController extends AbstractUserController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		$pupil = ClassPupil::load($request->getPathValue('pupilId'), false);
@@ -62,13 +62,13 @@ class UserClassPupilExportController extends AbstractUserController {
 		
 		if( $debug ) {
 			//			if( $debug === 'header' ) {
-			//				return new HTMLHTTPResponse($headerHtml);
+			//				return new HTMLHttpResponse($headerHtml);
 			//			}
 			if( $debug === 'footer' ) {
-				return new HTMLHTTPResponse($footerHtml);
+				return new HTMLHttpResponse($footerHtml);
 			}
 			
-			return new HTMLHTTPResponse($bodyHtml);
+			return new HTMLHttpResponse($bodyHtml);
 		}
 		
 		$generator = new WkHtmlToPdfGenerator($bodyHtml);
@@ -84,7 +84,7 @@ class UserClassPupilExportController extends AbstractUserController {
 		$slugGenerator = new SlugGenerator();
 		$slugGenerator->setCaseProcessing(SlugGenerator::CASE_LOWER);
 		
-		return new LocalFileHTTPResponse(
+		return new LocalFileHttpResponse(
 			$generator->getOutputPath(),
 			// fiche-d-apprentissage-annee-nom-prenom.pdf
 			sprintf('fiche-d-apprentissage-%s-%s-%s-%s.pdf', $class->year, $slugGenerator->format($person->lastname), $slugGenerator->format($person->firstname), $date->format('Ym')),

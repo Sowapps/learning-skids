@@ -7,7 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
-use Orpheus\SQLRequest\SQLSelectRequest;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class LearningSheet
@@ -53,7 +53,7 @@ class LearningSheet extends PermanentEntity {
 	}
 	
 	/**
-	 * @return LearningCategory[]|SQLSelectRequest
+	 * @return LearningCategory[]|SqlSelectRequest
 	 */
 	public function queryCategories() {
 		return LearningCategory::get()

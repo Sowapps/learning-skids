@@ -4,22 +4,22 @@ namespace App\Controller\Console;
 
 use App\Entity\PupilSkillValue;
 use Exception;
-use Orpheus\InputController\CLIController\CLIController;
-use Orpheus\InputController\CLIController\CLIRequest;
-use Orpheus\InputController\CLIController\CLIResponse;
+use Orpheus\InputController\CliController\CliController;
+use Orpheus\InputController\CliController\CliRequest;
+use Orpheus\InputController\CliController\CliResponse;
 
 /**
  * Class UpgradeExistingDataController
  * Controller to upgrade database's data using cli
  */
-class UpgradeExistingDataController extends CLIController {
+class UpgradeExistingDataController extends CliController {
 	
 	/**
-	 * @param CLIRequest $request The input CLI request
-	 * @return CLIResponse
+	 * @param CliRequest $request The input CLI request
+	 * @return CliResponse
 	 * @throws Exception
 	 */
-	public function run($request): CLIResponse {
+	public function run($request): CliResponse {
 		if( $request->isVerbose() && $request->isDryRun() ) {
 			$this->printLine('Running as dry run, we are not applying any change.');
 		}
@@ -35,6 +35,6 @@ class UpgradeExistingDataController extends CLIController {
 			$migrated++;
 		}
 		
-		return new CLIResponse(0, sprintf('Migrated %d pupil skills.', $migrated));
+		return new CliResponse(0, sprintf('Migrated %d pupil skills.', $migrated));
 	}
 }

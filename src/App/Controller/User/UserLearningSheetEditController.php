@@ -18,17 +18,17 @@ use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\UploadedFile;
 use Orpheus\InputController\HttpController\FileHttpResponse;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
-use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
+use Orpheus\InputController\HttpController\RedirectHttpResponse;
 
 class UserLearningSheetEditController extends AbstractUserController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
-	public function run($request): HTTPResponse {
+	public function run($request): HttpResponse {
 		// Parameters
 		$learningSheet = LearningSheet::load($request->getPathValue('learningSheetId'), false);
 		$class = $request->hasPathValue('classId') ? SchoolClass::load($request->getPathValue('classId'), false) : null;
@@ -139,7 +139,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 				
 				$learningSheet->remove();
 				
-				return new RedirectHTTPResponse(u($parentRoute));
+				return new RedirectHttpResponse(u($parentRoute));
 				
 			} elseif( $request->hasData('submitArchive') ) {
 				if( !$learningSheet->enabled ) {

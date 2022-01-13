@@ -5,22 +5,22 @@ namespace Orpheus\Controller\Developer;
 use Orpheus\EntityDescriptor\EntityDescriptor;
 use Orpheus\EntityDescriptor\LangGenerator;
 use Orpheus\EntityDescriptor\PermanentEntity;
-use Orpheus\EntityDescriptor\SQLGenerator\SQLGeneratorMySQL;
+use Orpheus\EntityDescriptor\SqlGenerator\SqlGeneratorMySQL;
 use Orpheus\Exception\UserException;
 use Orpheus\Form\FormToken;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 use Orpheus\Publisher\Exception\InvalidFieldException;
-use Orpheus\SQLAdapter\Exception\SQLException;
-use Orpheus\SQLAdapter\SQLAdapter;
+use Orpheus\SqlAdapter\Exception\SqlException;
+use Orpheus\SqlAdapter\SqlAdapter;
 use PDO;
 use PDOStatement;
 
 class DevEntitiesController extends DevController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
 		
@@ -38,7 +38,7 @@ class DevEntitiesController extends DevController {
 					if( $output == OUTPUT_APPLY ) {
 						$FORM_TOKEN->validateForm($request);
 					}
-					$generator = new SQLGeneratorMySQL();
+					$generator = new SqlGeneratorMySQL();
 					$result = [];
 					foreach( $request->getArrayData('entities') as $entityClass => $on ) {
 						/** @var PermanentEntity $entityClass */
@@ -81,12 +81,12 @@ class DevEntitiesController extends DevController {
 								continue;
 							}
 							try {
-								pdo_query(sprintf('DROP TABLE %s', SQLAdapter::getInstance()->escapeIdentifier($table)), PDOEXEC);
-							} catch( SQLException $e ) {
+								pdo_query(sprintf('DROP TABLE `%s`', SqlAdapter::getInstance()->escapeIdentifier($table)), PDOEXEC);
+							} catch( SqlException $e ) {
 								reportError('Unable to drop table ' . $table . ', cause: ' . $e->getMessage());
 							}
 						}
-						reportSuccess('successSQLApply', DOMAIN_SETUP);
+						reportSuccess('successSqlApply', DOMAIN_SETUP);
 					}
 					
 				} elseif( $request->hasData('submitGenerateVE') ) {

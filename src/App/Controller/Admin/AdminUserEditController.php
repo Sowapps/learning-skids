@@ -8,14 +8,14 @@ use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\NotFoundException;
 use Orpheus\Exception\UserException;
-use Orpheus\InputController\HTTPController\HTTPRequest;
-use Orpheus\InputController\HTTPController\HTTPResponse;
+use Orpheus\InputController\HttpController\HttpRequest;
+use Orpheus\InputController\HttpController\HttpResponse;
 
 class AdminUserEditController extends AbstractAdminController {
 	
 	/**
-	 * @param HTTPRequest $request The input HTTP request
-	 * @return HTTPResponse The output HTTP response
+	 * @param HttpRequest $request The input HTTP request
+	 * @return HttpResponse The output HTTP response
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
