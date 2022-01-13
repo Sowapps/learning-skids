@@ -23,14 +23,14 @@ if( isset($SRCPATHS) ) {
 require_once 'loader.php';
 
 /**
- * The access path, this is independent from the type of access (http, console...)
+ * The access path, this is independent of the type of access (http, console...)
  * It defines from which folder you access to your application
  */
 defifn('ACCESSPATH', dirpath($_SERVER['SCRIPT_FILENAME']));
 
 /**
  * The path to the instance file, this file is optional.
- * This file allows you configure an instance of this application, you could use it to define the DEV_VERSION
+ * This file allows you to configure an instance of this application, you could use it to define the DEV_VERSION
  */
 defifn('INSTANCEFILEPATH', findFileInTree('instance.php', ACCESSPATH));
 
@@ -129,7 +129,7 @@ defifn('PATH', !defined('TERMINAL') ? dirpath($_SERVER['SCRIPT_NAME']) : DEFAULT
 defifn('WEB_ROOT', SCHEME . '://' . HOST . (PATH !== '/' ? PATH : ''));
 
 // BC for old constants
-if( !defined('DEFAULTLINK') ) {
+if( !defined('SITEROOT') ) {
 	/** @deprecated Use route generator */
 	define('SITEROOT', WEB_ROOT);
 }
@@ -150,7 +150,8 @@ try {
 }
 
 // Static medias
-defifn('JS_URL', WEB_ROOT . '/js');
+defifn('JS_URL', WEB_ROOT . 'js/');
+defifn('JSURL', JS_URL);// BC
 defifn('THEMES_URL', WEB_ROOT . THEMES_FOLDER);
 
 if( !defined('INSTANCE_ID') && defined('HOST') ) {
