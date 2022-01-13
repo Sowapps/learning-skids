@@ -19,7 +19,7 @@ class AdminUserEditController extends AbstractAdminController {
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		/* @var User $USER */
 		global $USER, $formData;

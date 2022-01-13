@@ -25,7 +25,7 @@ class UserClassEditController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
 		
 		if( !User::getLoggedUser()->canClassManage($class) ) {

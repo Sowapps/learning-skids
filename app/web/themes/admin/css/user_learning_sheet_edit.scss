@@ -1,0 +1,69 @@
+
+.template {
+	display: none;
+}
+
+.item-category .form {
+	display: none;
+}
+
+.read-only .show-if-not-read-only {
+	display: none;
+}
+
+.column-sheet:not(.read-only) .show-if-read-only {
+	display: none;
+}
+
+#LearningSheet {
+	.column-sheet.read-only .card-footer {
+		display: none;
+	}
+
+	.column-sheet .sheet_label,
+	.column-category .category_label {
+		line-height: 2rem;
+	}
+
+	.icon-collapse {
+		transition: transform .3s;
+	}
+
+	.list-hide .icon-collapse {
+		transform: rotate(90deg);
+	}
+
+	.column-skill {
+		overflow: hidden;
+	}
+
+	.list-hide .column-skill {
+		visibility: collapse;
+		max-height: 0;
+		transition: all 0s .5s;
+	}
+
+	.list-show .column-skill {
+		visibility: visible;
+	}
+
+	.column-skill .card {
+		transform: scaleY(0);
+		transform-origin: top left;
+		transition: transform .5s ease-out;
+	}
+
+	.list-show .column-skill .card {
+		transform: scaleY(1);
+	}
+
+	.item-skill {
+		.action-edit {
+			visibility: hidden;
+		}
+
+		&:hover .action-edit {
+			visibility: visible;
+		}
+	}
+}

@@ -5,16 +5,19 @@
 
 namespace App\Controller\User;
 
+use App\Entity\LearningCategory;
 use App\Entity\LearningSheet;
 use App\Entity\LearningSheetUser;
 use App\Entity\LearningSkill;
 use App\Entity\PupilSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
+use App\Exporter\CsvExporter;
 use App\Importer\LearningSheetImporter;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\UploadedFile;
+use Orpheus\InputController\HttpController\FileHttpResponse;
 use Orpheus\InputController\HTTPController\HTTPRequest;
 use Orpheus\InputController\HTTPController\HTTPResponse;
 use Orpheus\InputController\HTTPController\RedirectHTTPResponse;
@@ -25,7 +28,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HTTPResponse {
 		// Parameters
 		$learningSheet = LearningSheet::load($request->getPathValue('learningSheetId'), false);
 		$class = $request->hasPathValue('classId') ? SchoolClass::load($request->getPathValue('classId'), false) : null;
@@ -69,8 +72,29 @@ class UserLearningSheetEditController extends AbstractUserController {
 		
 		// Forms
 		try {
-			if( $request->hasData('submitImport') ) {
+			if( $request->hasData('submitExport') ) {
+				$exporter = new CsvExporter();
+				$exporter
+					->addHeader('DOM_NOM', function (LearningSkill $item, ?LearningSkill $previous) {
+						// First row of new category
+						$category = $item->getLearningCategory();
+						
+						return !$previous || !$previous->getLearningCategory()->equals($category) ? $category->name : '';
+					})
+					->addHeader('COMP_NOM', 'name')
+					->addHeader('COMP_VALEUR', function (LearningSkill $item) {
+						return $item->valuable ? 'x' : '';
+					});
+				$exporter->writeHeaders();
+				foreach( $learningSheet->queryCategories() as $category ) {
+					foreach( $category->querySkills() as $skill ) {
+						$written = $exporter->addRow($skill);
+					}
+				}
 				
+				return new FileHttpResponse($exporter->getStream(), sprintf('%s.csv', LearningCategory::slugName($learningSheet->name)), true);
+				
+			} elseif( $request->hasData('submitImport') ) {
 				$uploadedFile = UploadedFile::load('file');
 				if( !$uploadedFile ) {
 					LearningSkill::throwException('importFileRequired');
@@ -132,6 +156,15 @@ class UserLearningSheetEditController extends AbstractUserController {
 				$learningSheet->setEnabled(true);
 				$learningSheet->save();
 				reportSuccess(t('learningSheetEnabled', DOMAIN_LEARNING_SKILL, $learningSheet));
+				
+			} elseif( $request->hasData('submitSkill') ) {
+				$skill = LearningSkill::load($request->getData('submitSkill'), false);
+				if( !$skill->getLearningCategory()->getLearningSheet()->equals($learningSheet) ) {
+					// Skill from another learning sheet, hack attempt ?
+					throw new ForbiddenException();
+				}
+				$skill->update($request->getData('skill'), ['name', 'valuable']);
+				reportSuccess(t('learningSkill.update.success', DOMAIN_LEARNING_SKILL, $learningSheet));
 			}
 		} catch( UserException $e ) {
 			reportError($e);

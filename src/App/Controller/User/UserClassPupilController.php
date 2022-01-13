@@ -22,7 +22,7 @@ class UserClassPupilController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		$readOnly = $this->getOption('readonly', false);
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
 		$pupil = ClassPupil::load($request->getPathValue('pupilId'), false);

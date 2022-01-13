@@ -52,19 +52,19 @@
             "time": "2020-10-09T14:41:15+00:00"
         },
         {
-            "name": "orpheus/orpheus-core",
-            "version": "v1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sowapps/orpheus-core.git",
-                "reference": "0f8d8114126a6f088e55784facc29e6310824306"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-core/zipball/0f8d8114126a6f088e55784facc29e6310824306",
-                "reference": "0f8d8114126a6f088e55784facc29e6310824306",
-                "shasum": ""
-            },
+	        "name": "orpheus/orpheus-core",
+	        "version": "v1.7.0",
+	        "source": {
+		        "type": "git",
+		        "url": "https://github.com/Sowapps/orpheus-core.git",
+		        "reference": "bae4cfea44252b178f1f4a699b9b7560a3891090"
+	        },
+	        "dist": {
+		        "type": "zip",
+		        "url": "https://api.github.com/repos/Sowapps/orpheus-core/zipball/bae4cfea44252b178f1f4a699b9b7560a3891090",
+		        "reference": "bae4cfea44252b178f1f4a699b9b7560a3891090",
+		        "shasum": ""
+	        },
             "require": {
                 "orpheus/orpheus-hook": "1.*"
             },
@@ -96,34 +96,34 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-core/issues",
-                "source": "https://github.com/Sowapps/orpheus-core/tree/v1.6.0"
+	            "source": "https://github.com/Sowapps/orpheus-core/tree/v1.7.0"
             },
-            "time": "2021-03-23T10:52:05+00:00"
+	        "time": "2022-01-13T15:12:48+00:00"
         },
-        {
-	        "name": "orpheus/orpheus-entitydescriptor",
-	        "version": "v1.10.3",
-	        "source": {
-		        "type": "git",
-		        "url": "https://github.com/Sowapps/orpheus-entitydescriptor.git",
-		        "reference": "eafd848f5d89b90a50490cf75d5af57dd4381d8b"
-	        },
-	        "dist": {
-		        "type": "zip",
-		        "url": "https://api.github.com/repos/Sowapps/orpheus-entitydescriptor/zipball/eafd848f5d89b90a50490cf75d5af57dd4381d8b",
-		        "reference": "eafd848f5d89b90a50490cf75d5af57dd4381d8b",
-		        "shasum": ""
-	        },
-            "require": {
-                "orpheus/orpheus-cache": "1.*",
-                "orpheus/orpheus-core": "1.*",
-                "orpheus/orpheus-hook": "1.*",
-                "orpheus/orpheus-inputcontroller": "1.*",
-                "orpheus/orpheus-publisher": "1.*",
-                "orpheus/orpheus-rendering": "1.*",
-                "orpheus/orpheus-sqladapter": "1.*",
-                "orpheus/orpheus-webtools": "1.*",
-                "orpheus/orpheus-yaml": "1.*"
+	    {
+		    "name": "orpheus/orpheus-entitydescriptor",
+		    "version": "v1.10.4",
+		    "source": {
+			    "type": "git",
+			    "url": "https://github.com/Sowapps/orpheus-entitydescriptor.git",
+			    "reference": "c0aeb29b6eef76786401499e06e6d6eceefcd8ac"
+		    },
+		    "dist": {
+			    "type": "zip",
+			    "url": "https://api.github.com/repos/Sowapps/orpheus-entitydescriptor/zipball/c0aeb29b6eef76786401499e06e6d6eceefcd8ac",
+			    "reference": "c0aeb29b6eef76786401499e06e6d6eceefcd8ac",
+			    "shasum": ""
+		    },
+		    "require": {
+			    "orpheus/orpheus-cache": "1.*",
+			    "orpheus/orpheus-core": "1.*",
+			    "orpheus/orpheus-hook": "1.*",
+			    "orpheus/orpheus-inputcontroller": "1.*",
+			    "orpheus/orpheus-publisher": "1.*",
+			    "orpheus/orpheus-rendering": "1.*",
+			    "orpheus/orpheus-sqladapter": "1.*",
+			    "orpheus/orpheus-webtools": "1.*",
+			    "orpheus/orpheus-yaml": "1.*"
             },
             "type": "library",
             "autoload": {
@@ -156,9 +156,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-entitydescriptor/issues",
-	            "source": "https://github.com/Sowapps/orpheus-entitydescriptor/tree/v1.10.3"
+	            "source": "https://github.com/Sowapps/orpheus-entitydescriptor/tree/v1.10.4"
             },
-	        "time": "2021-09-10T09:33:32+00:00"
+		    "time": "2022-01-13T12:32:34+00:00"
         },
         {
             "name": "orpheus/orpheus-form",
@@ -303,20 +303,20 @@
             },
             "time": "2021-08-09T12:34:55+00:00"
         },
-        {
-            "name": "orpheus/orpheus-inputcontroller",
-            "version": "v1.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sowapps/orpheus-inputcontroller.git",
-                "reference": "825faec9b937ecba719d506573ee28abe0d44876"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-inputcontroller/zipball/825faec9b937ecba719d506573ee28abe0d44876",
-                "reference": "825faec9b937ecba719d506573ee28abe0d44876",
-                "shasum": ""
-            },
+	    {
+		    "name": "orpheus/orpheus-inputcontroller",
+		    "version": "v1.9.0",
+		    "source": {
+			    "type": "git",
+			    "url": "https://github.com/Sowapps/orpheus-inputcontroller.git",
+			    "reference": "c450b20019857b79d81ac30d48d078947005cd1b"
+		    },
+		    "dist": {
+			    "type": "zip",
+			    "url": "https://api.github.com/repos/Sowapps/orpheus-inputcontroller/zipball/c450b20019857b79d81ac30d48d078947005cd1b",
+			    "reference": "c450b20019857b79d81ac30d48d078947005cd1b",
+			    "shasum": ""
+		    },
             "require": {
                 "orpheus/orpheus-cache": "1.*",
                 "orpheus/orpheus-core": "1.*",
@@ -352,16 +352,16 @@
                 "controller",
                 "input",
                 "model",
-                "mvc",
-                "orpheus",
-                "view"
+	            "mvc",
+	            "orpheus",
+	            "view"
             ],
-            "support": {
-                "issues": "https://github.com/Sowapps/orpheus-inputcontroller/issues",
-                "source": "https://github.com/Sowapps/orpheus-inputcontroller/tree/v1.8.1"
-            },
-            "time": "2021-08-12T15:36:33+00:00"
-        },
+		    "support": {
+			    "issues": "https://github.com/Sowapps/orpheus-inputcontroller/issues",
+			    "source": "https://github.com/Sowapps/orpheus-inputcontroller/tree/v1.9.0"
+		    },
+		    "time": "2022-01-13T15:08:39+00:00"
+	    },
 	    {
 		    "name": "orpheus/orpheus-publisher",
 		    "version": "v1.3.4",
@@ -376,16 +376,16 @@
 			    "reference": "f89de62acfcccbd0586ae1555f6916b66e86d4c6",
 			    "shasum": ""
 		    },
-            "require": {
-                "orpheus/orpheus-cache": "1.*",
-                "orpheus/orpheus-core": "1.*",
-                "orpheus/orpheus-hook": "1.*",
-                "orpheus/orpheus-inputcontroller": "1.*",
-                "orpheus/orpheus-rendering": "1.*",
-                "orpheus/orpheus-sqladapter": "1.*",
-                "orpheus/orpheus-yaml": "1.*"
-            },
-            "type": "library",
+		    "require": {
+			    "orpheus/orpheus-cache": "1.*",
+			    "orpheus/orpheus-core": "1.*",
+			    "orpheus/orpheus-hook": "1.*",
+			    "orpheus/orpheus-inputcontroller": "1.*",
+			    "orpheus/orpheus-rendering": "1.*",
+			    "orpheus/orpheus-sqladapter": "1.*",
+			    "orpheus/orpheus-yaml": "1.*"
+		    },
+		    "type": "library",
             "autoload": {
                 "psr-4": {
                     "Orpheus\\": "src"
@@ -470,20 +470,20 @@
             },
             "time": "2021-03-23T10:52:00+00:00"
         },
-        {
-            "name": "orpheus/orpheus-sqladapter",
-            "version": "v1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sowapps/orpheus-sqladapter.git",
-                "reference": "0506abc7f061b3d6baf73abbafdbfb6f0a76a2bd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sowapps/orpheus-sqladapter/zipball/0506abc7f061b3d6baf73abbafdbfb6f0a76a2bd",
-                "reference": "0506abc7f061b3d6baf73abbafdbfb6f0a76a2bd",
-                "shasum": ""
-            },
+	    {
+		    "name": "orpheus/orpheus-sqladapter",
+		    "version": "v1.2.2",
+		    "source": {
+			    "type": "git",
+			    "url": "https://github.com/Sowapps/orpheus-sqladapter.git",
+			    "reference": "fe1042011df9905aabdec92af0f1673c1a509ad2"
+		    },
+		    "dist": {
+			    "type": "zip",
+			    "url": "https://api.github.com/repos/Sowapps/orpheus-sqladapter/zipball/fe1042011df9905aabdec92af0f1673c1a509ad2",
+			    "reference": "fe1042011df9905aabdec92af0f1673c1a509ad2",
+			    "shasum": ""
+		    },
             "require": {
                 "ext-pdo": "*",
                 "orpheus/orpheus-cache": "1.*",
@@ -519,9 +519,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Sowapps/orpheus-sqladapter/issues",
-                "source": "https://github.com/Sowapps/orpheus-sqladapter/tree/v1.2.1"
+	            "source": "https://github.com/Sowapps/orpheus-sqladapter/tree/v1.2.2"
             },
-            "time": "2021-01-28T22:32:51+00:00"
+		    "time": "2022-01-13T15:08:40+00:00"
         },
         {
             "name": "orpheus/orpheus-webtools",

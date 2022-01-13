@@ -14,16 +14,21 @@ use stdClass;
 class LearningSheetImporter extends AbstractCsvImporter {
 	
 	protected int $categoryChanges;
+	
 	protected int $skillChanges;
 	
 	protected LearningSheet $learningSheet;
+	
 	protected ?LearningCategory $previousCategory;
-	protected array $previousCategorySkillKeys;
+	
+	/** @var LearningSkill[] */
+	protected array $previousCategorySkills;
 	
 	protected array $itemAliases = [
 		'dom'  => 'category',
 		'comp' => 'skill',
 	];
+	
 	protected array $fieldAliases = [
 		'nom'    => 'name',
 		'cle'    => 'key',
@@ -33,7 +38,7 @@ class LearningSheetImporter extends AbstractCsvImporter {
 	public function initialize(LearningSheet $learningSheet) {
 		$this->learningSheet = $learningSheet;
 		$this->previousCategory = null;
-		$this->previousCategorySkillKeys = [];
+		$this->previousCategorySkills = [];
 	}
 	
 	protected function formatItemParseError(object $item, ParseException $e, int $rowNumber): array {
@@ -64,6 +69,7 @@ class LearningSheetImporter extends AbstractCsvImporter {
 		if( empty($data->skill->key) ) {
 			$data->skill->key = LearningCategory::slugName($data->skill->name);
 		}
+		$data->skill->valuable = boolval($data->skill->valuable);
 		
 		return $data;
 	}
@@ -90,21 +96,31 @@ class LearningSheetImporter extends AbstractCsvImporter {
 				$this->categoryChanges++;
 				$justCreated = true;
 			}
+			// Category's skill
 			$this->setPreviousCategory($category, $justCreated);
 		}
 		
-		if( array_key_exists($item->skill->key, $this->previousCategorySkillKeys) ) {
-			// Exact same Skill already exists
-			return;
+		$skill = $this->previousCategorySkills[$item->skill->key] ?? null;
+		if( $skill ) {
+			// Update existing
+			if( $item->skill->name !== $skill->name || $item->skill->valuable !== boolval($skill->valuable) ) {
+				$skill->update([
+					'name'     => $item->skill->name,
+					'valuable' => $item->skill->valuable,
+				], ['name', 'valuable']);
+				$this->skillChanges++;
+			}
+		} else {
+			// Create new one
+			// Skill - Always considered as new
+			LearningSkill::create([
+				'key'                  => $item->skill->key,
+				'name'                 => $item->skill->name,
+				'learning_category_id' => $category->id(),
+				'valuable'             => $item->skill->valuable,
+			]);
+			$this->skillChanges++;
 		}
-		// Skill - Always considered as new
-		LearningSkill::create([
-			'key'                  => $item->skill->key,
-			'name'                 => $item->skill->name,
-			'learning_category_id' => $category->id(),
-			'valuable'             => boolval($item->skill->valuable),
-		]);
-		$this->skillChanges++;
 	}
 	
 	/**
@@ -125,14 +141,14 @@ class LearningSheetImporter extends AbstractCsvImporter {
 			return;
 		}
 		$this->previousCategory = $category;
-		$this->previousCategorySkillKeys = [];
+		$this->previousCategorySkills = [];
 		if( !$justCreated ) {
 			$skillKeys = $category->querySkills()
 				->fields(LearningSkill::ei('key'))
-				->asArrayList()
 				->run();
-			foreach( $skillKeys as $skillArray ) {
-				$this->previousCategorySkillKeys[$skillArray['key']] = 1;
+			foreach( $skillKeys as $skill ) {
+				/** @var LearningSkill $skill */
+				$this->previousCategorySkills[$skill->key] = $skill;
 			}
 		}
 	}

@@ -17,6 +17,7 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property string $create_ip
  * @property int $create_user_id
  * @property string $name
+ * @property string $key
  * @property int $learning_category_id
  * @property boolean $valuable
  */
@@ -60,6 +61,7 @@ class LearningSkill extends PermanentEntity {
 			$data['valuable'] = $this->valuable;
 			if( OUTPUT_MODEL_EDITION ) {
 				$data['name'] = $this->name;
+				$data['key'] = $this->key;
 			}
 			
 			return $data;

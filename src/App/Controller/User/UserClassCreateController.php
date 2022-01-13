@@ -19,7 +19,7 @@ class UserClassCreateController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		$this->addRouteToBreadcrumb('user_class_list');
 		$this->addRouteToBreadcrumb('user_class_new');

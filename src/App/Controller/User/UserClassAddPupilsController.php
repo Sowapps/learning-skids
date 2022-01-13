@@ -19,7 +19,7 @@ class UserClassAddPupilsController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
 		$token = $request->getPathValue('token');
 		$pupilValidation = $_SESSION['class_add_pupils'][$token] ?? null;

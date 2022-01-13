@@ -19,7 +19,7 @@ class InstallDatabaseSetupController extends SetupController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		$FORM_TOKEN = new FormToken();
 		$env = [

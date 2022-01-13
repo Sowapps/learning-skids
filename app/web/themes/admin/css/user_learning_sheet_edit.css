@@ -1,57 +1,56 @@
-
 .template {
-	display: none;
+  display: none;
 }
 
 .item-category .form {
-	display: none;
+  display: none;
 }
 
 .read-only .show-if-not-read-only {
-	display: none;
+  display: none;
 }
 
 .column-sheet:not(.read-only) .show-if-read-only {
-	display: none;
+  display: none;
 }
 
 #LearningSheet .column-sheet.read-only .card-footer {
-	display: none;
+  display: none;
 }
-
 #LearningSheet .column-sheet .sheet_label,
 #LearningSheet .column-category .category_label {
-	line-height: 2rem;
+  line-height: 2rem;
 }
-
 #LearningSheet .icon-collapse {
-	transition: transform .3s;
+  transition: transform 0.3s;
 }
-
 #LearningSheet .list-hide .icon-collapse {
-	transform: rotate(90deg);
+  transform: rotate(90deg);
 }
-
 #LearningSheet .column-skill {
-	overflow: hidden;
+  overflow: hidden;
 }
-
 #LearningSheet .list-hide .column-skill {
-	visibility: collapse;
-	max-height: 0;
-	transition: all 0s .5s;
+  visibility: collapse;
+  max-height: 0;
+  transition: all 0s 0.5s;
 }
-
 #LearningSheet .list-show .column-skill {
-	visibility: visible;
+  visibility: visible;
 }
-
 #LearningSheet .column-skill .card {
-	transform: scaleY(0);
-	transform-origin: top left;
-	transition: transform .5s ease-out;
+  transform: scaleY(0);
+  transform-origin: top left;
+  transition: transform 0.5s ease-out;
+}
+#LearningSheet .list-show .column-skill .card {
+  transform: scaleY(1);
+}
+#LearningSheet .item-skill .action-edit {
+  visibility: hidden;
+}
+#LearningSheet .item-skill:hover .action-edit {
+  visibility: visible;
 }
 
-#LearningSheet .list-show .column-skill .card {
-	transform: scaleY(1);
-}
+/*# sourceMappingURL=user_learning_sheet_edit.css.map */

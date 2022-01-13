@@ -372,10 +372,19 @@ class LearningSkill extends EditableEntity {
 		super();
 		
 		this.$skill = $skill;
+		this.$editDialog = $('#DialogLearningSkillEdit');
 		this.category = category;
 		this.learningSheet = category.learningSheet;
 		this.data = null;
+		this.bindEvents(data);
 		this.load(data);
+	}
+	
+	bindEvents() {
+		this.$skill.find('.action-edit').on('click', () => {
+			this.$editDialog.fill('skill', this.data);
+			this.$editDialog.modal('show');
+		});
 	}
 	
 	setData(newData, merge) {

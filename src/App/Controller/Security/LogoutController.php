@@ -17,7 +17,7 @@ class LogoutController extends AbstractHttpController {
 	 * @return RedirectHTTPResponse
 	 * @see HTTPController::run()
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		$user = User::getLoggedUser();
 		if( $user ) {

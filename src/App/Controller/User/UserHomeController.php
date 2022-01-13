@@ -14,7 +14,7 @@ class UserHomeController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		$this->setPageTitle(t('user_home'));
 		

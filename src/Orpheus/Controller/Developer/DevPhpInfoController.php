@@ -11,7 +11,7 @@ class DevPhpInfoController extends DevController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		phpinfo();
 		die();
 	}

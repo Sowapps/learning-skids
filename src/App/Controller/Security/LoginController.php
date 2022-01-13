@@ -24,7 +24,7 @@ class LoginController extends AbstractHttpController {
 	 * @return HTTPResponse
 	 * @see HTTPController::run()
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		
 		if( User::isLogged() ) {
 			return new RedirectHTTPResponse(u(getHomeRoute()));

@@ -24,7 +24,7 @@ class UserClassPupilExportController extends AbstractUserController {
 	 * @param HTTPRequest $request The input HTTP request
 	 * @return HTTPResponse The output HTTP response
 	 */
-	public function run($request) {
+	public function run($request): HttpResponse {
 		$pupil = ClassPupil::load($request->getPathValue('pupilId'), false);
 		$class = $pupil->getSchoolClass();
 		$person = $pupil->getPerson();
