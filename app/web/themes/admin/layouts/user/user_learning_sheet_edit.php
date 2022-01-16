@@ -72,7 +72,7 @@ $rendering->useLayout('layout.full-width');
 </div>
 
 <div id="LearningSheet" data-sheet-edit-dialog="#DialogLearningSheetEdit" data-category-edit-dialog="#DialogLearningCategoryEdit"
-	 data-skill-edit-dialog="#DialogLearningSkillEdit">
+	 data-skill-edit-dialog="#DialogLearningSkillEdit" data-data="<?php echo htmlFormATtr($learningSheet->getTree()); ?>">
 	
 	<div class="row mb-1 item-category list-hide template">
 		<?php /* LEARNING SHEET COLUMN */ ?>
@@ -234,9 +234,6 @@ $(function () {
 		'level_kid_middle' => t('level_kid_middle', DOMAIN_CLASS),
 		'level_kid_high'   => t('level_kid_high', DOMAIN_CLASS),
 	]); ?>);
-});
-$(window).on('load', function () {
-	$('#LearningSheet').data('learningSheet').load(<?php echo json_encode($learningSheet->getTree()); ?>);
 });
 </script>
 
