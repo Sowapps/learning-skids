@@ -91,6 +91,10 @@ class LearningSheet extends EditableEntity {
 		$categoryTemplate.remove();
 		this.categoryIndex = 0;
 		this.skillIndex = 0;
+		
+		if( this.$learningSheet.data('data') ) {
+			this.load(this.$learningSheet.data('data'));
+		}
 	}
 	
 	notifyAboutChanges() {
