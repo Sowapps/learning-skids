@@ -6,7 +6,7 @@ fields:
 
     name: string(2, 50)
     level: enum(App\Entity\SchoolClass::getAllLevels)[nullable]
-    year: integer(2020, 3000)
+    year: integer(2000, 3000)
     teacher_id: ref(person)
     openDate: date
     enabled: boolean=true

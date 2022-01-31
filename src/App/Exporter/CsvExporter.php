@@ -72,6 +72,12 @@ class CsvExporter {
 		return $this->writeRow($fields);
 	}
 	
+	public function terminate(): self {
+		rewind($this->stream);
+		
+		return $this;
+	}
+	
 	/**
 	 * @return resource|null
 	 */
