@@ -92,7 +92,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 					}
 				}
 				
-				return new FileHttpResponse($exporter->getStream(), sprintf('%s.csv', LearningCategory::slugName($learningSheet->name)), true);
+				return new FileHttpResponse($exporter->terminate()->getStream(), sprintf('%s.csv', LearningCategory::slugName($learningSheet->name)), true);
 				
 			} elseif( $request->hasData('submitImport') ) {
 				$uploadedFile = UploadedFile::load('file');
