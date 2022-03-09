@@ -44,13 +44,17 @@ class LoginController extends AbstractHttpController {
 				
 				return new RedirectHttpResponse(u(getHomeRoute()));
 				
-			} elseif( $request->hasData('submitLogin') && $loginInput = $request->getData('login') ) {
+			}
+			
+			if( $request->hasData('submitLogin') && $loginInput = $request->getData('login') ) {
 				$this->validateFormToken($request);
 				User::userLogin($loginInput);
 				
 				return new RedirectHttpResponse(u(getHomeRoute()));
 				
-			} elseif( $request->hasData('submitRegister') && ($userInput = $request->getData('user')) ) {
+			}
+			
+			if( $request->hasData('submitRegister') && ($userInput = $request->getData('user')) ) {
 				startReportStream('register');
 				$panel = self::PANEL_REGISTER;
 				$this->validateFormToken($request);

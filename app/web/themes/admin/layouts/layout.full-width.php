@@ -22,7 +22,6 @@ $contentLegend = $controller->getOption(AbstractAdminController::OPTION_CONTENT_
 
 $rendering->useLayout('layout.admin');
 
-
 $rendering->showMenu($controller->getOption('main_menu', 'admin'), 'menu-sidebar');
 ?>
 
@@ -30,7 +29,7 @@ $rendering->showMenu($controller->getOption('main_menu', 'admin'), 'menu-sidebar
 	<main>
 		<div class="container-fluid">
 			
-			<div class="row">
+			<div class="row mb-3">
 				<div class="col-lg-12">
 					<?php
 					if( $contentTitle !== false ) {

@@ -10,5 +10,5 @@ vendor/*
 composer.phar
 .DS_Store
 # But keep empty folder containing gitkeep & htaccess
-!.gitkeepd
+!.gitkeep
 !.htaccess
