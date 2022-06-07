@@ -20,8 +20,8 @@ use Orpheus\InputController\HttpController\HttpRoute;
 use Orpheus\Rendering\HtmlRendering;
 
 $rendering->useLayout('page_skeleton');
-$rendering->addThemeCssFile('sign-in.css');
-$rendering->addThemeJsFile('sign-in.js');
+$rendering->addThemeCssFile('login.css');
+$rendering->addThemeJsFile('login.js');
 
 ?>
 <div id="layoutAuthentication">
