@@ -170,7 +170,7 @@ class UserLearningSheetEditController extends AbstractUserController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('user/user_learning_sheet_edit', [
+		return $this->renderHtml('user/user_learning_sheet_edit', [
 			'learningSheet'             => $learningSheet,
 			'class'                     => $class,
 			'allowLearningSheetUpdate'  => $allowLearningSheetUpdate,

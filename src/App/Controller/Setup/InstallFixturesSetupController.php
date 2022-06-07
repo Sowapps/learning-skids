@@ -59,7 +59,7 @@ class InstallFixturesSetupController extends SetupController {
 			$env['allowContinue'] = true;
 		}
 		
-		return $this->renderHTML('setup/setup_installfixtures', $env);
+		return $this->renderHtml('setup/setup_installfixtures', $env);
 	}
 	
 }

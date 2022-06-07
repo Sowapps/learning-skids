@@ -73,7 +73,7 @@ class AdminUserEditController extends AbstractAdminController {
 		
 		includeAdminComponents();
 		
-		return $this->renderHTML('admin/admin_user_edit', [
+		return $this->renderHtml('admin/admin_user_edit', [
 			'allowUserUpdate'         => $allowUserUpdate,
 			'allowUserPasswordChange' => $allowUserPasswordChange,
 			'allowUserDelete'         => $allowUserDelete,

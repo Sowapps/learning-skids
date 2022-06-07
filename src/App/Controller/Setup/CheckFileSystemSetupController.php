@@ -54,10 +54,10 @@ class CheckFileSystemSetupController extends SetupController {
 				'open'        => 1,
 			];
 		}
-		if( is_writable(LOGSPATH) ) {
+		if( is_writable(LOGS_PATH) ) {
 			$env['folders']['logspath'] = (object) [
 				'title'       => t('folderWritable_success_title', DOMAIN_SETUP, t('folder_logs', DOMAIN_SETUP)),
-				'description' => t('folderWritable_success_description', DOMAIN_SETUP, LOGSPATH),
+				'description' => t('folderWritable_success_description', DOMAIN_SETUP, LOGS_PATH),
 				'panel'       => PANEL_SUCCESS,
 				'open'        => 0,
 			];
@@ -65,7 +65,7 @@ class CheckFileSystemSetupController extends SetupController {
 			$env['allowContinue'] = false;
 			$env['folders']['logspath'] = (object) [
 				'title'       => t('folderNotWritable_error_title', DOMAIN_SETUP, t('folder_logs', DOMAIN_SETUP)),
-				'description' => t('folderNotWritable_error_description', DOMAIN_SETUP, LOGSPATH),
+				'description' => t('folderNotWritable_error_description', DOMAIN_SETUP, LOGS_PATH),
 				'panel'       => PANEL_DANGER,
 				'open'        => 1,
 			];
@@ -75,7 +75,7 @@ class CheckFileSystemSetupController extends SetupController {
 			$this->validateStep();
 		}
 		
-		return $this->renderHTML('setup/setup_checkfs', $env);
+		return $this->renderHtml('setup/setup_checkfs', $env);
 	}
 	
 }

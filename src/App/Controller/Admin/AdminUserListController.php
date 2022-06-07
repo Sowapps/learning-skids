@@ -46,7 +46,7 @@ class AdminUserListController extends AbstractAdminController {
 			$query->where('accesslevel', '<=', IniConfig::get('user_roles/administrator'));
 		}
 		
-		return $this->renderHTML('admin/admin_user_list', [
+		return $this->renderHtml('admin/admin_user_list', [
 			'allowCreate' => $allowCreate,
 			'allowUpdate' => $allowUpdate,
 			'users'       => $query,

@@ -95,7 +95,7 @@ function includeAdminComponents() {
  *
  * @return string
  */
-function getHomeRoute() {
+function getHomeRoute(): string {
 	$user = User::getLoggedUser();
 	if( !$user ) {
 		return DEFAULT_ROUTE;
@@ -104,7 +104,7 @@ function getHomeRoute() {
 	return USER_DEFAULT_ROUTE;
 }
 
-function formatDateMonth(DateTime $dateTime) {
+function formatDateMonth(DateTime $dateTime): string {
 	$month = strtolower($dateTime->format('F'));
 	
 	return t('month.' . $month);

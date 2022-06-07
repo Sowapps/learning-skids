@@ -20,7 +20,7 @@ class EndSetupController extends SetupController {
 		
 		$this->validateStep();
 		
-		return $this->renderHTML('setup/setup_end', []);
+		return $this->renderHtml('setup/setup_end', []);
 	}
 	
 }

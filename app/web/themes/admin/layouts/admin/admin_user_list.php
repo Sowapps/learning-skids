@@ -4,11 +4,11 @@ use App\Entity\User;
 use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var AbstractAdminController $controller
  * @var HttpRequest $Request
  * @var HttpRoute $Route

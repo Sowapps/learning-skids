@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="a8441efb-bba3-47ed-bcfd-c6fbbafff884" name="Local Sowapps" url="http://learning-skids.local">
-        <fileTransfer rootFolder="/media/sf_Workspaces/git/learning-skids" accessType="SFTP" host="sowapps.local" port="22" sshConfigId="5fc2fb7c-a0b0-4aba-93cc-329d36942d4d" sshConfig="Root @ Sowapps Local" keyPair="true">
+        <fileTransfer rootFolder="/home/sowapps/www/learning-skids" accessType="SFTP" host="sowapps.local" port="22" sshConfigId="0f240060-740b-4592-a94f-ce987e382211" sshConfig="Sowapps @ Sowapps Local" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

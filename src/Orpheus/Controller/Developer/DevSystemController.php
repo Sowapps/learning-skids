@@ -14,7 +14,7 @@ class DevSystemController extends DevController {
 	public function run($request): HttpResponse {
 		$this->addThisToBreadcrumb();
 		
-		return $this->renderHTML('developer/dev_system');
+		return $this->renderHtml('developer/dev_system');
 	}
 	
 }

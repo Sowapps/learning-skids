@@ -3,11 +3,11 @@
 use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 /**
  * @var string $CONTROLLER_OUTPUT
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var AbstractAdminController $controller
  * @var HttpRequest $request
  * @var HttpRoute $route

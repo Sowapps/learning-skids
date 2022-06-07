@@ -1,6 +1,6 @@
 <?php
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var HttpRequest $request
  * @var HttpRoute $route
  * @var HttpController $controller
@@ -9,12 +9,12 @@
 use Orpheus\InputController\HttpController\HttpController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 /* @var array $composerConfig */
 
 $rendering->useLayout('layout.full-width');
-HTMLRendering::addJsFile('model.js', HTMLRendering::LINK_TYPE_CUSTOM);
+HtmlRendering::addJsFile('model.js', HtmlRendering::LINK_TYPE_CUSTOM);
 
 global $formData;
 $formData = ['composer' => (array) $composerConfig];

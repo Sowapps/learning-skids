@@ -54,7 +54,7 @@ class UserClassAddPupilsController extends AbstractUserController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('class/class_add_pupils', [
+		return $this->renderHtml('class/class_add_pupils', [
 			'token'  => $token,
 			'class'  => $class,
 			'pupils' => $outputPupils,

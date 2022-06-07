@@ -69,7 +69,7 @@ class LoginController extends AbstractHttpController {
 			endReportStream();
 		}
 		
-		return $this->renderHTML('security/login', [
+		return $this->renderHtml('security/login', [
 			'panel' => $panel,
 		]);
 	}

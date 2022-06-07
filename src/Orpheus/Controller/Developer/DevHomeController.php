@@ -12,7 +12,7 @@ class DevHomeController extends DevController {
 	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
-		return $this->renderHTML('developer/dev_system');
+		return $this->renderHtml('developer/dev_system');
 	}
 	
 }

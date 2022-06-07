@@ -5,7 +5,8 @@ namespace Orpheus\Controller\Admin;
 use App\Controller\AbstractHttpController;
 use App\Entity\User;
 use DateTime;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\InputController\OutputResponse;
+use Orpheus\Rendering\HtmlRendering;
 
 abstract class AbstractAdminController extends AbstractHttpController {
 	
@@ -77,10 +78,10 @@ abstract class AbstractAdminController extends AbstractHttpController {
 		$this->breadcrumb[] = (object) ['label' => $label, 'link' => $link];
 	}
 	
-	public function preRun($request) {
+	public function preRun($request): ?OutputResponse {
 		parent::preRun($request);
 		
-		HTMLRendering::setDefaultTheme('admin');
+		HtmlRendering::setDefaultTheme('admin');
 		$user = User::getLoggedUser();
 		
 		// Else Admin only
@@ -91,7 +92,7 @@ abstract class AbstractAdminController extends AbstractHttpController {
 		return null;
 	}
 	
-	public function render($response, $layout, $values = []) {
+	public function render($response, $layout, $values = []): OutputResponse {
 		$values['breadcrumb'] = $this->breadcrumb;
 		
 		return parent::render($response, $layout, $values);

@@ -1,5 +1,5 @@
 <?php
-/* @var Orpheus\Rendering\HTMLRendering $this */
+/* @var Orpheus\Rendering\HtmlRendering $this */
 
 $rendering->useLayout('page_skeleton');
 

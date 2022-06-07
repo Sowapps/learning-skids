@@ -72,7 +72,7 @@ class UserClassPupilsSheetController extends AbstractUserController {
 			}
 			$this->addRouteToBreadcrumb('user_class_pupils_sheet', t('user_class_pupils_sheet_by_skills'), $pageUrl . $selfQueryString);
 			
-			return $this->renderHTML('class/class_pupils_sheet_by_skills', [
+			return $this->renderHtml('class/class_pupils_sheet_by_skills', [
 				'class'         => $class,
 				'learningSheet' => $learningSheet,
 				'pupils'        => $pupils,
@@ -81,7 +81,7 @@ class UserClassPupilsSheetController extends AbstractUserController {
 			]);
 		}
 		
-		return $this->renderHTML('class/class_pupils_sheet', [
+		return $this->renderHtml('class/class_pupils_sheet', [
 			'class'         => $class,
 			'learningSheet' => $learningSheet,
 			'pupils'        => $pupils,

@@ -23,12 +23,8 @@ defifn('DEV_TOOLS', DEV_VERSION && (defined('TERMINAL') || !empty($_SERVER['PHP_
 defifn('LAYOUT_MENU', 'menu-bootstrap3');
 
 // LIB Initernationalization
-defifn('LANGDIR', 'languages/');
+defifn('LANG_FOLDER', '/languages');
 defifn('DEFAULT_LOCALE', 'fr_FR');
-
-defifn('CACHEPATH', STOREPATH . 'cache/');
-defifn('TEMPPATH', STOREPATH . 'temp/');
-defifn('FILESTOREPATH', STOREPATH . 'files/');
 
 // Static medias
 defifn('THEMES_URL', WEB_ROOT . THEMES_FOLDER);
@@ -39,7 +35,6 @@ defifn('IMAGES_URL', STATIC_ASSETS_URL . '/images');
 defifn('JS_URL', STATIC_ASSETS_URL . '/js');
 
 // Contact
-
 defifn('ADMIN_EMAIL', 'f.hazard@sowapps.com');
 defifn('DEV_EMAIL', ADMIN_EMAIL);
 defifn('AUTHORNAME', 'Sowapps');
@@ -55,6 +50,7 @@ define('OUTPUT_MODEL_EDITION', 'edition');
 define('DOMAIN_CLASS', 'class');
 define('DOMAIN_LEARNING_SKILL', 'learning-skill');
 define('DOMAIN_PERSON', 'person');
+define('DOMAIN_TRANSLATIONS', 'translations');
 
 // Users
 define('USER_SALT', 'Y*Ck5D=H');
@@ -87,9 +83,8 @@ function listFileSourceTypes() {
 	return [FILE_SOURCETYPE_UPLOAD, FILE_SOURCETYPE_UPLOAD_CONVERTED, FILE_SOURCETYPE_PHPQRCODE, FILE_SOURCETYPE_WKPDF, FILE_SOURCETYPE_LOCALDEMO, FILE_SOURCETYPE_FACEBOOK];
 }
 
-defifn('DOMAIN_TRANSLATIONS', 'translations');
 
-defifn('TRANSLATIONS_PATH', STOREPATH . 'translations/');
+defifn('TRANSLATIONS_PATH', STORE_PATH . 'translations/');
 
 /* WKHTMLTOPDF */
 defifn('WKHTMLTOPDF_EXEC', '/usr/local/bin/wkhtmltopdf');

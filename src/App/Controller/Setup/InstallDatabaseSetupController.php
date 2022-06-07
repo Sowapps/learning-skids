@@ -29,6 +29,7 @@ class InstallDatabaseSetupController extends SetupController {
 		// TODO: Check and suggest to delete unknown tables in DB
 		try {
 			if( is_array($request->getData('entities')) ) {
+				$output = null;
 				if( $request->hasDataKey('submitGenerateSQL', $output) ) {
 					$output = $output == OUTPUT_APPLY ? OUTPUT_APPLY : OUTPUT_DISPLAY;
 					if( $output == OUTPUT_APPLY ) {
@@ -72,7 +73,7 @@ class InstallDatabaseSetupController extends SetupController {
 			$this->validateStep();
 		}
 		
-		return $this->renderHTML('setup/setup_installdb', $env);
+		return $this->renderHtml('setup/setup_installdb', $env);
 	}
 	
 }

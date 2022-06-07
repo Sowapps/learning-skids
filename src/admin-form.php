@@ -63,9 +63,6 @@ function _adm_htmlTextInput($fieldPath, $class='', $addAttr='', $default='', $ty
 	echo adm_htmlTextInput($fieldPath, $class, $addAttr, $default, null, $type);
 }
 function adm_htmlTextInput($fieldPath, $class='', $addAttr='', $default='', $formatter=null, $type='text') {
-	if( ($field = getField($fieldPath)) !== NULL ) {
-		$addAttr .= $field->getType()->htmlInputAttr($field->args);
-	}
 	return htmlText($fieldPath, $default, $addAttr.' class="form-control '.$class.'"', $formatter, $type);
 }
 

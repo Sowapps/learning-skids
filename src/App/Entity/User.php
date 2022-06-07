@@ -89,6 +89,9 @@ class User extends AbstractUser implements FixtureInterface {
 			->where('user_id', $this)
 			->where('learning_sheet_id', $learningSheet)
 			->asObject()->run();
+		if( !$learningSheetUser ) {
+			return false;
+		}
 		
 		return $this->canDo('class_manage') || ($learningSheetUser && $learningSheetUser->canAdminLearningSheet());
 	}
