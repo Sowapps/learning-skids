@@ -118,7 +118,7 @@ class User extends AbstractUser implements FixtureInterface {
 	}
 	
 	public function getAdminLink($ref = 0) {
-		return u('adm_user', ['userID' => $this->id()]);
+		return u('adm_user', ['userId' => $this->id()]);
 	}
 	
 	public function getLink() {
@@ -152,7 +152,7 @@ class User extends AbstractUser implements FixtureInterface {
 	}
 	
 	public function canUserStatus($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
-		return $this->canDo('user_status');// Only App admins can do it.
+		return $this->canDo('user_edit');// Only App admins can do it.
 	}
 	
 	public function canUserDelete($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
@@ -169,7 +169,7 @@ class User extends AbstractUser implements FixtureInterface {
 	}
 	
 	public function canUserPassword($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
-		return $this->canDo('user_password');// Only App admins can do it.
+		return $this->canDo('user_edit');// Only App admins can do it.
 	}
 	
 	public function getRoleText() {
