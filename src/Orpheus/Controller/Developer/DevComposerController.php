@@ -85,7 +85,7 @@ class DevComposerController extends DevController {
 		
 		$this->addThisToBreadcrumb();
 		
-		return $this->renderHTML('developer/dev_composer', [
+		return $this->renderHtml('developer/dev_composer', [
 			'composerConfig'    => $composerConfig,
 			'applicationFolder' => APPLICATIONPATH,
 			'composerFile'      => $composerFile,

@@ -34,16 +34,16 @@ class DevLogListController extends DevController {
 		
 		$this->addThisToBreadcrumb();
 		
-		return $this->renderHTML('developer/dev_loglist', [
+		return $this->renderHtml('developer/dev_loglist', [
 			'logs' => $logs,
 		]);
 	}
 	
 	public function listLogsOfFile($logFile) {
 		$files = [];
-		foreach( cleanscandir(LOGSPATH) as $file ) {
+		foreach( cleanscandir(LOGS_PATH) as $file ) {
 			if( strpos($file, $logFile) === 0 ) {
-				$files[] = LOGSPATH . $file;
+				$files[] = LOGS_PATH . '/' . $file;
 			}
 		}
 		

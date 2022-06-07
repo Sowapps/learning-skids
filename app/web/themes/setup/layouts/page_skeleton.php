@@ -1,7 +1,7 @@
 <?php
 /**
  * @var string $CONTROLLER_OUTPUT
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var HttpController $controller
  * @var HttpRequest $request
  * @var HttpRoute $route
@@ -11,7 +11,7 @@
 use Orpheus\InputController\HttpController\HttpController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 global $APP_LANG;
 
@@ -41,7 +41,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap<?php echo $libExtension; ?>.css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all<?php echo $libExtension; ?>.css" media="screen"/>
 	<?php
-	foreach( $rendering->listCSSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+	foreach( $rendering->listCSSURLs(HtmlRendering::LINK_TYPE_PLUGIN) as $url ) {
 		echo '
 	<link rel="stylesheet" href="' . $url . '" type="text/css" media="screen" />';
 	}
@@ -101,7 +101,7 @@ $libExtension = DEV_VERSION ? '' : '.min';
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper<?php echo $libExtension; ?>.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap<?php echo $libExtension; ?>.js"></script>
 <?php
-foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+foreach( $this->listJSURLs(HtmlRendering::LINK_TYPE_PLUGIN) as $url ) {
 	echo '
 	<script type="text/javascript" src="' . $url . '"></script>';
 }

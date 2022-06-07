@@ -4,10 +4,10 @@ use App\Entity\ClassPupil;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\SchoolClass;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var string $title
  *
  * @var ClassPupil $pupil
@@ -34,7 +34,7 @@ $rendering->useLayout('pdf-skeleton');
 	$categories = $learningSheet->queryCategories();
 	
 	foreach( $categories as $category ) {
-		HTMLRendering::captureOutput();
+		HtmlRendering::captureOutput();
 		foreach( $category->querySkills() as $skill ) {
 			if( !isset($pupilSkills[$skill->id()]) ) {
 				continue;
@@ -48,7 +48,7 @@ $rendering->useLayout('pdf-skeleton');
 			</li>
 			<?php
 		}
-		$skillRows = HTMLRendering::endCapture();
+		$skillRows = HtmlRendering::endCapture();
 		if( $skillRows ) {
 			?>
 			<li class="list-group-item item-category no-page-break bg-info text-white"><?php echo $category; ?></li>

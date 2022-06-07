@@ -24,7 +24,7 @@ class DevLogViewController extends DevController {
 			throw new NotFoundException('Invalid log file');
 		}
 		
-		$filePath = LOGSPATH . $file;
+		$filePath = LOGS_PATH . '/' . $file;
 		
 		$filePathInfo = (object) pathinfo($file);
 		$format = strtoupper($filePathInfo->extension);
@@ -111,7 +111,7 @@ class DevLogViewController extends DevController {
 		$this->addRouteToBreadcrumb(ROUTE_DEV_LOGS);
 		$this->addThisToBreadcrumb($file);
 		
-		return $this->renderHTML('developer/dev_logfile', [
+		return $this->renderHtml('developer/dev_logfile', [
 			'file'          => $filePath,
 			'filePathInfo'  => $filePathInfo,
 			'format'        => $format,

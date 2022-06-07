@@ -2,12 +2,12 @@
 
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 use Sowapps\Controller\Admin\AdminController;
 
 /**
  * @var string $CONTROLLER_OUTPUT
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var AdminController $controller
  * @var HttpRequest $request
  * @var HttpRoute $route

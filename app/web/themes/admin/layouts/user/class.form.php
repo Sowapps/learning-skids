@@ -2,14 +2,14 @@
 /**
  * @author Florent HAZARD <f.hazard@sowapps.com>
  *
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var SchoolClass $class
  * @var User $currentUser
  */
 
 use App\Entity\SchoolClass;
 use App\Entity\User;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 $openDateDefault = (new DateTime('first monday of september'))->format('c');
 $class ??= null;

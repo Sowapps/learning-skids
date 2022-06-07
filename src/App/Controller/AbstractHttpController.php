@@ -12,7 +12,7 @@ use Orpheus\InputController\HttpController\HttpController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\RedirectHttpResponse;
 use Orpheus\InputController\OutputResponse;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 abstract class AbstractHttpController extends HttpController {
 	
@@ -77,19 +77,21 @@ abstract class AbstractHttpController extends HttpController {
 	 * @return OutputResponse|void|null
 	 * @throws Exception
 	 */
-	public function preRun($request) {
+	public function preRun($request): ?OutputResponse {
 		$this->currentUser = User::getLoggedUser();
-		HTMLRendering::setDefaultTheme('admin');
+		HtmlRendering::setDefaultTheme('admin');
+		
+		return null;
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function getScope() {
+	public function getScope(): string {
 		return $this->scope;
 	}
 	
-	public function render($response, $layout, $values = []) {
+	public function render($response, $layout, $values = []): OutputResponse {
 		$values['currentUser'] = $this->currentUser;
 		//		$values['hasAdminPermissions'] = $this->hasProjectAdminPermissions();
 		if( $this->formToken ) {

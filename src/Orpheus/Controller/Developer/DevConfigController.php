@@ -48,7 +48,7 @@ class DevConfigController extends DevController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('developer/dev_config', [
+		return $this->renderHtml('developer/dev_config', [
 			'config' => $config,
 		]);
 	}

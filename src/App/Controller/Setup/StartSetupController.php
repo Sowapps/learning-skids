@@ -29,7 +29,7 @@ class StartSetupController extends SetupController {
 			reportError($e, DOMAIN_SETUP);
 		}
 		
-		return $this->renderHTML('setup/setup_start');
+		return $this->renderHtml('setup/setup_start');
 	}
 	
 }

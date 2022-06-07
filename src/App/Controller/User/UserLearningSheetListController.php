@@ -35,7 +35,7 @@ class UserLearningSheetListController extends AbstractUserController {
 		
 		$learningSheets = User::getLoggedUser()->queryLearningSheets(LearningSheetUser::ROLE_ADMIN);
 		
-		return $this->renderHTML('user/user_learning_sheet_list', [
+		return $this->renderHtml('user/user_learning_sheet_list', [
 			'learningSheets' => $learningSheets,
 		]);
 	}

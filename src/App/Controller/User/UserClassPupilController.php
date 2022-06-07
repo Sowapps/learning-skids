@@ -68,7 +68,7 @@ class UserClassPupilController extends AbstractUserController {
 		}
 		$classPupils = $person->queryClassPupils();
 		
-		return $this->renderHTML('class/class_pupil_edit', [
+		return $this->renderHtml('class/class_pupil_edit', [
 			'readOnly'    => $readOnly,
 			'class'       => $class,
 			'pupil'       => $pupil,

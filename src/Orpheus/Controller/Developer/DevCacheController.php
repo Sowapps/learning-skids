@@ -42,7 +42,7 @@ class DevCacheController extends DevController {
 			reportError($e);
 		}
 		
-		return $this->renderHTML('developer/dev_cache');
+		return $this->renderHtml('developer/dev_cache');
 	}
 	
 }

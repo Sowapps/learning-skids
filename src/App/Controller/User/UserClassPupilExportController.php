@@ -11,12 +11,12 @@ use DateTime;
 use Orpheus\Exception\ForbiddenException;
 use Orpheus\Exception\UserException;
 use Orpheus\File\Generator\WkHtmlToPdfGenerator;
-use Orpheus\InputController\HttpController\HTMLHttpResponse;
+use Orpheus\InputController\HttpController\HtmlHttpResponse;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpResponse;
 use Orpheus\InputController\HttpController\LocalFileHttpResponse;
 use Orpheus\Publisher\SlugGenerator;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 class UserClassPupilExportController extends AbstractUserController {
 	
@@ -37,7 +37,7 @@ class UserClassPupilExportController extends AbstractUserController {
 			throw new ForbiddenException();
 		}
 		
-		$render = new HTMLRendering();
+		$render = new HtmlRendering();
 		$render->setTheme('system');
 		$render->setRemote($debug);
 		
@@ -62,13 +62,13 @@ class UserClassPupilExportController extends AbstractUserController {
 		
 		if( $debug ) {
 			//			if( $debug === 'header' ) {
-			//				return new HTMLHttpResponse($headerHtml);
+			//				return new HtmlHttpResponse($headerHtml);
 			//			}
 			if( $debug === 'footer' ) {
-				return new HTMLHttpResponse($footerHtml);
+				return new HtmlHttpResponse($footerHtml);
 			}
 			
-			return new HTMLHttpResponse($bodyHtml);
+			return new HtmlHttpResponse($bodyHtml);
 		}
 		
 		$generator = new WkHtmlToPdfGenerator($bodyHtml);

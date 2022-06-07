@@ -4,10 +4,10 @@ use App\Entity\ClassPupil;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\SchoolClass;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var string $title
  *
  * @var ClassPupil $pupil

@@ -44,7 +44,7 @@ class CheckDatabaseSetupController extends SetupController {
 			$this->validateStep();
 		}
 		
-		return $this->renderHTML('setup/setup_checkdb', $env);
+		return $this->renderHtml('setup/setup_checkdb', $env);
 	}
 	
 	protected function resolveError($exception, array $settings) {

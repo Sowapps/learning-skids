@@ -4,10 +4,10 @@ use App\Entity\ClassPupil;
 use App\Entity\LearningSheet;
 use App\Entity\Person;
 use App\Entity\SchoolClass;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var string $content
  *
  * @var string $title
@@ -40,7 +40,7 @@ $rendering->addThemeCssFile('style.css');
 		<?php
 	}
 	
-	foreach( $rendering->listCssUrls(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+	foreach( $rendering->listCssUrls(HtmlRendering::LINK_TYPE_PLUGIN) as $url ) {
 		?>
 		<link rel="stylesheet" href="<?php echo $url; ?>" type="text/css" media="screen"/>
 		<?php

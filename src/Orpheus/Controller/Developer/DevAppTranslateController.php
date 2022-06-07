@@ -130,7 +130,7 @@ class DevAppTranslateController extends DevController {
 		
 		// 		$publicDomains = array('global'=>1, 'restaurant'=>1, 'http_errors'=>1, 'setmenu'=>1, 'timeslot'=>1);
 		
-		return $this->renderHTML('developer/dev_apptranslate', [
+		return $this->renderHtml('developer/dev_apptranslate', [
 			'FORM_TOKEN'          => $FORM_TOKEN,
 			// 			'publicDomains' => $publicDomains,
 			'editedDomains'       => $editedDomains,

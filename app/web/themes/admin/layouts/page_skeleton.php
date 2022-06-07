@@ -1,6 +1,6 @@
 <?php
 /**
- * @var HTMLRendering $rendering
+ * @var HtmlRendering $rendering
  * @var AbstractHttpController $controller
  * @var HttpRequest $request
  * @var HttpRoute $route
@@ -15,7 +15,7 @@ use App\Entity\User;
 use Orpheus\Controller\Admin\AbstractAdminController;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpRoute;
-use Orpheus\Rendering\HTMLRendering;
+use Orpheus\Rendering\HtmlRendering;
 
 
 global $APP_LANG;
@@ -61,12 +61,13 @@ $libExtension = DEV_VERSION ? '' : '.min';
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables<?php echo $libExtension; ?>.css">
  */ ?>
 	
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4<?php echo $libExtension; ?>.css" media="screen"/>
+	<link rel="stylesheet" type="text/css"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4<?php echo $libExtension; ?>.css" media="screen"/>
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2<?php echo $libExtension; ?>.css" media="screen"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo $rendering->getCssUrl(); ?>select2-bootstrap.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo $rendering->getCssUrl(); ?>/select2-bootstrap.css" media="screen"/>
 	<?php
 	
-	foreach( $this->listCSSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+	foreach( $this->listCSSURLs(HtmlRendering::LINK_TYPE_PLUGIN) as $url ) {
 		echo '
 	<link rel="stylesheet" href="' . $url . '" type="text/css" media="screen" />';
 	}
@@ -106,7 +107,7 @@ echo $content;
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/fr.js"></script>
 
 <?php
-foreach( $this->listJSURLs(HTMLRendering::LINK_TYPE_PLUGIN) as $url ) {
+foreach( $this->listJSURLs(HtmlRendering::LINK_TYPE_PLUGIN) as $url ) {
 	echo '
 	<script type="text/javascript" src="' . $url . '"></script>';
 }

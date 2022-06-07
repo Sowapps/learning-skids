@@ -144,7 +144,6 @@ class LearningSheetImporter extends AbstractCsvImporter {
 		$this->previousCategorySkills = [];
 		if( !$justCreated ) {
 			$skillKeys = $category->querySkills()
-				->fields(LearningSkill::ei('key'))
 				->run();
 			foreach( $skillKeys as $skill ) {
 				/** @var LearningSkill $skill */
