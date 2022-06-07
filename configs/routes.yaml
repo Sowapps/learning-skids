@@ -142,13 +142,19 @@ http:
             role: administrator
 
     adm_user:
-        path: "/admin/user/{id:userID}.html"
+        path: "/admin/user/{id:userId}.html"
         controller: App\Controller\Admin\AdminUserEditController
         restrictTo:
-          role: administrator
-        
+            role: administrator
+
+    user_terminate_impersonate:
+        path: "/user/terminate-impersonate.html"
+        controller: App\Controller\User\UserImpersonateTerminateController
+        restrictTo:
+            role: member
+
     file_download:
-        path: "/download/{id:fileID}"
+        path: "/download/{id:fileId}"
         controller: App\Controller\FileDownloadController
     
     

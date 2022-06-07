@@ -34,8 +34,8 @@ class LoginController extends AbstractHttpController {
 		$panel = self::PANEL_LOGIN;
 		
 		try {
-			if( $request->hasParameter('ac') && is_id($userID = $request->getParameter('u')) ) {
-				$user = User::load($userID);
+			if( $request->hasParameter('ac') && is_id($userId = $request->getParameter('u')) ) {
+				$user = User::load($userId);
 				if( !$user || $user->activation_code !== $request->getParameter('ac') ) {
 					User::throwException('invalidActivationCode');
 				}

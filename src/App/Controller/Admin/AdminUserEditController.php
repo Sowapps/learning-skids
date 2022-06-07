@@ -25,13 +25,9 @@ class AdminUserEditController extends AbstractAdminController {
 		global $USER, $formData;
 		$userDomain = User::getDomain();
 		
-		$user = User::load($request->getPathValue('userId'));
+		$user = User::load($request->getPathValue('userId'), false);
 		
-		if( !$user ) {
-			User::throwNotFound();
-		}
-		
-		$this->addRouteToBreadcrumb(ROUTE_ADM_USERS);
+		$this->addRouteToBreadcrumb(ROUTE_ADM_USER_LIST);
 		$this->addThisToBreadcrumb($user->getLabel());
 		$this->setContentTitle($user->getLabel());
 		

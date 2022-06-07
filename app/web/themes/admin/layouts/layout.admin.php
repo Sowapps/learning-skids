@@ -42,7 +42,13 @@ $invertedStyle = $controller->getOption('invertedStyle', 1);
 					<?php /*
 					<a class="dropdown-item" href="<?php _u(ROUTE_ADM_MYSETTINGS); ?>"><?php _t(ROUTE_ADM_MYSETTINGS); ?></a>
 					<div class="dropdown-divider"></div>
-					*/ ?>
+					*/
+					if( User::isImpersonating() ) {
+						?>
+						<a class="dropdown-item" href="<?php _u('user_terminate_impersonate'); ?>"><?php echo User::text('terminateImpersonate'); ?></a>
+						<?php
+					}
+					?>
 					<a class="dropdown-item" href="<?php _u(ROUTE_LOGOUT); ?>"><?php _t(ROUTE_LOGOUT); ?></a>
 				</div>
 			</li>

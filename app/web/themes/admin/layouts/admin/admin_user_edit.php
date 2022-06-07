@@ -22,8 +22,8 @@ use Orpheus\Rendering\HtmlRendering;
 
 // TODO Replace readonly content by bs readonly plaintext input
 
-$rendering->useLayout('page_skeleton');
-$rendering->addJSFile('jquery.fileDownload.js');
+$rendering->useLayout('layout.full-width');
+//$rendering->addJSFile('jquery.fileDownload.js');
 
 ?>
 
@@ -31,9 +31,9 @@ $rendering->addJSFile('jquery.fileDownload.js');
 	
 	<div class="col-lg-6">
 		<form method="POST">
-			
-			<div style="display: none;">
-				<input type="text" autocomplete="new-password"/>
+		
+		<div style="display: none;">
+			<input type="text" autocomplete="new-password"/>
 				<input type="password" autocomplete="new-password"/>
 			</div>
 			<?php $rendering->useLayout('panel-default'); ?>
@@ -96,61 +96,5 @@ $rendering->addJSFile('jquery.fileDownload.js');
 		
 		</form>
 	</div>
-	
-	<div class="col-lg-6">
-		<?php $rendering->useLayout('panel-default'); ?>
-		
-		<ul class="list-group">
-			<li class="list-group-item">
-				<?php
-				if( $user->allow_contact_phone === null ) {
-					?><i class="fa fa-phone text-info"></i> L'utilisateur n'a pas défini s'il accepte d'être contacté par téléphone pour un démarchage commercial.<?php
-				} elseif( $user->allow_contact_phone ) {
-					?><i class="fa fa-phone text-success"></i> L'utilisateur accepte d'être contacté par téléphone pour un démarchage commercial.<?php
-				} else {
-					?><i class="fa fa-phone text-danger"></i> L'utilisateur s'oppose au démarchage commercial par téléphone.<?php
-				}
-				?>
-			</li>
-			<li class="list-group-item">
-				<?php
-				if( $user->allow_contact_email === null ) {
-					?><i class="fa fa-at text-info"></i> L'utilisateur n'a pas défini s'il accepte d'être contacté par email pour un démarchage commercial.<?php
-				} elseif( $user->allow_contact_email ) {
-					?><i class="fa fa-at text-success"></i> L'utilisateur accepte d'être contacté par email pour un démarchage commercial.<?php
-				} else {
-					?><i class="fa fa-at text-danger"></i> L'utilisateur s'oppose au démarchage commercial par email.<?php
-				}
-				?>
-			</li>
-		</ul>
-		<?php $rendering->startNewBlock('footer'); ?>
-		
-		<a type="button" class="btn btn-secondary bind-download" href="<?php _u('user_record_download', ['userId' => $user->id()]); ?>">
-			<i class="fas fa-file-pdf mr-1"></i> Fichier
-		</a>
-		<a type="button" class="btn btn-secondary bind-download" href="<?php _u('user_export_download', ['userId' => $user->id()]); ?>">
-			<i class="fas fa-file-archive mr-1"></i> Export
-		</a>
-		
-		<?php
-		$rendering->endCurrentLayout([
-			'title' => t('user_privacy'),
-		]);
-		?>
-	</div>
 
 </div>
-
-<script type="text/javascript">
-$(function () {
-	$('select.agency').change(function () {
-		if( $(this).val() > 0 ) {
-			$(".hasagency").show();
-		} else {
-			$(".hasagency").hide();
-		}
-	});
-});
-</script>
-
