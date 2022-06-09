@@ -3,21 +3,15 @@
   <component name="PublishConfigData" autoUpload="Always" serverName="Local Sowapps" deleteMissingItems="true" createEmptyFolders="true" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
-      <paths name="BGA Server">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="Local Look&amp;Lib">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
       <paths name="Local Sowapps">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/app/web/" local="$PROJECT_DIR$/app/web" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Prod Sowapps">
         <serverdata>
           <mappings>
             <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
