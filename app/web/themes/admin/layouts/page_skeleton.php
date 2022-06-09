@@ -20,6 +20,10 @@ use Orpheus\Rendering\HtmlRendering;
 
 global $APP_LANG;
 
+if( !isset($controller) ) {
+	debug_print_backtrace();
+	die();
+}
 $routeName = $controller->getRouteName();
 $user = User::getLoggedUser();
 

@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="505b87ac-7fc0-4d33-8e87-c888c23f1f3c" name="Prod Sowapps" url="https://learning-skids.sowapps.com/">
+        <fileTransfer rootFolder="/home/sowapps/www/learning-skids" accessType="SFTP" host="sowapps.com" port="10122" sshConfigId="a7f7bd44-8fa8-4cbd-a7fd-c57f3c5df9bf" sshConfig="Sowapps @ Sowapps Web" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
