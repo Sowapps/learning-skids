@@ -8,6 +8,11 @@ fields:
     level: enum(App\Entity\SchoolClass::getAllLevels)[nullable]
     year: integer(2000, 3000)
     teacher_id: ref(person)
-    openDate: date
+    openDate: date[nullable] # Deprecated : Use open_date
+    open_date: date # new field
+    close_estimated_date: date[nullable]
+    close_date: date[nullable]
+    previous_class_id: ref(class)[nullable]
+    next_class_id: ref(class)[nullable]
     enabled: boolean=true
     learning_sheet_id: ref(learning-sheet)

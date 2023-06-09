@@ -61,7 +61,7 @@ class LearningSheet extends PermanentEntity {
 			->orderby('name ASC');
 	}
 	
-	public function getTree() {
+	public function getTree(): object {
 		$tree = (object) $this->asArray(OUTPUT_MODEL_EDITION);
 		$tree->categories = [];
 		foreach( $this->queryCategories() as $category ) {
@@ -98,6 +98,19 @@ class LearningSheet extends PermanentEntity {
 		return User::load($this->owner_id, false);
 	}
 	
+	public function clone(bool $withPupilSkills = false): LearningSheet {
+		$learningSheet = static::make([
+			'name'     => $this->name,
+			'level'    => $this->level,
+			'owner_id' => $this->owner_id,
+		]);
+		foreach( $this->queryCategories() as $category ) {
+			$category->clone($learningSheet, $withPupilSkills);
+		}
+		
+		return $learningSheet;
+	}
+	
 	public static function make(array $input, ?User $owner = null): LearningSheet {
 		$input = array_filterbykeys($input, ['name', 'level', 'owner_id']);
 		if( empty($input['owner_id']) || $owner ) {
@@ -105,6 +118,8 @@ class LearningSheet extends PermanentEntity {
 				$owner = User::getLoggedUser();
 			}
 			$input['owner_id'] = $owner;
+		} else {
+			$owner = User::load($input['owner_id'], false);
 		}
 		$learningSheet = static::createAndGet($input);
 		$learningSheet->addUser($owner, LearningSheetUser::ROLE_ADMIN);

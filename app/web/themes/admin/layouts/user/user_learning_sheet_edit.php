@@ -86,15 +86,15 @@ $rendering->useLayout('layout.full-width');
 							(<span class="sheet_level_label"></span>)
 						</span>
 						<button class="btn btn-outline-primary btn-sm" type="button" data-toggle-class="read-only" data-toggle-target=".column-sheet">
-							<i class="fas fa-edit show-if-read-only"></i>
-							<i class="fas fa-eye show-if-not-read-only"></i>
+							<i class="fa-solid fa-edit show-if-read-only"></i>
+							<i class="fa-solid fa-eye show-if-not-read-only"></i>
 						</button>
 					</h6>
 				</div>
 				<div class="card-footer">
 					<div class="mb-3">
 						<button class="btn btn-primary btn-block btn-sm action-sheet-update" type="button">
-							<i class="fas fa-edit mr-1"></i>
+							<i class="fa-solid fa-edit me-1"></i>
 							<?php echo t('edit'); ?>
 						</button>
 					</div>
@@ -102,13 +102,13 @@ $rendering->useLayout('layout.full-width');
 						<div class="col">
 							<button class="btn btn-outline-primary btn-block btn-sm" type="button"
 									data-toggle="modal" data-target="#DialogLearningSheetImport">
-								<i class="fas fa-upload mr-1"></i>
+								<i class="fa-solid fa-upload me-1"></i>
 								<?php echo t('import'); ?>
 							</button>
 						</div>
 						<div class="col">
 							<button class="btn btn-outline-primary btn-block btn-sm" type="submit" name="submitExport">
-								<i class="fas fa-download mr-1"></i>
+								<i class="fa-solid fa-download me-1"></i>
 								<?php echo t('export'); ?>
 							</button>
 						</div>
@@ -130,7 +130,7 @@ $rendering->useLayout('layout.full-width');
 										echo sprintf('disabled title="%s"', implode('; ', $archiveDisallowReasons));
 									}
 									?>>
-									<i class="fas fa-archive mr-1"></i>
+									<i class="fa-solid fa-archive me-1"></i>
 									<?php echo t('archive'); ?>
 								</button>
 								<?php
@@ -140,7 +140,7 @@ $rendering->useLayout('layout.full-width');
 										data-confirm_title="<?php echo t('enableLearningSheet_title', DOMAIN_LEARNING_SKILL); ?>"
 										data-confirm_message="<?php echo t('enableLearningSheet_message', DOMAIN_LEARNING_SKILL); ?>"
 										data-confirm_submit_name="submitEnable">
-									<i class="far fa-check-circle mr-1"></i>
+									<i class="fa-regular fa-check-circle me-1"></i>
 									<?php echo t('unarchive'); ?>
 								</button>
 								<?php
@@ -160,7 +160,7 @@ $rendering->useLayout('layout.full-width');
 									echo sprintf('disabled title="%s"', implode('; ', $removeDisallowReasons));
 								}
 								?>>
-								<i class="fas fa-times-circle mr-1"></i>
+								<i class="fa-solid fa-times-circle me-1"></i>
 								<?php echo t('delete'); ?>
 							</button>
 						</div>
@@ -176,11 +176,11 @@ $rendering->useLayout('layout.full-width');
 					<div class="category-details">
 						<h6 class="card-title m-0 d-flex justify-content-between align-items-center">
 							<span class="category_label"></span>
-							<i class="icon-collapse fas fa-chevron-right fa-fw"></i>
+							<i class="icon-collapse fa-solid fa-chevron-right fa-fw"></i>
 						</h6>
 					</div>
 					<button class="btn btn-outline-primary btn-block btn-sm action-category-add" type="button">
-						<i class="fas fa-plus mr-1"></i>
+						<i class="fa-solid fa-plus me-1"></i>
 						<?php echo t('add'); ?>
 					</button>
 				</div>
@@ -198,14 +198,14 @@ $rendering->useLayout('layout.full-width');
 								</div>
 								<div class="col-auto">
 									<button class="btn btn-outline-secondary action-edit" type="button">
-										<i class="fas fa-edit"></i>
+										<i class="fa-solid fa-edit"></i>
 									</button>
 								</div>
 							</div>
 						</li>
 					</ul>
 					<button class="btn btn-outline-primary btn-sm btn-block action-skill-add" type="button">
-						<i class="fas fa-plus mr-1"></i>
+						<i class="fa-solid fa-plus me-1"></i>
 						<?php echo t('add'); ?>
 					</button>
 				</div>

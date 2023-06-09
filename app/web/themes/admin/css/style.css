@@ -271,3 +271,12 @@ input[type='date']::-webkit-inner-spin-button {
 .row-highlight:last-child td {
 	border-bottom: 1px solid red !important;
 }
+
+.input-readonly,
+.action-readonly .item-actions {
+	opacity: 0.5;
+}
+
+.overflow-visible {
+	overflow: visible !important;
+}

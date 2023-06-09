@@ -80,11 +80,11 @@ class User extends AbstractUser implements FixtureInterface {
 		return $this->person;
 	}
 	
-	public function canClassManage(SchoolClass $class) {
+	public function canClassManage(SchoolClass $class): bool {
 		return $this->canDo('class_manage') || $class->getTeacher()->equals($this->getPerson());
 	}
 	
-	public function canLearningSheetAccess(LearningSheet $learningSheet, ?LearningSheetUser &$learningSheetUser) {
+	public function canLearningSheetAccess(LearningSheet $learningSheet, ?LearningSheetUser &$learningSheetUser): bool {
 		$learningSheetUser = LearningSheetUser::get()
 			->where('user_id', $this)
 			->where('learning_sheet_id', $learningSheet)
@@ -103,7 +103,7 @@ class User extends AbstractUser implements FixtureInterface {
 	/**
 	 * @return bool
 	 */
-	public function isAdminUser() {
+	public function isAdminUser(): bool {
 		return $this->checkPerm(1);
 	}
 	
@@ -113,15 +113,15 @@ class User extends AbstractUser implements FixtureInterface {
 		$this->activation_code = null;
 	}
 	
-	public function getActivationLink() {
+	public function getActivationLink(): string {
 		return u(ROUTE_LOGIN) . '?ac=' . $this->activation_code . '&u=' . $this->id();
 	}
 	
-	public function getAdminLink($ref = 0) {
+	public function getAdminLink($ref = 0): string {
 		return u('adm_user', ['userId' => $this->id()]);
 	}
 	
-	public function getLink() {
+	public function getLink(): string {
 		return u('profile', ['userId' => $this->id()]);
 	}
 	
@@ -130,11 +130,11 @@ class User extends AbstractUser implements FixtureInterface {
 	 * @param User $contextResource
 	 * @return boolean
 	 */
-	public function canUserCreate($context = CRAC_CONTEXT_APPLICATION, $contextResource = null) {
+	public function canUserCreate($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
 		return $this->canDo('user_edit');// Only App admins can do it.
 	}
 	
-	public function canUserView($context = CRAC_CONTEXT_APPLICATION, $contextResource = null) {
+	public function canUserView($context = CRAC_CONTEXT_APPLICATION, $contextResource = null): bool {
 		return $this->canUserUpdate($context, $contextResource);
 	}
 	

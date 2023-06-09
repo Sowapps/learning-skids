@@ -33,7 +33,7 @@ $rendering->useLayout('layout.full-width');
 				<th scope="col" class="text-nowrap"><?php echo t('name', DOMAIN_CLASS); ?></th>
 				<th scope="col" class="text-nowrap"><?php echo t('level', DOMAIN_CLASS); ?></th>
 				<th scope="col" class="text-nowrap"><?php echo t('year', DOMAIN_CLASS); ?></th>
-				<th scope="col" class="text-nowrap"><?php echo t('openDate', DOMAIN_CLASS); ?></th>
+				<th scope="col" class="text-nowrap"><?php echo t('open_date', DOMAIN_CLASS); ?></th>
 				<th scope="col" class="text-nowrap"><?php echo t('pupilsCount', DOMAIN_CLASS); ?></th>
 				<th scope="col" class="text-nowrap" data-orderable="false"><?php echo t('actionsColumn'); ?></th>
 			</tr>
@@ -51,12 +51,12 @@ $rendering->useLayout('layout.full-width');
 					</td>
 					<td><?php echo t('level_' . $class->level, DOMAIN_CLASS); ?></td>
 					<td><?php echo $class->year; ?></td>
-					<td><?php echo d($class->openDate); ?></td>
+					<td><?php echo d($class->getOpenDate()); ?></td>
 					<td><?php echo $class->queryPupils()->count(); ?></td>
 					<td class="text-right">
 						<div class="btn-group btn-group-sm" role="group">
 							<a href="<?php echo u('user_class_edit', ['classId' => $class->id()]); ?>" class="btn btn-secondary">
-								<i class="fas fa-edit"></i>
+								<i class="fa-solid fa-edit"></i>
 							</a>
 						</div>
 					</td>

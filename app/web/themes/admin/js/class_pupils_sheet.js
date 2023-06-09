@@ -1,8 +1,8 @@
 $(function () {
 	
-	let $tableWrapper = $('#TablePupilSkillListWrapper');
+	let $tableWrapper = $("#TablePupilSkillListWrapper");
 	let $loader;
-	if( $tableWrapper.is('.loading') ) {
+	if( $tableWrapper.is(".loading") ) {
 		let loadingSentences = shuffle([
 			"Calcul du meilleur angle d'attaque pour la sarbacane...",
 			"Lecture de l'encyclopédie sur l'anthropomorphisme...",
@@ -18,31 +18,31 @@ $(function () {
 		]);
 		let loadingIndex = 0;
 		
-		$loader = $('<div class="loader position-absolute d-flex justify-content-center align-items-center" style="left: 0; top: 0; width: 100%"></div>')
-			.height(Math.min($tableWrapper.innerHeight(), '600') + 'px')
+		$loader = $("<div class=\"loader position-absolute d-flex justify-content-center align-items-center\" style=\"left: 0; top: 0; width: 100%\"></div>")
+			.height(Math.min($tableWrapper.innerHeight(), "600") + "px")
 			.append(
-				'<div class="d-flex flex-column">' +
-				'<div class="text-center"><i class="fas fa-circle-notch fa-spin fa-4x"></i></div>' +
-				'<div class="loading-sentence p-2 text-muted font-weight-bold">' + (loadingSentences[loadingIndex++]) + '</div>' +
-				'</div>');
+				"<div class=\"d-flex flex-column\">" +
+				"<div class=\"text-center\"><i class=\"fa-solid fa-circle-notch fa-spin fa-4x\"></i></div>" +
+				"<div class=\"loading-sentence p-2 text-muted font-weight-bold\">" + (loadingSentences[loadingIndex++]) + "</div>" +
+				"</div>");
 		$tableWrapper.append($loader);
 		
 		// setInterval is not working here because JS is single-threaded and DataTable is blocking
 		let loadingInterval = setInterval(function () {
-			$loader.find('.loading-sentence').text(loadingSentences[loadingIndex % loadingSentences.length]);
-			loadingIndex++
-			if( $loader.is(':hidden') ) {
+			$loader.find(".loading-sentence").text(loadingSentences[loadingIndex % loadingSentences.length]);
+			loadingIndex++;
+			if( $loader.is(":hidden") ) {
 				// Auto stop
 				clearInterval(loadingInterval);
 			}
 		}, 2000);
 	}
 	
-	let $table = $('#TablePupilSkillList');
+	let $table = $("#TablePupilSkillList");
 	setTimeout(function () {
-		const pupilAsColumn = !!$table.find('thead .item-pupil-person').length;
+		const pupilAsColumn = !!$table.find("thead .item-pupil-person").length;
 		const options = {
-			scrollY: '600px',
+			scrollY: "600px",
 			scrollX: true,
 			scrollCollapse: true,
 			paging: false,
@@ -58,26 +58,26 @@ $(function () {
 					"first": "Début",
 					"last": "Fin",
 					"next": "Suivante",
-					"previous": "Précédente"
+					"previous": "Précédente",
 				},
 				"aria": {
 					"sortAscending": ": Tri ascendant",
-					"sortDescending": ": Tri descendant"
-				}
-			}
+					"sortDescending": ": Tri descendant",
+				},
+			},
 		};
 		if( pupilAsColumn ) {
 			// With pupil as column, we show skill category and group its skills
 			// With skill as column, we don't show skill category, we don't group
 			options.rowGroup = {
-				dataSrc: 1
+				dataSrc: 1,
 			};
 			// With pupil as column, we show skill category
 			// With skill as column, we don't show skill category, so no hidden column
 			options.columnDefs = [
 				{
 					"targets": [1],
-					"visible": false
+					"visible": false,
 				},
 			];
 			// Incompatible with rowGroup & responsive features
@@ -97,31 +97,31 @@ $(function () {
 			});
 			options.ordering = true;
 			options.order = [
-				[1, 'asc']// Column 0 specify if skill is owned & name of pupil
+				[1, "asc"],// Column 0 specify if skill is owned & name of pupil
 			];
 			// With pupil as column, we don't limit width
 			// With skill as column, we limit the width of each column
 			options.columnDefs = [
 				{
 					"targets": "_all",
-					"width": "30rem"
+					"width": "30rem",
 				},
 			];
 		}
-		console.log('DataTable', options);
+		console.log("DataTable", options);
 		let table = $table
-			.on('draw.dt', function () {
+			.on("draw.dt", function () {
 				// Remove loading content
-				$loader && $loader.removeClass('d-flex').hide();
-				$tableWrapper.find('table.invisible').removeClass('invisible');
+				$loader && $loader.removeClass("d-flex").hide();
+				$tableWrapper.find("table.invisible").removeClass("invisible");
 			})
-			.on('mouseenter', 'td', function () {
+			.on("mouseenter", "td", function () {
 				// Follow user cursor through cells
-				$table.find('.column-highlight').removeClass('column-highlight');
-				$(table.rows().nodes()).removeClass('row-highlight');
+				$table.find(".column-highlight").removeClass("column-highlight");
+				$(table.rows().nodes()).removeClass("row-highlight");
 				
 				// Number of displayed rows
-				let rowCount = table.rows({search: 'applied'}).count();
+				let rowCount = table.rows({search: "applied"}).count();
 				if( rowCount < 2 ) {
 					return;
 				}
@@ -136,15 +136,15 @@ $(function () {
 					// Ignore first column
 					return;
 				}
-				$(table.column(colIdx).nodes()).addClass('column-highlight');
+				$(table.column(colIdx).nodes()).addClass("column-highlight");
 				let $nodes;
 				do {
 					$nodes = $(table.column(--colIdx).nodes());
-					$nodes.addClass('column-highlight');
+					$nodes.addClass("column-highlight");
 					var first = $nodes.get(rowIdx);
-				} while( first !== undefined && !$(first).is(':visible') );
+				} while( first !== undefined && !$(first).is(":visible") );
 				// Highlight Row
-				$(this).parent().addClass('row-highlight');
+				$(this).parent().addClass("row-highlight");
 			})
 			.DataTable(options);
 		// $table.find('.item-skill .skill-name').click(function () {
@@ -152,7 +152,7 @@ $(function () {
 		// });
 	});
 	
-	$table.data('manager', new PupilSkillManager($table, $('#FormPupilSkills'), $('#DialogPupilSkillEdit')));
+	$table.data("manager", new PupilSkillManager($table, $("#FormPupilSkills"), $("#DialogPupilSkillEdit")));
 });
 
 function shuffle(array) {
@@ -179,38 +179,39 @@ class PupilSkillManager {
 		this.$table = $table;
 		this.$form = $form;
 		this.$skillEditDialog = $skillEditDialog;
-		this.$skillValueRowTemplate = $('#TemplateValueRow').detach();
-		this.pupilAsColumn = !!$table.find('thead .item-pupil-person').length;
+		this.readOnly = !!$table.data("readonly");
+		this.$skillValueRowTemplate = $("#TemplateValueRow").detach();
+		this.pupilAsColumn = !!$table.find("thead .item-pupil-person").length;
 		
 		this.initialize();
 		this.bindEvents();
 	}
 	
 	bindEvents() {
-		this.$skillEditDialog.on('hide.bs.modal', () => {
-			this.$skillEditDialog.find('#CollapseValueHistory').collapse('hide');
+		this.$skillEditDialog.on("hide.bs.modal", () => {
+			this.$skillEditDialog.find("#CollapseValueHistory").collapse("hide");
 		});
 	}
 	
 	initialize() {
 		let manager = this;
 		if( this.pupilAsColumn ) {
-			const pupilPersons = this.$table.find('thead .item-pupil-person').map(function () {
-				return $(this).data('pupilPerson');
+			const pupilPersons = this.$table.find("thead .item-pupil-person").map(function () {
+				return $(this).data("pupilPerson");
 			});
-			this.$table.find('.item-pupil-skill').each(function () {
+			this.$table.find(".item-pupil-skill").each(function () {
 				let pupilPerson = pupilPersons[$(this).index() - 2];
-				let pupilSkill = new PupilSkill(manager, this, pupilPerson, $(this).closest('.item-skill').data('skill') || {});
-				$(this).data('pupilSkill', pupilSkill);
+				let pupilSkill = new PupilSkill(manager, this, pupilPerson, $(this).closest(".item-skill").data("skill") || {});
+				$(this).data("pupilSkill", pupilSkill);
 			});
 		} else {
-			const skills = this.$table.find('thead .item-skill').map(function () {
-				return $(this).data('skill');
+			const skills = this.$table.find("thead .item-skill").map(function () {
+				return $(this).data("skill");
 			});
-			this.$table.find('.item-pupil-skill').each(function () {
+			this.$table.find(".item-pupil-skill").each(function () {
 				let skill = skills[$(this).index() - 1];
-				let pupilSkill = new PupilSkill(manager, this, $(this).closest('.item-pupil-person').data('pupilPerson') || {}, skill);
-				$(this).data('pupilSkill', pupilSkill);
+				let pupilSkill = new PupilSkill(manager, this, $(this).closest(".item-pupil-person").data("pupilPerson") || {}, skill);
+				$(this).data("pupilSkill", pupilSkill);
 			});
 		}
 	}
@@ -218,43 +219,53 @@ class PupilSkillManager {
 	async openSkillEditDialog(data) {
 		const deferred = $.Deferred();
 		const $dialog = this.$skillEditDialog;
+		const readOnly = data.readOnly;
+		console.log("openSkillEditDialog - readOnly", readOnly, data.readOnly, data);
 		
-		$dialog.modal('show')
+		$dialog.modal("show")
 			.resetForm()
-			.fill('skill', data.skill)
-			.fillByName(data.pupilSkill, 'pupilSkill[%s]');
+			.fill("skill", data.skill)
+			.fillByName(data.pupilSkill, "pupilSkill[%s]")
+			.toggleClass("state-readonly", readOnly);
 		const $form = $dialog.getForm();
-		$form.removeClass('was-validated');
+		$form.removeClass("was-validated");
 		
-		if( $dialog.find('.pupil-skill-history').length ) {
+		if( $dialog.find(".pupil-skill-history").length ) {
 			const hasValues = data.pupilSkill.id && data.pupilSkill.values && data.pupilSkill.values.length;
-			$dialog.find('.pupil-skill-history').toggle(!!hasValues);
-			$dialog.find('.pupil-skill-history-body').empty();
+			$dialog.find(".pupil-skill-history").toggle(!!hasValues);
+			$dialog.find(".pupil-skill-history-body").empty();
 			if( hasValues ) {
 				for( const skillValue of data.pupilSkill.values ) {
 					const $row = await domService.renderTemplate(this.$skillValueRowTemplate, skillValue);
-					$dialog.find('.pupil-skill-history-body').append($row);
+					$dialog.find(".pupil-skill-history-body").append($row);
 				}
 			}
 		}
-		$dialog.find('.show-if-valuable').toggle(data.skill.valuable);
-		$dialog.find('.show-if-valuable :input').prop('disabled', !data.skill.valuable);
+		$dialog.find(".show-if-valuable").toggle(data.skill.valuable);
+		$dialog.find(".show-if-valuable :input").prop("disabled", !data.skill.valuable);
+		readOnly && $dialog.find(".modal-body").disableInputs() || $dialog.find(".modal-body").enableInputs();
 		
-		$dialog.find('.action-accept')
-			.off('click')
-			.on('click', () => {
-				const valid = $form[0].checkValidity();
-				$form.addClass('was-validated');
-				if( valid ) {
-					let data = $dialog.getFormObject();
-					$dialog.modal('hide');
-					deferred.resolve(data);
-				}
-			});
+		const $acceptButton = $dialog.find(".action-accept");
+		$acceptButton.off("click");
+		if( !this.readOnly ) {
+			$acceptButton[0].hidden = false;
+			$acceptButton
+				.on("click", () => {
+					const valid = $form[0].checkValidity();
+					$form.addClass("was-validated");
+					if( valid ) {
+						let data = $dialog.getFormObject();
+						$dialog.modal("hide");
+						deferred.resolve(data);
+					}
+				});
+		} else {
+			$acceptButton[0].hidden = true;
+		}
 		
-		$dialog.find('.action-cancel')
-			.off('click')
-			.on('click', () => {
+		$dialog.find(".action-cancel")
+			.off("click")
+			.on("click", () => {
 				deferred.resolve(null);
 			});
 		
@@ -276,12 +287,13 @@ class PupilSkill {
 	constructor(manager, $element, pupilPerson, skill) {
 		this.manager = manager;
 		this.$element = $($element);
-		this.$inputAccept = $($element).find('.input-skill-accept');
+		this.$inputAccept = $($element).find(".input-skill-accept");
 		this.index = PupilSkill.counter;
+		this.readOnly = manager.readOnly;
 		this.pupilPerson = pupilPerson;
 		this.skill = skill;
 		this.skill.valuable = !!this.skill.valuable;// Format value
-		this.pupilSkill = this.$element.data('pupilSkill') || {};
+		this.pupilSkill = this.$element.data("pupilSkill") || {};
 		this.status = null;
 		
 		if( this.pupilSkill.id ) {
@@ -305,6 +317,9 @@ class PupilSkill {
 	}
 	
 	accept(pupilSkill) {
+		if( this.readOnly ) {
+			return;
+		}
 		this.pupilSkill.accept = 1;
 		this.pupilSkill.value = this.skill.valuable ? pupilSkill.value : null;
 		this.pupilSkill.date = pupilSkill.date;
@@ -325,38 +340,29 @@ class PupilSkill {
 	}
 	
 	bindEvents() {
-		this.$element.find('.input-skill-accept').change(async() => {
-			let checked = this.$inputAccept.prop('checked');
-			if( checked ) {
-				const changed = await this.openEditDialog();
-				if( !changed ) {
-					// May be previously falsy and not validated
-					this.$inputAccept.prop('checked', false);
-				}
-			} else {
-				this.remove();
-			}
-		});
-		this.$element.find('.action-context-edit').on('contextmenu', async(event) => {
-			event.preventDefault();
-			const changed = await this.openEditDialog();
-			if( changed ) {
-				// May be previously falsy and now validated
-				this.$inputAccept.prop('checked', true);
-			}
-			
-			return false;
-		});
-		this.$element.find('.action-value-edit').click(() => {
+		this.$element.find(".action-skill-accept").click(() => {
 			this.openEditDialog();
 			
 			return false;
+		});
+		this.$element.find(".action-value-edit").click(() => {
+			this.openEditDialog();
+			
+			return false;
+		});
+		this.$element.find(".action-skill-reject").click(() => {
+			if( this.readOnly ) {
+				this.openEditDialog();
+				
+				return;
+			}
+			this.remove();
 		});
 	}
 	
 	async openEditDialog() {
 		// Fix defaults
-		this.pupilSkill.date ||= moment().format('DD/MM/YYYY');
+		this.pupilSkill.date ||= moment().format("DD/MM/YYYY");
 		// Open dialog
 		const data = await this.manager.openSkillEditDialog(this);
 		if( data ) {
@@ -372,23 +378,23 @@ class PupilSkill {
 	}
 	
 	getInputPrefix() {
-		return 'pupilSkill[' + this.index + ']';
+		return "pupilSkill[" + this.index + "]";
 	}
 	
 	getInputClass() {
-		return 'input-ps-' + this.pupilPerson.id + '-' + this.skill.id;
+		return "input-ps-" + this.pupilPerson.id + "-" + this.skill.id;
 	}
 	
 	addDataToForm(key, value) {
-		let $input = $('<input type="hidden">');
+		let $input = $("<input type=\"hidden\">");
 		$input.addClass(this.getInputClass());
-		$input.attr('name', this.getInputPrefix() + '[' + key + ']');
+		$input.attr("name", this.getInputPrefix() + "[" + key + "]");
 		$input.val(value);
 		this.getDomForm().append($input);
 	}
 	
 	emptyForm() {
-		this.getDomForm().find('.' + this.getInputClass()).remove();
+		this.getDomForm().find("." + this.getInputClass()).remove();
 	}
 	
 	getDomForm() {
@@ -401,48 +407,50 @@ class PupilSkill {
 			return;
 		}
 		if( this.isExisting() ) {
-			this.addDataToForm('id', this.pupilSkill.id);
+			this.addDataToForm("id", this.pupilSkill.id);
 		}
-		this.addDataToForm('person_id', this.pupilPerson.id);
-		this.addDataToForm('skill_id', this.skill.id);
-		this.addDataToForm('status', this.status);
-		this.addDataToForm('date', this.pupilSkill.date);
+		this.addDataToForm("person_id", this.pupilPerson.id);
+		this.addDataToForm("skill_id", this.skill.id);
+		this.addDataToForm("status", this.status);
+		this.addDataToForm("date", this.pupilSkill.date);
 		if( this.status !== PupilSkill.STATUS_REMOVE && this.pupilSkill.value !== null ) {
-			this.addDataToForm('value', this.pupilSkill.value);
+			this.addDataToForm("value", this.pupilSkill.value);
 		}
 	}
 	
 	refresh() {
 		this.buildForm();
 		
+		this.$element.toggleClass("action-readonly", this.readOnly);
+		
 		let isAccepted = this.isAccepted();
-		this.$element.find('.status-accepted').showIf(isAccepted);
-		this.$element.find('.status-not-accepted').showIf(!isAccepted);
+		this.$element.find(".status-accepted").showIf(isAccepted);
+		this.$element.find(".status-not-accepted").showIf(!isAccepted);
 		
 		const valuated = this.skill.valuable && isAccepted;
-		this.$element.find('.skill-valuable').showIf(valuated);
-		this.$element.find('.skill-not-valuable').showIf(!valuated);
+		this.$element.find(".skill-valuable").showIf(valuated);
+		this.$element.find(".skill-not-valuable").showIf(!valuated);
 		
 		let statusBg = null;
 		if( isAccepted ) {
-			statusBg = 'bg-success text-white';
+			statusBg = "bg-success text-white";
 		}
 		
 		if( this.skill.valuable ) {
-			this.$element.find('.pupil-skill-value').text(this.pupilSkill.value || '##');
+			this.$element.find(".pupil-skill-value").text(this.pupilSkill.value || "##");
 		}
 		if( isAccepted && this.pupilSkill.date ) {
-			this.$element.attr('title', "Acquise le " + this.pupilSkill.date);
+			this.$element.attr("title", "Acquise le " + this.pupilSkill.date);
 		} else {
-			this.$element.removeAttr('title');
+			this.$element.removeAttr("title");
 		}
 		
-		this.$element.find('.status-bg')
-			.removeClass('bg-success text-white')
+		this.$element.find(".status-bg")
+			.removeClass("bg-success text-white")
 			.addClass(statusBg);
 	}
 }
 
-PupilSkill.STATUS_NEW = 'new';
-PupilSkill.STATUS_UPDATE = 'update';
-PupilSkill.STATUS_REMOVE = 'remove';
+PupilSkill.STATUS_NEW = "new";
+PupilSkill.STATUS_UPDATE = "update";
+PupilSkill.STATUS_REMOVE = "remove";

@@ -34,11 +34,11 @@ abstract class AbstractAdminController extends AbstractHttpController {
 		];
 	}
 	
-	public function hasNotification() {
+	public function hasNotification(): bool {
 		return !!$this->notifications;
 	}
 	
-	public function getNotifications() {
+	public function getNotifications(): array {
 		return $this->notifications;
 	}
 	

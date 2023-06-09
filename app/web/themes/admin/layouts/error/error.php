@@ -24,7 +24,7 @@ $rendering->useLayout('page_skeleton');
 			<h1 class="display-1 mb-4" title="<?php echo $exception->getCode() ?: 500; ?>"><?php echo t('user_error_title'); ?></h1>
 			<p class="lead"><?php echo t('user_error_legend'); ?></p>
 			<a href="<?php echo u(getHomeRoute()); ?>">
-				<i class="fas fa-arrow-left mr-1"></i> Retourner à l'accueil
+				<i class="fa-solid fa-arrow-left me-1"></i> Retourner à l'accueil
 			</a>
 		</div>
 	</div>

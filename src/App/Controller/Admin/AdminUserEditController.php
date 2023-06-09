@@ -44,26 +44,42 @@ class AdminUserEditController extends AbstractAdminController {
 				}
 				$userInput = $request->getData('user');
 				$userFields = ['fullname', 'email'];
-				if( $allowUserPasswordChange && !empty($userInput['password']) ) {
-					$userInput['password_conf'] = $userInput['password'];
-					$userFields[] = 'password';
-				}
 				if( $allowUserGrant ) {
 					$userFields[] = 'accesslevel';
 				}
-				$result = $user->update($userInput, $userFields);
-				if( $result ) {
-					reportSuccess('successUpdate', $userDomain);
-				}
-				unset($result, $userInput, $userFields);
+				$user->update($userInput, $userFields);
 				
-			} elseif( $request->hasData('submitImpersonate') ) {
-				$user->impersonate();
-				reportSuccess(User::text('successImpersonate', $user));
+				$this->storeSuccess('userEditPassword', 'successUpdate', ['name' => $user->getLabel()], $userDomain);
+				
+				return $this->redirectToSelf();
+				
+			} else {
+				if( $request->hasData('submitUpdatePassword') ) {
+					if( !$allowUserPasswordChange ) {
+						throw new ForbiddenException();
+					}
+					$userInput = $request->getData('user');
+					$userInput['password_conf'] = $userInput['password'] ?? null;
+					$userFields = ['password'];
+					$user->update($userInput, $userFields);
+					
+					$this->storeSuccess('userEditPassword', 'successUpdatePassword', ['name' => $user->getLabel()], $userDomain);
+					
+					return $this->redirectToSelf();
+					
+				} else {
+					if( $request->hasData('submitImpersonate') ) {
+						$user->impersonate();
+						reportSuccess(User::text('successImpersonate', $user));
+					}
+				}
 			}
 		} catch( UserException $e ) {
 			reportError($e);
 		}
+		
+		$this->consumeSuccess('userEdit', 'userEdit');
+		$this->consumeSuccess('userEditPassword', 'userEditPassword');
 		
 		$formData = ['user' => $user->all];
 		

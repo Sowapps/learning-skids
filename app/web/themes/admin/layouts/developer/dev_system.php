@@ -40,5 +40,5 @@ displayRow('Process ID', getmypid());
 displayRow('CPU Load', implode(' / ', sys_getloadavg()));
 
 ?>
-<h2>PHP Information <a class="btn btn-link" href="<?php echo u('dev_phpinfo'); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></h2>
+<h2>PHP Information <a class="btn btn-link" href="<?php echo u('dev_phpinfo'); ?>" target="_blank"><i class="fa-solid fa-external-link-alt"></i></a></h2>
 <iframe width="100%" height="600" src="<?php echo u('dev_phpinfo'); ?>"></iframe>

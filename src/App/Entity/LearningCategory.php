@@ -31,12 +31,37 @@ class LearningCategory extends PermanentEntity {
 	
 	protected static string $domain;
 	
-	public function remove() {
-		foreach( $this->querySkills() as $skill ) {
-			$skill->remove();
+	public static function onEdit(array &$data, $object) {
+		parent::onEdit($data, $object);
+		if( isset($data['name']) && !isset($data['key']) ) {
+			$data['key'] = LearningCategory::slugName($data['name']);
+		}
+	}
+	
+	public static function slugName($name) {
+		static $slugGenerator;
+		if( !isset($slugGenerator) ) {
+			$slugGenerator = new SlugGenerator();
+			$slugGenerator
+				->setMaxLength(50)
+				->setCaseProcessing(SlugGenerator::CASE_LOWER);
 		}
 		
-		return parent::remove();
+		return $slugGenerator->format($name);
+	}
+	
+	public function clone(LearningSheet $learningSheet, bool $withPupilSkills = false): LearningCategory {
+		$category = static::createAndGet([
+			'learning_sheet_id' => $learningSheet,
+			'key'               => $this->key,
+			'name'              => $this->name,
+		]);
+		// Clone category' skills
+		foreach( $this->querySkills() as $skill ) {
+			$skill->clone($category, $withPupilSkills);
+		}
+		
+		return $category;
 	}
 	
 	/**
@@ -46,6 +71,14 @@ class LearningCategory extends PermanentEntity {
 		return LearningSkill::get()
 			->where('learning_category_id', $this)
 			->orderby('name ASC');
+	}
+	
+	public function remove(): int {
+		foreach( $this->querySkills() as $skill ) {
+			$skill->remove();
+		}
+		
+		return parent::remove();
 	}
 	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
@@ -67,25 +100,6 @@ class LearningCategory extends PermanentEntity {
 	
 	public function getLearningSheet(): LearningSheet {
 		return LearningSheet::load($this->learning_sheet_id, false);
-	}
-	
-	public static function onEdit(array &$data, $object) {
-		parent::onEdit($data, $object);
-		if( isset($data['name']) && !isset($data['key']) ) {
-			$data['key'] = LearningCategory::slugName($data['name']);
-		}
-	}
-	
-	public static function slugName($name) {
-		static $slugGenerator;
-		if( !isset($slugGenerator) ) {
-			$slugGenerator = new SlugGenerator();
-			$slugGenerator
-				->setMaxLength(50)
-				->setCaseProcessing(SlugGenerator::CASE_LOWER);
-		}
-		
-		return $slugGenerator->format($name);
 	}
 	
 }

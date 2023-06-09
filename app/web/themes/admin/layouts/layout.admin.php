@@ -28,7 +28,9 @@ $invertedStyle = $controller->getOption('invertedStyle', 1);
 	<a class="navbar-brand" href="<?php _u(DEFAULT_ROUTE); ?>">
 		<?php _t($controller->getOption('main_title', 'app_name')); ?>
 	</a>
-	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
+	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" type="button">
+		<i class="fa-solid fa-bars"></i>
+	</button>
 	
 	<?php
 	if( $user ) {
@@ -36,7 +38,7 @@ $invertedStyle = $controller->getOption('invertedStyle', 1);
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item dropdown show">
 				<a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<i class="fas fa-user fa-fw"></i>
+					<i class="fa-solid fa-user fa-fw"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
 					<?php /*

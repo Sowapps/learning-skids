@@ -41,6 +41,18 @@ class LearningSheetImporter extends AbstractCsvImporter {
 		$this->previousCategorySkills = [];
 	}
 	
+	public function didAnyChanges(): bool {
+		return $this->categoryChanges || $this->skillChanges;
+	}
+	
+	public function getCategoryChanges(): int {
+		return $this->categoryChanges;
+	}
+	
+	public function getSkillChanges(): int {
+		return $this->skillChanges;
+	}
+	
 	protected function formatItemParseError(object $item, ParseException $e, int $rowNumber): array {
 		return [
 			'exception' => $e->getMessage(),
@@ -63,8 +75,10 @@ class LearningSheetImporter extends AbstractCsvImporter {
 		}
 		if( empty($data->category->name) ) {
 			$data->category = null;
-		} elseif( empty($data->category->key) ) {
-			$data->category->key = LearningCategory::slugName($data->category->name);
+		} else {
+			if( empty($data->category->key) ) {
+				$data->category->key = LearningCategory::slugName($data->category->name);
+			}
 		}
 		if( empty($data->skill->key) ) {
 			$data->skill->key = LearningCategory::slugName($data->skill->name);
@@ -99,6 +113,9 @@ class LearningSheetImporter extends AbstractCsvImporter {
 			// Category's skill
 			$this->setPreviousCategory($category, $justCreated);
 		}
+		if( !$category ) {
+			throw new ParseException('category.name.empty');
+		}
 		
 		$skill = $this->previousCategorySkills[$item->skill->key] ?? null;
 		if( $skill ) {
@@ -114,9 +131,9 @@ class LearningSheetImporter extends AbstractCsvImporter {
 			// Create new one
 			// Skill - Always considered as new
 			LearningSkill::create([
+				'learning_category_id' => $category->id(),
 				'key'                  => $item->skill->key,
 				'name'                 => $item->skill->name,
-				'learning_category_id' => $category->id(),
 				'valuable'             => $item->skill->valuable,
 			]);
 			$this->skillChanges++;
@@ -150,27 +167,6 @@ class LearningSheetImporter extends AbstractCsvImporter {
 				$this->previousCategorySkills[$skill->key] = $skill;
 			}
 		}
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function didAnyChanges(): bool {
-		return $this->categoryChanges || $this->skillChanges;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getCategoryChanges(): int {
-		return $this->categoryChanges;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getSkillChanges(): int {
-		return $this->skillChanges;
 	}
 	
 }

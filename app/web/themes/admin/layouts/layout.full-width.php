@@ -99,7 +99,7 @@ $rendering->showMenu($controller->getOption('main_menu', 'admin'), 'menu-sidebar
 				?>
 				<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 					<div class="toast-header <?php echo $style->header; ?>">
-						<i class="far fa-bell mr-1"></i>
+						<i class="fa-regular fa-bell me-1"></i>
 						<strong class="mr-auto"><?php echo $notification->title; ?></strong>
 						<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
 							<span aria-hidden="true">&times;</span>

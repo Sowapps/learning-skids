@@ -34,6 +34,50 @@ class PupilSkill extends PermanentEntity {
 	
 	protected static string $domain = 'class';
 	
+	public function clone(LearningSkill $skill): PupilSkill {
+		$category = $skill->getLearningCategory();
+		// Create new pupil Skill
+		$pupilSkill = static::createAndGet([
+			'learning_sheet_id' => $category->learning_sheet_id,
+			'skill_id'          => $skill,
+			'pupil_id'          => $this->pupil_id, // Person ID
+			'date'              => $this->date,
+		]);
+		$originValues = array_reverse($this->getValues());// Reverse to get older first
+		// We have to clone values from older to newer
+		foreach( $originValues as $originValue ) {
+			/** @var PupilSkillValue $pupilSkillValue */
+			$pupilSkillValue = PupilSkillValue::createAndGet([
+				'pupil_skill_id' => $pupilSkill,
+				'value'          => $originValue->value,
+				'date'           => $originValue->date,
+			]);
+			if( $this->active_value_id === $originValue->id() ) {
+				$pupilSkill->setActiveValue($pupilSkillValue);
+			}
+		}
+		
+		return $pupilSkill;
+	}
+	
+	/**
+	 * Get all values, ordered from newer to older
+	 *
+	 * @return PupilSkillValue[]
+	 */
+	public function getValues(): array {
+		return PupilSkillValue::select()
+			->where('pupil_skill_id', $this)
+			->orderby('id DESC')
+			->run();
+	}
+	
+	public function setActiveValue(PupilSkillValue $pupilSkillValue) {
+		$this->active_value_id = $pupilSkillValue->id();
+		$this->date = $pupilSkillValue->getDate();
+		$this->update_date = now();
+	}
+	
 	public function asArray($model = self::OUTPUT_MODEL_ALL) {
 		if( $model === OUTPUT_MODEL_USAGE || $model === OUTPUT_MODEL_EDITION ) {
 			$data = parent::asArray(self::OUTPUT_MODEL_MINIMALS);
@@ -49,21 +93,6 @@ class PupilSkill extends PermanentEntity {
 		return parent::asArray($model);
 	}
 	
-	public function getPupil(): Person {
-		return Person::load($this->pupil_id, false);
-	}
-	
-	public function getLearningSkill(): LearningSkill {
-		return LearningSkill::load($this->skill_id, false);
-	}
-	
-	public function getValues(): array {
-		return PupilSkillValue::select()
-			->where('pupil_skill_id', $this)
-			->orderby('id DESC')
-			->run();
-	}
-	
 	public function getActiveValue(): ?PupilSkillValue {
 		if( !$this->active_value_id ) {
 			return null;
@@ -72,10 +101,12 @@ class PupilSkill extends PermanentEntity {
 		return PupilSkillValue::load($this->active_value_id, true);
 	}
 	
-	public function setActiveValue(PupilSkillValue $pupilSkillValue) {
-		$this->active_value_id = $pupilSkillValue->id();
-		$this->date = $pupilSkillValue->getDate();
-		$this->update_date = now();
+	public function getPupil(): Person {
+		return Person::load($this->pupil_id, false);
+	}
+	
+	public function getLearningSkill(): LearningSkill {
+		return LearningSkill::load($this->skill_id, false);
 	}
 	
 	public function addValue(?string $value, DateTime $dateTime = null): bool {

@@ -28,11 +28,16 @@ class UserClassCreateController extends AbstractUserController {
 		try {
 			if( $request->hasData('submitCreate') ) {
 				$classInput = $request->getData('class');
-				if( !empty($classInput['name']) && !empty($classInput['level']) && !empty($classInput['learning_sheet_id']) && $classInput['learning_sheet_id'] === 'new' ) {
-					$classInput['learning_sheet_id'] = LearningSheet::make($classInput);
+				$classFields = ['name', 'year', 'level', 'open_date', 'teacher_id'];
+				SchoolClass::checkUserInput($classInput, $classFields);
+				$classFields[] = 'learning_sheet_id';
+				$learningSheet = null;
+				if( !empty($classInput['name']) && !empty($classInput['level']) ) {
+					$learningSheet = LearningSheet::make($classInput);
 				}
 				$classInput['teacher_id'] = User::getLoggedUser()->getPerson()->id();
-				$classId = SchoolClass::create($classInput, ['name', 'year', 'level', 'openDate', 'teacher_id', 'learning_sheet_id']);
+				$classInput['learning_sheet_id'] = $learningSheet;
+				$classId = SchoolClass::create($classInput, $classFields);
 				
 				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $classId]));
 			}

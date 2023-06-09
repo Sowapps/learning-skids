@@ -15,6 +15,9 @@ use Orpheus\Exception\UserException;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpResponse;
 
+/**
+ * Controller for whole pupil's sheet of class
+ */
 class UserClassPupilsSheetController extends AbstractUserController {
 	
 	use PupilSkillForm;
@@ -25,6 +28,7 @@ class UserClassPupilsSheetController extends AbstractUserController {
 	 */
 	public function run($request): HttpResponse {
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
+		$readOnly = $class->isArchived();
 		
 		if( !User::getLoggedUser()->canClassManage($class) ) {
 			throw new ForbiddenException();
@@ -38,20 +42,24 @@ class UserClassPupilsSheetController extends AbstractUserController {
 		
 		$this->consumeSuccess('classPupilsSheet');
 		$this->setPageTitle(t('user_class_pupils_sheet') . ' / ' . t('class_label', DOMAIN_CLASS, $class->getLabel()));
-		//		$this->setContentTitle($class);
 		
 		$pupils = $class->queryPupilPersons()
 			->asObjectList()->run();
 		$pupilSkills = $this->getPupilSkills($learningSheet, $pupils);
 		
-		try {
-			if( $request->hasData('submitUpdateSkills') ) {
-				$this->processPupilSkillEdit($request, $learningSheet, $pupilSkills);
-				
-				return $this->redirectToSelf();
+		if( !$readOnly ) {
+			try {
+				if( $request->hasData('submitUpdateSkills') ) {
+					if( !$class->enabled ) {
+						throw new ForbiddenException();
+					}
+					$this->processPupilSkillEdit($request, $learningSheet, $pupilSkills);
+					
+					return $this->redirectToSelf();
+				}
+			} catch( UserException $e ) {
+				reportError($e);
 			}
-		} catch( UserException $e ) {
-			reportError($e);
 		}
 		
 		$pageUrl = $request->getURL();
@@ -66,13 +74,11 @@ class UserClassPupilsSheetController extends AbstractUserController {
 			foreach( $tempSkills as $skill ) {
 				$skills[] = $skill;
 				$selfQueryString .= ($selfQueryString ? '&' : '?') . sprintf('skills[]=%d', $skill->id());
-				//				if( !$learningSheet->hasSkill($skill)) {
-				//					LearningSkill::throwNotFound();
-				//				}
 			}
 			$this->addRouteToBreadcrumb('user_class_pupils_sheet', t('user_class_pupils_sheet_by_skills'), $pageUrl . $selfQueryString);
 			
 			return $this->renderHtml('class/class_pupils_sheet_by_skills', [
+				'readOnly'      => $readOnly,
 				'class'         => $class,
 				'learningSheet' => $learningSheet,
 				'pupils'        => $pupils,
@@ -82,6 +88,7 @@ class UserClassPupilsSheetController extends AbstractUserController {
 		}
 		
 		return $this->renderHtml('class/class_pupils_sheet', [
+			'readOnly'      => $readOnly,
 			'class'         => $class,
 			'learningSheet' => $learningSheet,
 			'pupils'        => $pupils,

@@ -63,18 +63,20 @@ $rendering->useLayout('page_skeleton');
 	
 	<div class="col-lg-6">
 		<form method="POST" role="form" class="form-horizontal"><?php echo $FORM_TOKEN; ?>
-			<?php $rendering->useLayout('panel-default'); ?>
-			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', true);"><i class="far fa-fw fa-check-square"></i> <?php _t('checkall'); ?></button>
-			<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', false);"><i class="far fa-fw fa-square"></i> <?php _t('uncheckall'); ?></button>
-			
-			<ul class="list-group mt-2 mb-2">
-				<?php
-				foreach( PermanentEntity::listKnownEntities() as $entityClass ) {
-					echo '
+		<?php $rendering->useLayout('panel-default'); ?>
+		<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', true);"><i
+					class="fa-regular fa-fw fa-check-square"></i> <?php _t('checkall'); ?></button>
+		<button class="btn btn-info btn-sm" type="button" onclick="$('.entitycb').prop('checked', false);"><i
+					class="fa-regular fa-fw fa-square"></i> <?php _t('uncheckall'); ?></button>
+		
+		<ul class="list-group mt-2 mb-2">
+			<?php
+			foreach( PermanentEntity::listKnownEntities() as $entityClass ) {
+				echo '
 			<li class="list-group-item">
 				<label class="wf mb-0">
 					<input class="entitycb" type="checkbox" name="entities[' . $entityClass . ']"' . (!isPOST() || isPOST('entities/' . $entityClass) ? ' checked' : '')
-						. ' title="' . $entityClass . '"/> ' . $entityClass . '
+					. ' title="' . $entityClass . '"/> ' . $entityClass . '
 				</label>
 			</li>';
 				}

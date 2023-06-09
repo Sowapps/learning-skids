@@ -30,7 +30,7 @@ class UserClassPupilExportController extends AbstractUserController {
 		$person = $pupil->getPerson();
 		$learningSheet = $class->getLearningSheet();
 		
-		$debug = $request->getParameter('debug', false);
+		$debug = !!$request->getParameter('debug', false);
 		$download = $request->getParameter('dl', true);
 		
 		if( !User::getLoggedUser()->canClassManage($class) ) {

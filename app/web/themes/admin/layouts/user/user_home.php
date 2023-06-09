@@ -49,7 +49,7 @@ $rendering->useLayout('layout.full-width');
 				<?php _t('manage'); ?>
 			</a>
 			<div class="small text-white">
-				<i class="fas fa-chevron-right"></i>
+				<i class="fa-solid fa-chevron-right"></i>
 			</div>
 			<?php
 			$rendering->endCurrentLayout([
@@ -71,7 +71,7 @@ $rendering->useLayout('layout.full-width');
 				<?php _t('create'); ?>
 			</a>
 			<div class="small text-white">
-				<i class="fas fa-chevron-right"></i>
+				<i class="fa-solid fa-chevron-right"></i>
 			</div>
 			<?php
 			$rendering->endCurrentLayout([

@@ -37,7 +37,7 @@ if( $message === 'notFound' ) {
 			<img class="mb-4 img-error" src="/static/vendor/sb-admin/sb-admin-6.0.2/img/error-404-monochrome.svg" alt="Non trouvé"/>
 			<p class="lead"><?php echo t($message); ?></p>
 			<a href="<?php echo u(getHomeRoute()); ?>">
-				<i class="fas fa-arrow-left mr-1"></i> Retourner à l'accueil
+				<i class="fa-solid fa-arrow-left me-1"></i> Retourner à l'accueil
 			</a>
 		</div>
 	</div>

@@ -86,6 +86,31 @@ BODY
 	return $email->send($user->email);
 }
 
+/**
+ * @param User $user
+ * @return bool
+ */
+function sendUserRecoveryEmail(User $user): bool {
+	$appName = t('app_name');
+	$appUrl = u(DEFAULT_ROUTE);
+	$email = new Email($appName . ' - Activation de votre compte');
+	$activationLink = u('login') . sprintf('?u=%s&ac=%s', $user->id(), $user->activation_code);
+	$email->setHTMLBody(nl2br(<<<BODY
+Bonjour,
+
+Bienvenue sur {$appName}, notre site a été conçu pour vous accompagner dans l'évaluation de vos élèves de maternelle.
+Votre compte a bien été enregistré mais il n'est pas encore activé.
+Une fois que votre compte sera activé, vous serez connecté et vous pourrez créer et gérer votre classe.
+
+<a href="{$activationLink}">Cliquez ici pour activer votre compte !</a>
+
+<a href="{$appUrl}">{$appName}</a>
+BODY
+	));
+	
+	return $email->send($user->email);
+}
+
 function includeAdminComponents() {
 	require_once pathOf(SRC_PATH . '/admin-form.php');
 }

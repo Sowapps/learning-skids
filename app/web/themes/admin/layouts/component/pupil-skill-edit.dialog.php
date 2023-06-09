@@ -33,7 +33,7 @@ $withHistory = $withHistory ?? false;
 						<div id="emailHelp" class="form-text fs-8">
 							Une valeur est attendue pour cette compétence, au moment de générer un extrait des compétences de cet élève,
 							cette valeur remplacera tout caractère # présent dans le nom de la compétence.<br>
-							Par exemple: "Sait compter jusqu'à #" (valeur = 35) devient "Sait compter jusqu'à 35"<br>
+							Par exemple : "Sait compter jusqu'à #" (valeur = 35) devient "Sait compter jusqu'à 35"<br>
 							Attention donc à entrer quelque chose de cohérent avec ce qui est attendu.<br>
 						</div>
 					</div>

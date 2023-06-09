@@ -14,6 +14,9 @@ use Orpheus\Exception\UserException;
 use Orpheus\InputController\HttpController\HttpRequest;
 use Orpheus\InputController\HttpController\HttpResponse;
 
+/**
+ * Controller for one pupil in class
+ */
 class UserClassPupilController extends AbstractUserController {
 	
 	use PupilSkillForm;
@@ -23,9 +26,9 @@ class UserClassPupilController extends AbstractUserController {
 	 * @return HttpResponse The output HTTP response
 	 */
 	public function run($request): HttpResponse {
-		$readOnly = $this->getOption('readonly', false);
 		$class = SchoolClass::load($request->getPathValue('classId'), false);
 		$pupil = ClassPupil::load($request->getPathValue('pupilId'), false);
+		$readOnly = $class->isArchived() || $this->getOption('readonly', false);
 		$person = $pupil->getPerson();
 		$learningSheet = $class->getLearningSheet();
 		

@@ -132,8 +132,8 @@ $rendering->useLayout('layout.full-width');
 									?>
 									<label class="label-checkbox d-block text-center m-0 p-1 fs20">
 										<input type="checkbox" class="custom-control-input" name="pupil[<?php echo $pupilIndex; ?>][personId]" value="new" checked>
-										<i class="fas fa-check-square fa-1x text-success checked"></i>
-										<i class="far fa-square fa-1x text-muted unchecked"></i>
+										<i class="fa-solid fa-check-square fa-1x text-success checked"></i>
+										<i class="fa-regular fa-square fa-1x text-muted unchecked"></i>
 									</label>
 									<?php
 								}

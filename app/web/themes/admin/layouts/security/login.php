@@ -36,26 +36,29 @@ $rendering->addThemeJsFile('login.js');
 								<div class="card-header">
 									<h3 class="text-left font-weight-light my-4">
 										Connexion
-										<i class="fas fa-lock float-right"></i>
+										<i class="fa-solid fa-lock float-right"></i>
 									</h3>
 								</div>
 								<div class="card-body">
 									<form method="post">
-										<?php
+									<?php
 										echo $formToken;
 										$rendering->display('reports-bootstrap3');
 										?>
-										
-										<div class="form-group">
-											<label class="small mb-1" for="InputLoginEmail">Email</label>
-											<input name="login[email]" class="form-control py-4" id="InputLoginEmail" type="email" placeholder="Entrez votre adresse email">
-										</div>
-										<div class="form-group">
-											<label class="small mb-1" for="InputLoginPassword">Mot de passe</label>
-											<input name="login[password]" class="form-control py-4" id="InputLoginPassword" type="password" placeholder="Entrez votre mot de passe">
-										</div>
-										<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
-											<?php
+									
+									<div class="form-group">
+										<label class="small mb-1" for="InputLoginEmail">Email</label>
+										<input name="login[email]" class="form-control py-4" id="InputLoginEmail" type="email" placeholder="Entrez votre adresse email">
+									</div>
+									<div class="form-group">
+										<label class="small mb-1" for="InputLoginPassword">Mot de passe</label>
+										<input name="login[password]" class="form-control py-4" id="InputLoginPassword" type="password"
+											   placeholder="Entrez votre mot de passe">
+										<button class="btn btn-link btn-sm fs-6" data-toggle-panel="#PanelRecovery">Mot de passe oublié ? Récupérez votre compte !
+										</button>
+									</div>
+									<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+										<?php
 											/*
  											justify-content-end
 											<a class="small" href="password.html">Forgot Password?</a>
@@ -75,12 +78,12 @@ $rendering->addThemeJsFile('login.js');
 								<div class="card-header">
 									<h3 class="text-left font-weight-light my-4">
 										Inscription comme professeur des écoles
-										<i class="fas fa-lock float-right"></i>
+										<i class="fa-solid fa-lock float-right"></i>
 									</h3>
 								</div>
 								<div class="card-body">
 									<form method="post">
-										<?php
+									<?php
 										echo $formToken;
 										$rendering->display('reports-bootstrap3', ['reportStream' => 'register']);
 										?>
@@ -116,13 +119,46 @@ $rendering->addThemeJsFile('login.js');
 												</div>
 											</div>
 										</div>
-										<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
-											<button class="btn btn-primary" name="submitRegister"><?php _t('register'); ?></button>
-										</div>
+									<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+										<button class="btn btn-primary" name="submitRegister"><?php _t('register'); ?></button>
+									</div>
 									</form>
 								</div>
 								<div class="card-footer text-center">
-									<button class="btn btn-link btn-sm" data-toggle-panel="#PanelLogin">Vous avez un compte ? Connectez vous !</button>
+									<button class="btn btn-link btn-sm" data-toggle-panel="#PanelLogin">Vous avez un compte ? Connectez-vous !</button>
+								</div>
+							</div>
+							
+							<div id="PanelRecovery" class="card shadow-lg border-0 rounded-lg mt-5 sign-in-panel<?php echo $panel === 'recovery' ? 'show' : ''; ?>">
+								<div class="card-header">
+									<h3 class="text-left font-weight-light my-4">
+										Récupérer mon compte
+										<i class="fa-solid fa-lock float-right"></i>
+									</h3>
+								</div>
+								<div class="card-body">
+									<form method="post">
+									<?php
+									echo $formToken;
+									$rendering->display('reports-bootstrap3', ['reportStream' => 'recovery']);
+									?>
+									<p>
+										Ne vous inquiétez pas, nous allons vous aider à récupérer votre compte <?php echo t('app_name'); ?>.<br>
+										Pour ce faire, nous allons vous envoyer un email pour confirmer que vous êtes bien le propriétaire de ce compte.<br>
+										Dans cet email, un lien vous permettra de changer votre mot de passe.<br>
+									</p>
+									<div class="form-group">
+										<label class="small mb-1" for="InputRecoveryEmail">Votre email</label>
+										<input name="email" class="form-control py-4" id="InputRecoveryEmail" type="email"
+											   placeholder="Entrez ici l'adresse email que vous utilisez pour <?php echo t('app_name'); ?>"/>
+									</div>
+									<div class="form-group d-flex align-items-center justify-content-end mt-4 mb-0">
+										<button class="btn btn-primary" name="submitRecovery"><?php echo t('recoverPassword_label', DOMAIN_USER); ?></button>
+									</div>
+									</form>
+								</div>
+								<div class="card-footer text-center">
+									<button class="btn btn-link btn-sm" data-toggle-panel="#PanelLogin">Vous l'avez retrouvé ? Connectez-vous !</button>
 								</div>
 							</div>
 						

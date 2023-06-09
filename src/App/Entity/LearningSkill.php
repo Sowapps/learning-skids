@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use DateTime;
 use Orpheus\EntityDescriptor\PermanentEntity;
+use Orpheus\SqlRequest\SqlSelectRequest;
 
 /**
  * Class LearningSkill
@@ -31,6 +32,38 @@ class LearningSkill extends PermanentEntity {
 	
 	protected static string $domain;
 	
+	public static function onEdit(array &$data, $object) {
+		parent::onEdit($data, $object);
+		if( isset($data['name']) && !isset($data['key']) ) {
+			$data['key'] = LearningCategory::slugName($data['name']);
+		}
+	}
+	
+	public function clone(LearningCategory $category, bool $withPupilSkills = false): LearningSkill {
+		$skill = static::createAndGet([
+			'learning_category_id' => $category->id(),
+			'key'                  => $this->key,
+			'name'                 => $this->name,
+			'valuable'             => $this->valuable,
+		]);
+		if( $withPupilSkills ) {
+			foreach( $this->queryPupilSkills() as $pupilSkill ) {
+				$pupilSkill->clone($skill);
+			}
+		}
+		
+		return $skill;
+	}
+	
+	/**
+	 * @return SqlSelectRequest|PupilSkill[]
+	 */
+	public function queryPupilSkills() {
+		return PupilSkill::get()
+			->where('skill_id', $this)
+			->orderby('id ASC');
+	}
+	
 	public function remove() {
 		foreach( $this->queryPupilSkills() as $pupilSkill ) {
 			$pupilSkill->remove();
@@ -39,12 +72,6 @@ class LearningSkill extends PermanentEntity {
 		return parent::remove();
 	}
 	
-	public function queryPupilSkills() {
-		return PupilSkill::get()
-			->where('skill_id', $this)
-			->orderby('id ASC');
-	}
-  
 	public function formatName(PupilSkill $pupilSkill) {
 		$name = $this->name;
 		$activeValue = $pupilSkill->getActiveValue();
@@ -76,13 +103,6 @@ class LearningSkill extends PermanentEntity {
 	
 	public function getLearningCategory(): LearningCategory {
 		return LearningCategory::load($this->learning_category_id, false);
-	}
-	
-	public static function onEdit(array &$data, $object) {
-		parent::onEdit($data, $object);
-		if( isset($data['name']) && !isset($data['key']) ) {
-			$data['key'] = LearningCategory::slugName($data['name']);
-		}
 	}
 	
 }

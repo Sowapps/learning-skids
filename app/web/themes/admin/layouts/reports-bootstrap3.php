@@ -3,9 +3,8 @@
  * @var string $reportStream
  * @var string $stream Alias of $reportStream
  */
-if( !isset($reportStream) ) {
-	$reportStream = isset($stream) ? $stream : 'global';
-}
+
+$reportStream = $reportStream ?? $stream ?? 'global';
 
 foreach( getReports($reportStream) as $type => $typeReports ) {
 	$type = ($type === 'error') ? 'danger' : $type;

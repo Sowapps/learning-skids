@@ -51,6 +51,7 @@ define('DOMAIN_CLASS', 'class');
 define('DOMAIN_LEARNING_SKILL', 'learning-skill');
 define('DOMAIN_PERSON', 'person');
 define('DOMAIN_TRANSLATIONS', 'translations');
+define('DOMAIN_USER', 'user');
 
 // Users
 define('USER_SALT', 'Y*Ck5D=H');

@@ -6,7 +6,6 @@
 namespace App\Controller\User;
 
 use App\Entity\ClassPupil;
-use App\Entity\LearningSheet;
 use App\Entity\LearningSkill;
 use App\Entity\SchoolClass;
 use App\Entity\User;
@@ -40,32 +39,44 @@ class UserClassEditController extends AbstractUserController {
 		$this->setPageTitle(t('class_label', DOMAIN_CLASS, $class->getLabel()));
 		$this->setContentTitle($class);
 		
-		$requirePupilValidation = false;
-		$outputPupilList = null;
+		$now = new DateTime();
+		$readOnly = $class->isArchived();
+		$allowClose = !$readOnly && $class->getEstimatedEndDate() && $class->getEstimatedEndDate() < $now && !$class->hasNextClass();
+		$allowArchive = !$readOnly;
+		$allowUnarchive = $readOnly;
 		try {
+			//			if( $request->isPOST() ) {
+			//				// TODO REMOVE IF BECAUSE COMMIT
+			//				// TODO Compétences non copiées !
+			//				$currentLearningSheet = $class->getLearningSheet();
+			//				$newLearningSheet = $currentLearningSheet->clone(true);
+			//				var_dump($newLearningSheet);
+			//			} else // Test
 			if( $request->hasData('submitUpdate') ) {
-				$classInput = $request->getData('class');
-				if( !empty($classInput['name']) && !empty($classInput['level']) && !empty($classInput['learning_sheet_id']) && $classInput['learning_sheet_id'] === 'new' ) {
-					$classInput['learning_sheet_id'] = LearningSheet::make($classInput);
+				if( $readOnly ) {
+					throw new ForbiddenException();
 				}
-				$class->update($classInput, ['name', 'year', 'level', 'openDate', 'learning_sheet_id']);
+				$classInput = $request->getData('class');
+				//				if( !empty($classInput['name']) && !empty($classInput['level']) && !empty($classInput['learning_sheet_id']) && $classInput['learning_sheet_id'] === 'new' ) {
+				//					$classInput['learning_sheet_id'] = LearningSheet::make($classInput);
+				//				}
+				$class->update($classInput, ['name', 'year', 'level', 'open_date', 'close_estimated_date']);
 				
 				$this->storeSuccess('classEdit', 'successClassEdit', ['name' => $class->getLabel()], DOMAIN_CLASS);
 				
-				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $class->id()]));
+				return $this->redirectToClass($class);
 				
 			} elseif( $request->hasData('submitAddMultiplePupils') ) {
+				if( $readOnly ) {
+					throw new ForbiddenException();
+				}
 				
 				return $this->redirectToPupilAddValidator($class, $request->getData('pupil'));
-				//				startReportStream('pupilList');
-				//				$pupilListInput = $request->getData('pupil');
-				//				$requirePupilValidation = $class->checkPupilList($pupilListInput, $outputPupilList);
-				//				if( !$requirePupilValidation ) {
-				//					$class->addPupilList($outputPupilList);
-				//				}
-				//				endReportStream();
 				
 			} elseif( $request->hasData('submitImport') ) {
+				if( $readOnly ) {
+					throw new ForbiddenException();
+				}
 				
 				$uploadedFile = UploadedFile::load('file');
 				if( !$uploadedFile ) {
@@ -87,27 +98,88 @@ class UserClassEditController extends AbstractUserController {
 					return $this->redirectToPupilAddValidator($class, $importer->getPupils());
 				}
 				
-			} elseif( $request->hasData('submitRemovePupil') ) {
-				startReportStream('pupilList');
-				$pupil = ClassPupil::load($request->getData('submitRemovePupil'), false);
-				if( !$pupil->getSchoolClass()->equals($class) ) {
-					throw new ForbiddenException();
+			} else {
+				if( $request->hasData('submitRemovePupil') ) {
+					if( $readOnly ) {
+						throw new ForbiddenException();
+					}
+					
+					startReportStream('pupilList');
+					$pupil = ClassPupil::load($request->getData('submitRemovePupil'), false);
+					if( !$pupil->getSchoolClass()->equals($class) ) {
+						throw new ForbiddenException();
+					}
+					$pupil->remove();
+					endReportStream();
+					
+				} else {
+					if( $request->hasData('submitClose') ) {
+						//				if( !$allowClose ) {
+						//					throw new ForbiddenException();
+						//				}
+						$currentLearningSheet = $class->getLearningSheet();
+						$currentClassInput = $request->getData('current_class');
+						$thenInput = $request->getData('then');
+						$currentClassInput['enabled'] = false;
+						$class->update($currentClassInput, ['enabled', 'close_date']);
+						$currentLearningSheet->enabled = false;
+						$currentLearningSheet->save();
+						if( $thenInput === 'duplicate' ) {
+							// TODO Test cloning
+							$newLearningSheet = $currentLearningSheet->clone(true);
+							$newClassInput = $request->getData('next_class');
+							//						try {
+							$newClass = SchoolClass::createAndGet([
+								'name'                 => sprintf('%s - S2', $class->name),
+								'teacher_id'           => $class->teacher_id,
+								'previous_class_id'    => $class->id(),
+								'learning_sheet_id'    => $newLearningSheet->id(),
+								'open_date'            => $newClassInput['open_date'] ?? null,
+								'close_estimated_date' => $newClassInput['close_estimated_date'] ?? null,
+								'level'                => $class->level,
+								'year'                 => $class->year,
+							]);
+							//						} catch(Exception $exception) {
+							//							$newLearningSheet->remove();
+							//						}
+							$class->linkNextClass($newClass);
+							$class->save();
+							foreach( $class->queryPupils() as $pupil ) {
+								/** @var ClassPupil $pupil */
+								ClassPupil::create([
+									'class_id' => $newClass->id(),
+									'pupil_id' => $pupil->pupil_id,
+								]);
+							}
+							$newClass->save();// Previous class should be already set
+						}
+						$this->storeSuccess('classEdit', 'successClassClose', ['name' => $class->getLabel()], DOMAIN_CLASS);
+						
+						return $this->redirectToClass($class);
+						
+					} else {
+						if( $request->hasData('submitArchive') ) {
+							if( !$allowArchive ) {
+								throw new ForbiddenException();
+							}
+							$class->update(['enabled' => false, 'close_date' => new DateTime()], ['enabled', 'close_date']);
+							$this->storeSuccess('classEdit', 'successClassArchive', ['name' => $class->getLabel()], DOMAIN_CLASS);
+							
+							return $this->redirectToClass($class);
+							
+						} else {
+							if( $request->hasData('submitUnarchive') ) {
+								if( !$allowUnarchive ) {
+									throw new ForbiddenException();
+								}
+								$class->update(['enabled' => true, 'close_date' => null], ['enabled', 'close_date']);
+								$this->storeSuccess('classEdit', 'successClassUnarchive', ['name' => $class->getLabel()], DOMAIN_CLASS);
+								
+								return $this->redirectToClass($class);
+							}
+						}
+					}
 				}
-				$pupil->remove();
-				endReportStream();
-				
-				//			} elseif( $request->hasData('submitUpdatePupil') ) {
-				//				startReportStream('pupilList');
-				//				$pupil = ClassPupil::load($request->getData('pupilId'), false);
-				//				if( !$pupil->getSchoolClass()->equals($class) ) {
-				//					throw new ForbiddenException();
-				//				}
-				//				$person = $pupil->getPerson();
-				//				$person->update($request->getArrayData('person'), ['firstname', 'lastname']);
-				//				endReportStream();
-				//
-				//				$this->storeSuccess('pupilList', 'successClassPupilEdit', ['name' => $class->getLabel()], DOMAIN_CLASS);
-				//				return new RedirectHttpResponse(u('user_class_edit', ['classId' => $class->id()]));
 			}
 		} catch( UserException $e ) {
 			reportError($e);
@@ -115,10 +187,22 @@ class UserClassEditController extends AbstractUserController {
 		$user = User::getLoggedUser();
 		$isNewTeacher = $user->create_date > new DateTime('-1 month');
 		
+		
+		//		$allowArchive = $class->enabled;
+		//		$allowUnarchive = !$class->enabled;
+		//		$allowClose = $allowArchive && ($class->openDate < new DateTime('-11 months
 		return $this->renderHtml('class/class_edit', [
-			'class'        => $class,
-			'isNewTeacher' => $isNewTeacher,
+			'readOnly'       => $readOnly,
+			'class'          => $class,
+			'isNewTeacher'   => $isNewTeacher,
+			'allowArchive'   => $allowArchive,
+			'allowUnarchive' => $allowUnarchive,
+			'allowClose'     => $allowClose,
 		]);
+	}
+	
+	protected function redirectToClass(SchoolClass $class): RedirectHttpResponse {
+		return new RedirectHttpResponse(u('user_class_edit', ['classId' => $class->id()]));
 	}
 	
 	protected function redirectToPupilAddValidator(SchoolClass $class, array $pupils): RedirectHttpResponse {

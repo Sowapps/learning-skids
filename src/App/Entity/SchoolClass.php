@@ -25,7 +25,11 @@ use Orpheus\SqlRequest\SqlSelectRequest;
  * @property int $year
  * @property int $teacher_id
  * @property int $learning_sheet_id
- * @property DateTime $openDate
+ * @property DateTime $open_date
+ * @property DateTime $close_estimated_date
+ * @property DateTime $close_date
+ * @property int $previous_class_id
+ * @property int $next_class_id
  * @property boolean $enabled
  */
 class SchoolClass extends PermanentEntity {
@@ -195,6 +199,51 @@ class SchoolClass extends PermanentEntity {
 		}
 		
 		return $successCount;
+	}
+	
+	public function isFirstSemester(): bool {
+		return $this->year == $this->getOpenDate()->format('Y');
+		//		new DateTime($this->getEstimatedEndDate()->format('Y').'-05-01');
+		//		$showClassTerminate = $this->getEstimatedEndDate() > $classTerminateLimit;
+	}
+	
+	public function isArchived(): bool {
+		return !$this->enabled;
+	}
+	
+	public function getCloseDate(): DateTime {
+		return $this->close_date;
+	}
+	
+	public function getEstimatedEndDate(): ?DateTime {
+		return $this->close_estimated_date;
+	}
+	
+	public function getOpenDate(): DateTime {
+		return $this->open_date;
+	}
+	
+	public function linkNextClass(SchoolClass $class): SchoolClass {
+		$class->previous_class_id = $this->id();
+		$this->next_class_id = $class->id();
+		
+		return $this;
+	}
+	
+	public function getPreviousClass(): ?SchoolClass {
+		return $this->hasPreviousClass() ? static::load($this->previous_class_id) : null;
+	}
+	
+	public function hasPreviousClass(): bool {
+		return !!$this->previous_class_id;
+	}
+	
+	public function getNextClass(): ?SchoolClass {
+		return $this->hasNextClass() ? static::load($this->next_class_id) : null;
+	}
+	
+	public function hasNextClass(): bool {
+		return !!$this->next_class_id;
 	}
 	
 	public static function onEdit(array &$data, $object) {

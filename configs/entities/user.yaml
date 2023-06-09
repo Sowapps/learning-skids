@@ -23,6 +23,7 @@ fields:
     # System infos
     accesslevel: natural(999)=0
     recovery_code: string(30)[nullable]
+    recovery_date: datetime[nullable]
     activation_code: string(30)[nullable]s
 
 indexes:

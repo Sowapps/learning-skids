@@ -13,7 +13,14 @@ use Orpheus\Rendering\HtmlRendering;
  * @var HttpRoute $route
  *
  * @var string $content
+ * @var string|null $icon icon classes
  */
+
+if( !isset($title) ) {
+	$title = '';
+}
+
+$icon ??= null;
 
 if( !isset($title) ) {
 	$title = '';
@@ -62,7 +69,14 @@ if( !isset($footerClass) ) {
 						?>
 						<li class="nav-item">
 							<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-								<?php echo $title; ?>
+								<?php
+								if( $icon ) {
+									?>
+									<i class="<?php echo $icon; ?> me-1"></i>
+									<?php
+								}
+								echo $title;
+								?>
 							</a>
 						</li>
 						<?php
@@ -88,6 +102,11 @@ if( !isset($footerClass) ) {
 				</ul>
 				<?php
 			} else {
+				if( $icon ) {
+					?>
+					<i class="<?php echo $icon; ?> me-1"></i>
+					<?php
+				}
 				echo $title;
 			}
 			?>

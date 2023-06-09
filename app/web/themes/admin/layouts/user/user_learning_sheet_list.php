@@ -51,7 +51,7 @@ $rendering->useLayout('layout.full-width');
 					<td class="text-right">
 						<div class="btn-group btn-group-sm" role="group">
 							<a href="<?php echo u('user_learning_sheet_edit', ['learningSheetId' => $learningSheet->id()]); ?>" class="btn btn-secondary">
-								<i class="fas fa-edit"></i>
+								<i class="fa-solid fa-edit"></i>
 							</a>
 						</div>
 					</td>
