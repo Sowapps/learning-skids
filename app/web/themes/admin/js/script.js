@@ -111,6 +111,47 @@
 	});
 })(jQuery);
 
+$(() => {
+	[...document.getElementsByClassName("textarea-auto-height")]
+		.forEach($element => {
+			// console.log("Auto adjust height of ", $element);
+			const initialHeight = $element.offsetHeight;
+			const startAnimating = () => {
+				$element.classList.add("animating");
+			};
+			const stopAnimating = () => {
+				// We must wait for animation to finish
+				setTimeout(() => {
+					$element.classList.remove("animating");
+				}, 1000);
+			};
+			const adjustHeight = (animating) => {
+				const minHeight = $element.dataset.minHeight || 64;
+				const maxHeight = $element.dataset.maxHeight || 400;
+				if( animating ) {
+					startAnimating();
+				} else {
+					$element.style.height = 0;// Set to 0 to allow textarea to decrease height (else textarea can only grow up)
+					// Incompatible with animation
+				}
+				const height = Math.max(Math.min($element.scrollHeight, maxHeight), minHeight);
+				$element.style.height = height + "px";
+				if( animating ) {
+					stopAnimating();
+				}
+			};
+			const resetHeight = () => {
+				startAnimating();
+				$element.style.height = initialHeight + "px";
+				stopAnimating();
+			};
+			$element.addEventListener("focus", () => adjustHeight(true));
+			$element.addEventListener("input", () => adjustHeight(false), false);
+			$element.addEventListener("blur", resetHeight);
+			resetHeight();
+		});
+});
+
 function getLocale() {
 	return $("html").attr("lang");
 }

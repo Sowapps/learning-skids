@@ -58,6 +58,20 @@ class UserClassPupilController extends AbstractUserController {
 					
 					return $this->redirectToSelf();
 					
+				} elseif( $request->hasData('submitNotePublicSave') ) {
+					$pupil->update($request->getArrayData('pupil'), ['note_public']);
+					
+					$this->storeSuccess('pupilEdit', 'notePublic_success', [], DOMAIN_CLASS);
+					
+					return $this->redirectToSelf();
+					
+				} elseif( $request->hasData('submitNotePrivateSave') ) {
+					$pupil->update($request->getArrayData('pupil'), ['note_private']);
+					
+					$this->storeSuccess('pupilEdit', 'notePrivate_success', [], DOMAIN_CLASS);
+					
+					return $this->redirectToSelf();
+					
 				} elseif( $request->hasData('submitUpdateSkills') ) {
 					startReportStream('pupilSkillsUpdate');
 					

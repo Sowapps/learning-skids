@@ -280,3 +280,15 @@ input[type='date']::-webkit-inner-spin-button {
 .overflow-visible {
 	overflow: visible !important;
 }
+
+/* textarea-auto-height */
+.textarea-auto-height {
+	resize: none; /* Incompatibility with browser resize feature */
+	overflow-y: hidden; /*  */
+}
+
+.textarea-auto-height.animating {
+	/*.textarea-auto-height {*/
+	transition: height .5s;
+}
+

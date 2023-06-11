@@ -1,3 +1,5 @@
 fields:
     class_id: ref(class)
     pupil_id: ref(person)
+    note_public: string[nullable]
+    note_private: string[nullable]

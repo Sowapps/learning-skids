@@ -169,9 +169,10 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 	<div class="col-12 col-xl-6">
 		<form method="post">
 		
-		<!-- Pupil's Details -->
-		<?php $rendering->useLayout('panel-default'); ?>
-		<?php $this->display('reports-bootstrap3'); ?>
+		<?php
+		// Pupil's Details
+		$rendering->useLayout('panel-default');
+		$this->display('reports-bootstrap3'); ?>
 		<div class="form-group">
 			<label class="form-label"><?php echo t('firstname', DOMAIN_PERSON); ?></label>
 			<input <?php echo formInput('person/firstname'); ?> type="text" class="form-control person_firstname"<?php echo $readOnly ? ' disabled' : ''; ?>>
@@ -187,12 +188,48 @@ $rendering->addThemeJsFile('class_pupil_edit.js');
 			<button class="btn btn-primary" type="submit" name="submitUpdate"><?php _t('save'); ?></button>
 			<?php
 		}
-		$rendering->endCurrentLayout(['title' => t('pupil_label', DOMAIN_CLASS, $person->getLabel())]); ?>
+		$rendering->endCurrentLayout(['title' => t('pupil_label', DOMAIN_CLASS, $person->getLabel())]);
 		
-		<!-- Pupil's Class -->
-		<?php $rendering->useLayout('panel-default'); ?>
-		<?php $rendering->display('user/class.form', ['class' => $class, 'readOnly' => true]); ?>
-		<?php $rendering->endCurrentLayout(['title' => t('class_label', DOMAIN_CLASS, $class->getLabel())]); ?>
+		// Pupil's Class
+		$rendering->useLayout('panel-default');
+		$rendering->display('user/class.form', ['class' => $class, 'readOnly' => true]);
+		$rendering->endCurrentLayout(['title' => t('class_label', DOMAIN_CLASS, $class->getLabel())]);
+		
+		// Pupil's Note to parent
+		$rendering->useLayout('panel-default');
+		$this->display('reports-bootstrap3'); ?>
+		<div class="form-group">
+			<label for="InputPupilNotePublic" class="form-label"><?php echo t('notePublic_label', DOMAIN_CLASS); ?></label>
+			<textarea id="InputPupilNotePublic" name="pupil[note_public]" class="form-control textarea-auto-height" data-min-height="100"
+					  rows="3"<?php echo $readOnly ? ' disabled' : ''; ?>><?php echo $pupil->note_public; ?></textarea>
+		</div>
+		<?php
+		if( !$readOnly ) {
+			$rendering->startNewBlock('footer');
+			?>
+			<button class="btn btn-primary" type="submit" name="submitNotePublicSave"><?php _t('save'); ?></button>
+			<?php
+		}
+		$rendering->endCurrentLayout(['title' => t('notePublic_label', DOMAIN_CLASS)]);
+		
+		// Pupil's Internal Note
+		$rendering->useLayout('panel-default');
+		$this->display('reports-bootstrap3'); ?>
+		<div class="form-group">
+			<label for="InputPupilNotePrivate" class="form-label"><?php echo t('notePrivate_label', DOMAIN_CLASS); ?></label>
+			<textarea id="InputPupilNotePrivate" name="pupil[note_private]" class="form-control textarea-auto-height" data-min-height="100"
+					  rows="3"<?php echo $readOnly ? ' disabled' : ''; ?>><?php echo $pupil->note_private; ?></textarea>
+		</div>
+		<?php
+		if( !$readOnly ) {
+			$rendering->startNewBlock('footer');
+			?>
+			<button class="btn btn-primary" type="submit" name="submitNotePrivateSave"><?php _t('save'); ?></button>
+			<?php
+		}
+		$rendering->endCurrentLayout(['title' => t('notePrivate_label', DOMAIN_CLASS)]);
+		
+		?>
 		
 		</form>
 	</div>

@@ -18,6 +18,8 @@ use Orpheus\EntityDescriptor\PermanentEntity;
  * @property int $create_user_id
  * @property int $class_id
  * @property int $pupil_id
+ * @property string $note_public
+ * @property string $note_private
  */
 class ClassPupil extends PermanentEntity {
 	

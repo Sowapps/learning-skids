@@ -20,43 +20,52 @@ use Orpheus\Rendering\HtmlRendering;
 $rendering->useLayout('pdf-skeleton');
 
 ?>
-
-<h1 class="text-center">
-	Mes exploits<br>
-	<small><?php echo $person; ?> - <?php echo $dateText; ?></small>
-</h1>
-
-<h2 style="margin-top: 28px;">Compétences acquises</h2>
-
-<ul class="list-group">
-	<?php
-	$pupilSkills = $person->getPupilSkills($learningSheet);
-	$categories = $learningSheet->queryCategories();
 	
-	foreach( $categories as $category ) {
-		HtmlRendering::captureOutput();
-		foreach( $category->querySkills() as $skill ) {
-			if( !isset($pupilSkills[$skill->id()]) ) {
-				continue;
+	<h1 class="text-center">
+		Mes exploits<br>
+		<small><?php echo $person; ?> - <?php echo $dateText; ?></small>
+	</h1>
+	
+	<h2 style="margin-top: 28px;">Compétences acquises</h2>
+	
+	<ul class="list-group">
+		<?php
+		$pupilSkills = $person->getPupilSkills($learningSheet);
+		$categories = $learningSheet->queryCategories();
+		
+		foreach( $categories as $category ) {
+			HtmlRendering::captureOutput();
+			foreach( $category->querySkills() as $skill ) {
+				if( !isset($pupilSkills[$skill->id()]) ) {
+					continue;
+				}
+				$pupilSkill = $pupilSkills[$skill->id()];
+				$activeValue = $pupilSkill->getActiveValue();
+				?>
+				<li class="list-group-item item-skill no-page-break">
+					<div class="pull-right"><?php echo d($activeValue ? $activeValue->date : $pupilSkill->date); ?></div>
+					<div><?php echo $skill->formatName($pupilSkill); ?></div>
+				</li>
+				<?php
 			}
-			$pupilSkill = $pupilSkills[$skill->id()];
-			$activeValue = $pupilSkill->getActiveValue();
-			?>
-			<li class="list-group-item item-skill no-page-break">
-				<div class="pull-right"><?php echo d($activeValue ? $activeValue->date : $pupilSkill->date); ?></div>
-				<div><?php echo $skill->formatName($pupilSkill); ?></div>
-			</li>
-			<?php
+			$skillRows = HtmlRendering::endCapture();
+			if( $skillRows ) {
+				?>
+				<li class="list-group-item item-category no-page-break bg-info text-white"><?php echo $category; ?></li>
+				<?php
+				echo $skillRows;
+			}
 		}
-		$skillRows = HtmlRendering::endCapture();
-		if( $skillRows ) {
-			?>
-			<li class="list-group-item item-category no-page-break bg-info text-white"><?php echo $category; ?></li>
-			<?php
-			echo $skillRows;
-		}
-	}
-	
-	unset($pupilSkills, $categories);
+		
+		unset($pupilSkills, $categories);
+		?>
+	</ul>
+
+<?php
+if( $pupil->note_public ) {
 	?>
-</ul>
+	
+	<h2 style="margin-top: 28px;">Note du professeur</h2>
+	<p><?php echo nl2br(escapeText($pupil->note_public)); ?></p>
+	<?php
+}
